@@ -18,11 +18,13 @@ A really simplistic boilerplate for your Sokoban puzzle based on the Heaps.io en
 ## Controls
 - WASD / Arrows - Movement
 - Z / Y - Undo / Redo
+
 Add your own controls by modifying the `InputManager` class!
 
 ## Debug hotkeys
 - R - Restart
 - B / N - Previous / Next level
+
 These are defined in the `update` function inside the `Game` class.
 
 ## What to do next?
