@@ -26,7 +26,7 @@ Add your own controls by modifying the `InputManager` class!
 These are defined in the `update` function inside the `Game` class.
 
 ## What to do next?
-- Provide a clear winning condition
+- Provide a clear winning condition (modify the `CheckLevelCompletion()` function in the `Grid` class)
 - Add custom `entities`!
-- Design some clever levels
-- Make some fancy custom graphics (by modifying `avatars`)
+- Design some clever levels! :)
+- Make some custom graphics (by modifying `avatars`)
