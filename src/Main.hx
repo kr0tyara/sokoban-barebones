@@ -76,7 +76,6 @@ class Main extends hxd.App
 
         game = new Game();
         s2d.addChild(game);
-        new h3d.scene.CameraController(s3d).loadFromCamera();
 
         engine.onResized = OnResize;
     }

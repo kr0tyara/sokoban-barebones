@@ -1,5 +1,6 @@
 package entities;
 
+import avatars.Avatar;
 import h3d.Quat;
 import history.HistoryState;
 import haxe.Exception;
@@ -20,7 +21,7 @@ class BaseEntity
 
     public var dirty:Bool = true;
 
-    //public var avatar:Avatar;
+    public var avatar:Avatar;
     
     public function new()
     {
@@ -31,8 +32,8 @@ class BaseEntity
     }
     public function OnDestroy()
     {
-        /*if(avatar != null)
-            avatar.OnDestroy();*/
+        if(avatar != null)
+            avatar.OnDestroy();
     }
 
     public function MakeState():HistoryState
@@ -51,11 +52,10 @@ class BaseEntity
         y = state.y;
         z = state.z;
 
-        /*
         if(avatar != null)
         {
             avatar.SetPosition(x, y, z);
             avatar.Update();
-        }*/
+        }
     }
 }

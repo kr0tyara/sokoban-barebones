@@ -1,11 +1,7 @@
+import avatars.LevelAvatar;
 import entities.Entity;
 import InputManager.InputKey;
-import hxd.Key;
-import hxd.Event;
 import haxe.Exception;
-import ui.*;
-import entities.objects.*;
-import entities.floors.*;
 import h2d.Graphics;
 
 class Level extends h2d.Object
@@ -16,7 +12,7 @@ class Level extends h2d.Object
     public static var grid:Grid;
     private var gfx:Graphics;
 
-    //public static var avatar:LevelAvatar;
+    public static var avatar:LevelAvatar;
 
     public function new(id:Int)
     {
@@ -28,20 +24,20 @@ class Level extends h2d.Object
         
         grid = new Grid(level);
         
-        /*avatar = new LevelAvatar(grid);
-        Main.inst.s3d.addChild(avatar);*/
+        avatar = new LevelAvatar(grid);
+        addChild(avatar);
 
         gfx = new Graphics();
         addChild(gfx);
     }
     public override function onRemove()
     {
-        //Main.inst.s3d.removeChild(avatar);
+        removeChild(avatar);
     }
 
     public function OnResize()
     {
-        //avatar.OnResize();
+        avatar.OnResize();
     }
 
     public function HandleInput()
@@ -99,8 +95,8 @@ class Level extends h2d.Object
     {
         HandleInput();
 
-        DrawGrid(grid, 25);
-        //avatar.update(dt);
+        //DrawGrid(grid, 25);
+        avatar.update(dt);
     }
 
     public function Complete()

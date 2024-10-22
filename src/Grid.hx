@@ -346,7 +346,8 @@ class Grid
 
     public function CheckLevelCompletion()
     {
-        trace('todo');
+        // todo: provide a winning condition
+
         /*
         var failed = false;
 

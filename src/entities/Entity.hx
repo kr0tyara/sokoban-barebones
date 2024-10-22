@@ -1,5 +1,7 @@
 package entities;
 
+import avatars.Avatar;
+
 enum EntityType
 {
     Player;
@@ -32,17 +34,15 @@ class Entity extends BaseEntity
     {
         dirty = true;
 
-        /*if(avatar == null && Level.avatar != null)
-        {
+        if(avatar == null && Level.avatar != null)
             Level.avatar.AddEntity(this);
-        }*/
     }
     public function OnMove(dirX:Int, dirY:Int, dirZ:Int)
     {
         dirty = true;
         
-        /*if(avatar != null)
-            avatar.SetPosition(x, y, z);*/
+        if(avatar != null)
+            avatar.SetPosition(x, y, z);
     }
 
     public static function GetDebugColor(type:EntityType):Int

@@ -71,6 +71,25 @@
 							}
 						]
 					}
+				},
+				{
+					"id": "level02",
+					"width": 8,
+					"height": 7,
+					"tileProps": [],
+					"layers": [],
+					"entities": "AwMDAwMDAAAAAAAAAAMDAAAAAAABAAMAAAIAAAAAAAAAAAADAwAAAAAAAwMAAwAAAAAAAAAAAAA=",
+					"props": {
+						"tileSize": 100,
+						"layers": [
+							{
+								"l": "entities",
+								"p": {
+									"alpha": 1
+								}
+							}
+						]
+					}
 				}
 			],
 			"separators": [],

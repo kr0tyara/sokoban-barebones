@@ -465,6 +465,9 @@ h2d_Object.prototype = {
 			s.setParentContainer(c);
 		}
 	}
+	,removeChildren: function() {
+		while(this.children.length > 0) this.removeChild(this.getChildAt(0));
+	}
 	,draw: function(ctx) {
 	}
 	,sync: function(ctx) {
@@ -1034,6 +1037,9 @@ h2d_Object.prototype = {
 			}
 		}
 	}
+	,getChildAt: function(n) {
+		return this.children[n];
+	}
 	,contentChanged: function(s) {
 	}
 	,__class__: h2d_Object
@@ -1332,7 +1338,6 @@ Grid.prototype = {
 		this.CheckLevelCompletion();
 	}
 	,CheckLevelCompletion: function() {
-		haxe_Log.trace("todo",{ fileName : "src/Grid.hx", lineNumber : 349, className : "Grid", methodName : "CheckLevelCompletion"});
 	}
 	,GetEntity: function(x,y,z) {
 		if(x < 0 || x >= this.width || y < 0 || y >= this.length || z < 0 || z >= this.height) {
@@ -1504,6 +1509,8 @@ var Level = function(id) {
 	var level = Data.levels.all[id];
 	this.kind = level.id;
 	Level.grid = new Grid(level);
+	Level.avatar = new avatars_LevelAvatar(Level.grid);
+	this.addChild(Level.avatar);
 	this.gfx = new h2d_Graphics();
 	this.addChild(this.gfx);
 };
@@ -1512,8 +1519,10 @@ Level.__name__ = "Level";
 Level.__super__ = h2d_Object;
 Level.prototype = $extend(h2d_Object.prototype,{
 	onRemove: function() {
+		this.removeChild(Level.avatar);
 	}
 	,OnResize: function() {
+		Level.avatar.OnResize();
 	}
 	,HandleInput: function() {
 		if(InputManager.inst.inputBlocked) {
@@ -1562,55 +1571,7 @@ Level.prototype = $extend(h2d_Object.prototype,{
 	}
 	,update: function(dt) {
 		this.HandleInput();
-		this.DrawGrid(Level.grid,25);
-	}
-	,DrawGrid: function(grid,size) {
-		if(size == null) {
-			size = 100;
-		}
-		this.gfx.clear();
-		this.gfx.lineStyle(2,6710886,1);
-		var _g = 0;
-		var _g1 = grid.length;
-		while(_g < _g1) {
-			var y = _g++;
-			var _g2 = 0;
-			var _g3 = grid.width;
-			while(_g2 < _g3) {
-				var x = _g2++;
-				var entity = grid.GetEntity(x,y,0);
-				if(entity != null) {
-					this.gfx.beginFill(entities_Entity.GetDebugColor(entity.type));
-					this.gfx.drawRect(x * size,y * size,size,size);
-				}
-			}
-		}
-		var _g = 0;
-		var _g1 = grid.width;
-		while(_g < _g1) {
-			var x = _g++;
-			var _this = this.gfx;
-			var x1 = x * size;
-			_this.flush();
-			_this.addVertex(x1,0,_this.curR,_this.curG,_this.curB,_this.curA,x1 * _this.ma + 0 * _this.mc + _this.mx,x1 * _this.mb + 0 * _this.md + _this.my);
-			var _this1 = this.gfx;
-			var x2 = x * size;
-			var y = grid.length * size;
-			_this1.addVertex(x2,y,_this1.curR,_this1.curG,_this1.curB,_this1.curA,x2 * _this1.ma + y * _this1.mc + _this1.mx,x2 * _this1.mb + y * _this1.md + _this1.my);
-		}
-		var _g = 0;
-		var _g1 = grid.length;
-		while(_g < _g1) {
-			var y = _g++;
-			var _this = this.gfx;
-			var y1 = y * size;
-			_this.flush();
-			_this.addVertex(0,y1,_this.curR,_this.curG,_this.curB,_this.curA,0 * _this.ma + y1 * _this.mc + _this.mx,0 * _this.mb + y1 * _this.md + _this.my);
-			var _this1 = this.gfx;
-			var x = grid.width * size;
-			var y2 = y * size;
-			_this1.addVertex(x,y2,_this1.curR,_this1.curG,_this1.curB,_this1.curA,x * _this1.ma + y2 * _this1.mc + _this1.mx,x * _this1.mb + y2 * _this1.md + _this1.my);
-		}
+		Level.avatar.update(dt);
 	}
 	,__class__: Level
 });
@@ -1801,7 +1762,6 @@ Main.prototype = $extend(hxd_App.prototype,{
 		this.inputManager = new InputManager();
 		this.game = new Game();
 		this.s2d.addChild(this.game);
-		new h3d_scene_CameraController(null,this.s3d).loadFromCamera();
 		this.engine.onResized = $bind(this,this.OnResize);
 	}
 	,OnResize: function() {
@@ -2331,6 +2291,131 @@ Xml.prototype = {
 	}
 	,__class__: Xml
 };
+var avatars_Avatar = function(prototype) {
+	h2d_Object.call(this);
+	if(prototype != null) {
+		this.prototype = prototype;
+		prototype.avatar = this;
+	}
+	this.spriteContainer = new h2d_Object();
+	this.addChild(this.spriteContainer);
+	this.SpawnSprite();
+};
+$hxClasses["avatars.Avatar"] = avatars_Avatar;
+avatars_Avatar.__name__ = "avatars.Avatar";
+avatars_Avatar.__super__ = h2d_Object;
+avatars_Avatar.prototype = $extend(h2d_Object.prototype,{
+	Initialize: function() {
+	}
+	,SpawnSprite: function() {
+		this.spriteContainer.removeChildren();
+		var gfx = new h2d_Graphics();
+		gfx.beginFill(entities_Entity.GetDebugColor(this.prototype.type));
+		gfx.drawRect(0,0,100,100);
+		this.spriteContainer.addChild(gfx);
+	}
+	,Update: function() {
+	}
+	,update: function(dt) {
+	}
+	,SetInitialPosition: function(x,y,z) {
+		this.posChanged = true;
+		this.x = x * 100;
+		this.posChanged = true;
+		this.y = y * 100 + z * 100 / 2;
+	}
+	,SetPosition: function(x,y,z) {
+		this.posChanged = true;
+		this.x = x * 100;
+		this.posChanged = true;
+		this.y = y * 100 + z * 100 / 2;
+	}
+	,__class__: avatars_Avatar
+});
+var avatars_LevelAvatar = function(grid) {
+	h2d_Object.call(this);
+	this.grid = grid;
+	this.avatars = [];
+	this.avatarsContainer = new h2d_Object();
+	this.addChild(this.avatarsContainer);
+	var _g = 0;
+	var _g1 = grid.height;
+	while(_g < _g1) {
+		var z = _g++;
+		var _g2 = 0;
+		var _g3 = grid.length;
+		while(_g2 < _g3) {
+			var y = _g2++;
+			var _g4 = 0;
+			var _g5 = grid.width;
+			while(_g4 < _g5) {
+				var x = _g4++;
+				var entity = grid.GetEntity(x,y,z);
+				if(entity != null) {
+					this.AddEntity(entity);
+				}
+			}
+		}
+	}
+	this.OnResize();
+};
+$hxClasses["avatars.LevelAvatar"] = avatars_LevelAvatar;
+avatars_LevelAvatar.__name__ = "avatars.LevelAvatar";
+avatars_LevelAvatar.__super__ = h2d_Object;
+avatars_LevelAvatar.prototype = $extend(h2d_Object.prototype,{
+	OnResize: function() {
+		var w = this.grid.width * 100;
+		var h = this.grid.length * 100;
+		var scaleX = Main.inst.s2d.width / w;
+		var scaleY = Main.inst.s2d.height / h;
+		var scale = Math.min(scaleX,scaleY);
+		var _this = Main.inst.s2d._cameras[0];
+		_this.posChanged = true;
+		_this.scaleX = scale;
+		var _this = Main.inst.s2d._cameras[0];
+		_this.posChanged = true;
+		_this.scaleY = scale;
+		var _this = Main.inst.s2d._cameras[0];
+		_this.posChanged = true;
+		_this.x = (w - Main.inst.s2d.width / scale) / 2;
+		var _this = Main.inst.s2d._cameras[0];
+		_this.posChanged = true;
+		_this.y = (h - Main.inst.s2d.height / scale) / 2;
+	}
+	,AddEntity: function(entity) {
+		var avatar;
+		if(((entity) instanceof entities_Player)) {
+			avatar = new avatars_PlayerAvatar(entity);
+		} else {
+			avatar = new avatars_Avatar(entity);
+		}
+		if(avatar != null) {
+			avatar.SetInitialPosition(entity.x,entity.y,entity.z);
+			this.avatarsContainer.addChild(avatar);
+			this.avatars.push(avatar);
+			avatar.Initialize();
+		}
+	}
+	,update: function(dt) {
+		var _g = 0;
+		var _g1 = this.avatars;
+		while(_g < _g1.length) {
+			var avatar = _g1[_g];
+			++_g;
+			avatar.update(dt);
+		}
+	}
+	,__class__: avatars_LevelAvatar
+});
+var avatars_PlayerAvatar = function(prototype) {
+	avatars_Avatar.call(this,prototype);
+};
+$hxClasses["avatars.PlayerAvatar"] = avatars_PlayerAvatar;
+avatars_PlayerAvatar.__name__ = "avatars.PlayerAvatar";
+avatars_PlayerAvatar.__super__ = avatars_Avatar;
+avatars_PlayerAvatar.prototype = $extend(avatars_Avatar.prototype,{
+	__class__: avatars_PlayerAvatar
+});
 var cdb_ColumnType = $hxEnums["cdb.ColumnType"] = { __ename__:"cdb.ColumnType",__constructs__:null
 	,TId: {_hx_name:"TId",_hx_index:0,__enum__:"cdb.ColumnType",toString:$estr}
 	,TString: {_hx_name:"TString",_hx_index:1,__enum__:"cdb.ColumnType",toString:$estr}
@@ -2704,6 +2789,10 @@ entities_BaseEntity.prototype = {
 		this.x = state.x;
 		this.y = state.y;
 		this.z = state.z;
+		if(this.avatar != null) {
+			this.avatar.SetPosition(this.x,this.y,this.z);
+			this.avatar.Update();
+		}
 	}
 	,__class__: entities_BaseEntity
 };
@@ -2732,9 +2821,15 @@ entities_Entity.prototype = $extend(entities_BaseEntity.prototype,{
 	}
 	,OnCreate: function() {
 		this.dirty = true;
+		if(this.avatar == null && Level.avatar != null) {
+			Level.avatar.AddEntity(this);
+		}
 	}
 	,OnMove: function(dirX,dirY,dirZ) {
 		this.dirty = true;
+		if(this.avatar != null) {
+			this.avatar.SetPosition(this.x,this.y,this.z);
+		}
 	}
 	,__class__: entities_Entity
 });
@@ -6293,23 +6388,6 @@ h2d_Graphics.prototype = $extend(h2d_Drawable.prototype,{
 		this.curG = (color >> 8 & 255) / 255.;
 		this.curB = (color & 255) / 255.;
 		this.doFill = true;
-	}
-	,lineStyle: function(size,color,alpha) {
-		if(alpha == null) {
-			alpha = 1.;
-		}
-		if(color == null) {
-			color = 0;
-		}
-		if(size == null) {
-			size = 0;
-		}
-		this.flush();
-		this.lineSize = size;
-		this.lineA = alpha;
-		this.lineR = (color >> 16 & 255) / 255.;
-		this.lineG = (color >> 8 & 255) / 255.;
-		this.lineB = (color & 255) / 255.;
 	}
 	,drawRect: function(x,y,w,h) {
 		this.flush();
@@ -19099,491 +19177,6 @@ h3d_scene_Mesh.prototype = $extend(h3d_scene_Object.prototype,{
 	}
 	,__class__: h3d_scene_Mesh
 });
-var h3d_scene_CameraController = function(distance,parent) {
-	this.targetOffset = new h3d_Vector4Impl(0,0,0,0);
-	var y = Math.PI / 4;
-	var z = Math.PI * 5 / 13;
-	if(z == null) {
-		z = 0.;
-	}
-	if(y == null) {
-		y = 0.;
-	}
-	this.targetPos = new h3d_VectorImpl(0.4,y,z);
-	this.curOffset = new h3d_Vector4Impl(0.,0.,0.,1.);
-	this.curPos = new h3d_VectorImpl(0.,0.,0.);
-	this.moveY = 0.;
-	this.moveX = 0.;
-	this.pushStartY = 0.;
-	this.pushStartX = 0.;
-	this.pushY = 0.;
-	this.pushX = 0.;
-	this.pushing = -1;
-	this.lockZPlanes = false;
-	this.maxDistance = 1e20;
-	this.minDistance = 0.;
-	this.smooth = 0.6;
-	this.panSpeed = 1.;
-	this.fovZoomAmount = 1.1;
-	this.zoomAmount = 1.15;
-	this.rotateSpeed = 1.;
-	this.friction = 0.4;
-	h3d_scene_Object.call(this,parent);
-	this.name = "CameraController";
-	this.set(distance);
-	var _this = this.curPos;
-	var v = this.targetPos;
-	_this.x = v.x;
-	_this.y = v.y;
-	_this.z = v.z;
-	var _this = this.curOffset;
-	var v = this.targetOffset;
-	_this.x = v.x;
-	_this.y = v.y;
-	_this.z = v.z;
-	_this.w = v.w;
-};
-$hxClasses["h3d.scene.CameraController"] = h3d_scene_CameraController;
-h3d_scene_CameraController.__name__ = "h3d.scene.CameraController";
-h3d_scene_CameraController.__super__ = h3d_scene_Object;
-h3d_scene_CameraController.prototype = $extend(h3d_scene_Object.prototype,{
-	set: function(distance,theta,phi,target,fovY) {
-		if(theta != null) {
-			this.targetPos.y = theta;
-		}
-		if(phi != null) {
-			this.targetPos.z = phi;
-		}
-		if(target != null) {
-			var _this = this.targetOffset;
-			var x = target.x;
-			var y = target.y;
-			var z = target.z;
-			var w = this.targetOffset.w;
-			if(w == null) {
-				w = 1.;
-			}
-			if(z == null) {
-				z = 0.;
-			}
-			if(y == null) {
-				y = 0.;
-			}
-			if(x == null) {
-				x = 0.;
-			}
-			_this.x = x;
-			_this.y = y;
-			_this.z = z;
-			_this.w = w;
-		}
-		if(fovY != null) {
-			this.targetOffset.w = fovY;
-		}
-		if(distance != null) {
-			this.targetPos.x = distance * (this.targetOffset.w == 0 ? 1 : this.targetOffset.w);
-		}
-	}
-	,loadFromCamera: function(animate) {
-		if(animate == null) {
-			animate = false;
-		}
-		var scene = this.scene == null ? this.getScene() : this.scene;
-		if(scene == null) {
-			throw haxe_Exception.thrown("Not in scene");
-		}
-		var _this = this.targetOffset;
-		var x = scene.camera.target.x;
-		var y = scene.camera.target.y;
-		var z = scene.camera.target.z;
-		if(z == null) {
-			z = 0.;
-		}
-		if(y == null) {
-			y = 0.;
-		}
-		if(x == null) {
-			x = 0.;
-		}
-		_this.x = x;
-		_this.y = y;
-		_this.z = z;
-		_this.w = 1.;
-		this.targetOffset.w = scene.camera.fovY;
-		var this1 = scene.camera.pos;
-		var v = scene.camera.target;
-		var x = this1.x - v.x;
-		var y = this1.y - v.y;
-		var z = this1.z - v.z;
-		if(z == null) {
-			z = 0.;
-		}
-		if(y == null) {
-			y = 0.;
-		}
-		if(x == null) {
-			x = 0.;
-		}
-		var x1 = x;
-		var y1 = y;
-		var z1 = z;
-		if(z1 == null) {
-			z1 = 0.;
-		}
-		if(y1 == null) {
-			y1 = 0.;
-		}
-		if(x1 == null) {
-			x1 = 0.;
-		}
-		var _this_x = x1;
-		var _this_y = y1;
-		var _this_z = z1;
-		var r = Math.sqrt(_this_x * _this_x + _this_y * _this_y + _this_z * _this_z);
-		var _this = this.targetPos;
-		var x = r;
-		var y = Math.atan2(_this_y,_this_x);
-		var z = Math.acos(_this_z / r);
-		if(z == null) {
-			z = 0.;
-		}
-		if(y == null) {
-			y = 0.;
-		}
-		if(r == null) {
-			x = 0.;
-		}
-		_this.x = x;
-		_this.y = y;
-		_this.z = z;
-		this.targetPos.x *= this.targetOffset.w;
-		this.curOffset.w = scene.camera.fovY;
-		if(!animate) {
-			this.toTarget();
-		} else {
-			this.syncCamera();
-		}
-	}
-	,toTarget: function() {
-		var _this = this.curPos;
-		var v = this.targetPos;
-		_this.x = v.x;
-		_this.y = v.y;
-		_this.z = v.z;
-		var _this = this.curOffset;
-		var v = this.targetOffset;
-		_this.x = v.x;
-		_this.y = v.y;
-		_this.z = v.z;
-		_this.w = v.w;
-		this.syncCamera();
-	}
-	,onAdd: function() {
-		h3d_scene_Object.prototype.onAdd.call(this);
-		this.scene = this.getScene();
-		this.scene.addEventListener($bind(this,this.onEvent));
-		if(this.curOffset.w == 0) {
-			this.curPos.x *= this.scene.camera.fovY;
-		}
-		this.curOffset.w = this.scene.camera.fovY;
-		var _this = this.targetPos;
-		var v = this.curPos;
-		_this.x = v.x;
-		_this.y = v.y;
-		_this.z = v.z;
-		var _this = this.targetOffset;
-		var v = this.curOffset;
-		_this.x = v.x;
-		_this.y = v.y;
-		_this.z = v.z;
-		_this.w = v.w;
-	}
-	,onRemove: function() {
-		h3d_scene_Object.prototype.onRemove.call(this);
-		this.scene.removeEventListener($bind(this,this.onEvent));
-		this.scene = null;
-	}
-	,onClick: function(e) {
-	}
-	,onEvent: function(e) {
-		var _gthis = this;
-		var p = this;
-		while(p != null) {
-			if((p.flags & 2) == 0) {
-				e.propagate = true;
-				return;
-			}
-			p = p.parent;
-		}
-		switch(e.kind._hx_index) {
-		case 0:
-			this.scene.events.startCapture($bind(this,this.onEvent),function() {
-				_gthis.pushing = -1;
-				var wnd = hxd_Window.getInstance();
-				wnd.setCursorPos(_gthis.pushStartX | 0,_gthis.pushStartY | 0);
-				wnd.set_mouseMode(hxd_impl_MouseMode.Absolute);
-			},e.touchId);
-			this.pushing = e.button;
-			this.pushTime = HxOverrides.now() / 1000;
-			this.pushStartX = this.pushX = e.relX;
-			this.pushStartY = this.pushY = e.relY;
-			hxd_Window.getInstance().set_mouseMode(hxd_impl_MouseMode.AbsoluteUnbound(true));
-			break;
-		case 2:
-			switch(this.pushing) {
-			case 0:
-				if(hxd_Key.isDown(18)) {
-					this.zoom(-(e.relX - this.pushX + (e.relY - this.pushY)) * 0.03);
-				} else {
-					this.rot(e.relX - this.pushX,e.relY - this.pushY);
-				}
-				this.pushX = e.relX;
-				this.pushY = e.relY;
-				break;
-			case 1:
-				var m = 0.001 * this.curPos.x * this.panSpeed / 25;
-				this.pan(-(e.relX - this.pushX) * m,(e.relY - this.pushY) * m);
-				this.pushX = e.relX;
-				this.pushY = e.relY;
-				break;
-			case 2:
-				this.rot(e.relX - this.pushX,e.relY - this.pushY);
-				this.pushX = e.relX;
-				this.pushY = e.relY;
-				break;
-			default:
-			}
-			break;
-		case 5:
-			if(hxd_Key.isDown(17)) {
-				this.fov(e.wheelDelta * this.fovZoomAmount * 2);
-			} else {
-				this.zoom(e.wheelDelta);
-			}
-			break;
-		case 1:case 10:
-			if(this.pushing == e.button) {
-				this.pushing = -1;
-				hxd_Window.getInstance();
-				this.scene.events.stopCapture();
-				var tmp;
-				if(e.kind == hxd_EventKind.ERelease && HxOverrides.now() / 1000 - this.pushTime < 0.2) {
-					var dx = e.relX - this.pushStartX;
-					var dy = e.relY - this.pushStartY;
-					tmp = Math.sqrt(dx * dx + dy * dy) < 5;
-				} else {
-					tmp = false;
-				}
-				if(tmp) {
-					this.onClick(e);
-				}
-			}
-			break;
-		default:
-		}
-	}
-	,fov: function(delta) {
-		this.targetOffset.w += delta;
-		if(this.targetOffset.w >= 179) {
-			this.targetOffset.w = 179;
-		}
-		if(this.targetOffset.w < 1) {
-			this.targetOffset.w = 1;
-		}
-	}
-	,zoom: function(delta) {
-		var dist = this.targetPos.x / this.targetOffset.w;
-		if(dist > this.minDistance && delta < 0 || dist < this.maxDistance && delta > 0) {
-			this.targetPos.x *= Math.pow(this.zoomAmount,delta);
-			var expectedDist = this.targetPos.x / this.targetOffset.w;
-			if(expectedDist < this.minDistance) {
-				this.targetPos.x = this.minDistance * this.targetOffset.w;
-			}
-			if(expectedDist > this.maxDistance) {
-				this.targetPos.x = this.maxDistance * this.targetOffset.w;
-			}
-		} else {
-			this.pan(0,0,dist * (1 - Math.pow(this.zoomAmount,delta)));
-		}
-	}
-	,rot: function(dx,dy) {
-		this.moveX += dx;
-		this.moveY += dy;
-	}
-	,pan: function(dx,dy,dz) {
-		if(dz == null) {
-			dz = 0.;
-		}
-		var x = dx;
-		var y = dy;
-		var z = dz;
-		if(dz == null) {
-			z = 0.;
-		}
-		if(dy == null) {
-			y = 0.;
-		}
-		if(dx == null) {
-			x = 0.;
-		}
-		var x1 = x;
-		var y1 = y;
-		var z1 = z;
-		if(z1 == null) {
-			z1 = 0.;
-		}
-		if(y1 == null) {
-			y1 = 0.;
-		}
-		if(x1 == null) {
-			x1 = 0.;
-		}
-		var _this_x = x1;
-		var _this_y = y1;
-		var _this_z = z1;
-		var _this_w = 1.;
-		this.scene.camera.update();
-		var m = this.scene.camera.getInverseView();
-		var px = _this_x * m._11 + _this_y * m._21 + _this_z * m._31;
-		var py = _this_x * m._12 + _this_y * m._22 + _this_z * m._32;
-		var pz = _this_x * m._13 + _this_y * m._23 + _this_z * m._33;
-		_this_x = px;
-		_this_y = py;
-		_this_z = pz;
-		_this_w = 0;
-		var this1 = this.targetOffset;
-		var x = this1.x + _this_x;
-		var y = this1.y + _this_y;
-		var z = this1.z + _this_z;
-		var w = this1.w + _this_w;
-		if(w == null) {
-			w = 1.;
-		}
-		if(z == null) {
-			z = 0.;
-		}
-		if(y == null) {
-			y = 0.;
-		}
-		if(x == null) {
-			x = 0.;
-		}
-		this.targetOffset = new h3d_Vector4Impl(x,y,z,w);
-	}
-	,syncCamera: function() {
-		var cam = this.getScene().camera;
-		var distance = this.curPos.x / this.curOffset.w;
-		var _this = cam.target;
-		var _this1 = this.curOffset;
-		var x = _this1.x;
-		var y = _this1.y;
-		var z = _this1.z;
-		if(z == null) {
-			z = 0.;
-		}
-		if(y == null) {
-			y = 0.;
-		}
-		if(x == null) {
-			x = 0.;
-		}
-		var x1 = x;
-		var y1 = y;
-		var z1 = z;
-		if(z1 == null) {
-			z1 = 0.;
-		}
-		if(y1 == null) {
-			y1 = 0.;
-		}
-		if(x1 == null) {
-			x1 = 0.;
-		}
-		var v_x = x1;
-		var v_y = y1;
-		var v_z = z1;
-		_this.x = v_x;
-		_this.y = v_y;
-		_this.z = v_z;
-		var _this = cam.pos;
-		var x = distance * Math.cos(this.curPos.y) * Math.sin(this.curPos.z) + cam.target.x;
-		var y = distance * Math.sin(this.curPos.y) * Math.sin(this.curPos.z) + cam.target.y;
-		var z = distance * Math.cos(this.curPos.z) + cam.target.z;
-		if(z == null) {
-			z = 0.;
-		}
-		if(y == null) {
-			y = 0.;
-		}
-		if(x == null) {
-			x = 0.;
-		}
-		_this.x = x;
-		_this.y = y;
-		_this.z = z;
-		if(!this.lockZPlanes) {
-			cam.zNear = distance * 0.01;
-			cam.zFar = distance * 100;
-		}
-		cam.fovY = this.curOffset.w;
-		cam.update();
-	}
-	,sync: function(ctx) {
-		if(ctx.scene.renderer.renderMode == h3d_scene_RenderMode.LightProbe) {
-			return;
-		}
-		if(!ctx.visibleFlag && (this.flags & 64) == 0) {
-			h3d_scene_Object.prototype.sync.call(this,ctx);
-			return;
-		}
-		if(this.moveX != 0) {
-			this.targetPos.y += this.moveX * 0.003 * this.rotateSpeed;
-			this.moveX *= 1 - this.friction;
-			if(Math.abs(this.moveX) < 1) {
-				this.moveX = 0;
-			}
-		}
-		if(this.moveY != 0) {
-			this.targetPos.z -= this.moveY * 0.003 * this.rotateSpeed;
-			var bound = Math.PI - 2e-5;
-			if(this.targetPos.z < 2e-5) {
-				this.targetPos.z = 2e-5;
-			}
-			if(this.targetPos.z > bound) {
-				this.targetPos.z = bound;
-			}
-			this.moveY *= 1 - this.friction;
-			if(Math.abs(this.moveY) < 1) {
-				this.moveY = 0;
-			}
-		}
-		var b = 1 - Math.pow(this.smooth,ctx.elapsedTime * 60);
-		var dt = 1 > b ? b : 1;
-		var _this = this.curOffset;
-		var v1 = this.curOffset;
-		var v2 = this.targetOffset;
-		var a = v1.x;
-		_this.x = a + dt * (v2.x - a);
-		var a = v1.y;
-		_this.y = a + dt * (v2.y - a);
-		var a = v1.z;
-		_this.z = a + dt * (v2.z - a);
-		var a = v1.w;
-		_this.w = a + dt * (v2.w - a);
-		var _this = this.curPos;
-		var v1 = this.curPos;
-		var v2 = this.targetPos;
-		var a = v1.x;
-		_this.x = a + dt * (v2.x - a);
-		var a = v1.y;
-		_this.y = a + dt * (v2.y - a);
-		var a = v1.z;
-		_this.z = a + dt * (v2.z - a);
-		this.syncCamera();
-		h3d_scene_Object.prototype.sync.call(this,ctx);
-	}
-	,__class__: h3d_scene_CameraController
-});
 var h3d_scene_Interactive = function(shape,parent) {
 	this.hitPoint = new h3d_Vector4Impl(0.,0.,0.,1.);
 	this.lastClickFrame = -1;
@@ -19932,14 +19525,7 @@ h3d_scene_PassObjects.__name__ = "h3d.scene.PassObjects";
 h3d_scene_PassObjects.prototype = {
 	__class__: h3d_scene_PassObjects
 };
-var h3d_scene_RenderMode = $hxEnums["h3d.scene.RenderMode"] = { __ename__:"h3d.scene.RenderMode",__constructs__:null
-	,Default: {_hx_name:"Default",_hx_index:0,__enum__:"h3d.scene.RenderMode",toString:$estr}
-	,LightProbe: {_hx_name:"LightProbe",_hx_index:1,__enum__:"h3d.scene.RenderMode",toString:$estr}
-};
-h3d_scene_RenderMode.__constructs__ = [h3d_scene_RenderMode.Default,h3d_scene_RenderMode.LightProbe];
-h3d_scene_RenderMode.__empty_constructs__ = [h3d_scene_RenderMode.Default,h3d_scene_RenderMode.LightProbe];
 var h3d_scene_Renderer = function() {
-	this.renderMode = h3d_scene_RenderMode.Default;
 	this.hasSetTarget = false;
 	this.emptyPasses = new h3d_pass_PassList();
 	this.allPasses = [];
@@ -20196,22 +19782,6 @@ h3d_scene_Scene.__super__ = h3d_scene_Object;
 h3d_scene_Scene.prototype = $extend(h3d_scene_Object.prototype,{
 	setEvents: function(events) {
 		this.events = events;
-	}
-	,addEventListener: function(f) {
-		this.eventListeners.push(f);
-	}
-	,removeEventListener: function(f) {
-		var _g = 0;
-		var _g1 = this.eventListeners;
-		while(_g < _g1.length) {
-			var e = _g1[_g];
-			++_g;
-			if(e == f) {
-				HxOverrides.remove(this.eventListeners,e);
-				return true;
-			}
-		}
-		return false;
 	}
 	,dispatchListeners: function(event) {
 		var _g = 0;
@@ -27511,18 +27081,6 @@ hxd_SceneEvents.prototype = {
 			this.emitEvent(this.checkPos);
 		}
 	}
-	,startCapture: function(f,onCancel,touchId) {
-		if(this.currentDrag != null && this.currentDrag.onCancel != null) {
-			this.currentDrag.onCancel();
-		}
-		this.currentDrag = { f : f, ref : touchId, onCancel : onCancel};
-	}
-	,stopCapture: function() {
-		if(this.currentDrag != null && this.currentDrag.onCancel != null) {
-			this.currentDrag.onCancel();
-		}
-		this.currentDrag = null;
-	}
 	,updateCursor: function(i) {
 		if(this.overList.indexOf(i) != -1) {
 			this.selectCursor();
@@ -27767,19 +27325,6 @@ hxd_Window.prototype = {
 			var val = _g_head.item;
 			_g_head = _g_head.next;
 			val();
-		}
-	}
-	,setCursorPos: function(x,y,emitEvent) {
-		if(emitEvent == null) {
-			emitEvent = false;
-		}
-		if(this.mouseMode == hxd_impl_MouseMode.Absolute) {
-			throw haxe_Exception.thrown("setCursorPos only allowed in relative mouse modes on this platform.");
-		}
-		this.curMouseX = x + this.canvasPos.left;
-		this.curMouseY = y + this.canvasPos.top;
-		if(emitEvent) {
-			this.event(new hxd_Event(hxd_EventKind.EMove,x,y));
 		}
 	}
 	,getPixelRatio: function() {
