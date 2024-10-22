@@ -21,12 +21,9 @@ class Main extends hxd.App
     private var inputManager:InputManager;
     private var game:Game;
 
-    public static var gameFont:Font;
-    public static var gameFontSmall:Font;
-
     public static var save:GameSave;
 
-    public static var saveSlot:String = 'based';
+    public static var saveSlot:String = 'sokoban';
 
     private override function loadAssets(onLoaded:Void->Void)
     {
@@ -66,10 +63,6 @@ class Main extends hxd.App
 
             hxd.Save.save(save, saveSlot);
         }
-
-        gameFont = hxd.Res.font.toFont();
-        gameFontSmall = hxd.Res.font.toFont().clone();
-        gameFontSmall.resizeTo(16);
 
         inputManager = new InputManager();
 
