@@ -79,7 +79,7 @@ class History
     public function MakeState()
     {
         var newStates = new Array<HistoryState>();
-        var oldStates = new Array<HistoryState>(); // сохраняем старые стейты которые обновятся в новом
+        var oldStates = new Array<HistoryState>(); // clone old states that will be updated in the new one
         for(entity in grid.allEntities)
         {
             if(entity.dirty)
