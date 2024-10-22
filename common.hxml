@@ -1,0 +1,10 @@
+-cp src
+
+-lib heaps
+-lib castle
+
+-main Main
+-dce full
+-D analyzer-optimize
+
+--debug
