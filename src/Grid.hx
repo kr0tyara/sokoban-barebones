@@ -13,11 +13,6 @@ typedef Neighbour = {
     side:Int
 };
 
-typedef FallResult = {
-    floor:BaseEntity,
-    z:Int
-};
-
 class Grid
 {
     private var entities:Vector<Vector<Vector<Entity>>>;
@@ -208,9 +203,6 @@ class Grid
 
         for(entity in allEntities)
         {
-            /*if(entity is Floor)
-                floors[entity.z][entity.y][entity.x] = cast(entity, Floor);
-            else if(entity is Entity)*/
             entities[entity.z][entity.y][entity.x] = cast(entity, Entity);
         }
     }
@@ -348,28 +340,10 @@ class Grid
     {
         // todo: provide a winning condition
 
-        /*
-        var failed = false;
-
-        for(z in 0...height)
-        {
-            for(y in 0...length)
-            {
-                for(x in 0...width)
-                {
-                    var floor = GetFloor(x, y, z);
-                    if(floor != null && floor is GoalFloor && !floor.CanDropInk(BaseEntity.SIDE_UP))
-                    {
-                        failed = true;
-                    }
-                }
-            }
-        }
-
-        if(!failed)
+        if(false)
         {
             Game.level.Complete();
-        }*/
+        }
     }
 
     public function GetEntity(x:Int, y:Int, z:Int):Entity

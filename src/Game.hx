@@ -1,4 +1,3 @@
-import hxd.Event;
 import hxd.Key;
 import history.History;
 

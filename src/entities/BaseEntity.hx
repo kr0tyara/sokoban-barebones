@@ -1,10 +1,8 @@
 package entities;
 
 import avatars.Avatar;
-import h3d.Quat;
 import history.HistoryState;
 import haxe.Exception;
-import h3d.Vector;
 
 class BaseEntity
 {

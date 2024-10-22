@@ -1,7 +1,6 @@
 import cherry.tools.ResTools;
 import h2d.Font;
 import hxd.Res;
-import hxd.Event;
 
 typedef GameSave =
 {

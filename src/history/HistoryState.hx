@@ -1,8 +1,6 @@
 package history;
 
-import h3d.Quat;
 import entities.BaseEntity;
-import haxe.ds.Vector;
 
 class HistoryState
 {

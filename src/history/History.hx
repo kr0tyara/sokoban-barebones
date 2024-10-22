@@ -1,7 +1,5 @@
 package history;
 
-import haxe.Exception;
-import haxe.ds.Vector;
 import entities.BaseEntity;
 
 class History
@@ -100,17 +98,7 @@ class History
         }
         
         if(newStates.length > 0)
-        { 
-            /*if(states.length >= 2)
-            {
-                if(AreStatesEqual(newStates, states[states.length - 2], states.length - 2 == 0))
-                {
-                    trace('undo');
-                    SetState(states.length - 2);
-                    return;
-                }
-            }*/
-
+        {
             states.push(newStates);
             currentState++;
 

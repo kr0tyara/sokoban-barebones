@@ -1,7 +1,5 @@
 package entities;
 
-import avatars.Avatar;
-
 enum EntityType
 {
     Player;
@@ -26,10 +24,7 @@ class Entity extends BaseEntity
     {
         return true;
     }
-    public function OnPush(by:Entity, dirX:Int, dirY:Int, dirZ:Int)
-    {
-
-    }
+    
     public override function OnCreate()
     {
         dirty = true;
