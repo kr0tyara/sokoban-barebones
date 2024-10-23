@@ -28,9 +28,13 @@
 					"typeStr": "8"
 				},
 				{
-					"typeStr": "12:entities",
-					"name": "entities",
+					"typeStr": "12:floor",
+					"name": "floor",
 					"display": null
+				},
+				{
+					"typeStr": "12:objects",
+					"name": "objects"
 				}
 			],
 			"lines": [
@@ -40,18 +44,25 @@
 					"height": 10,
 					"tileProps": [],
 					"layers": [],
-					"entities": "AAAAAAAAAwAAAAAAAAAAAwMAAAAAAAAAAAMAAQAAAAAAAQMDAwACAAAAAAADAwMAAAAAAAAAAwMDAQAAAAACAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
 					"props": {
 						"tileSize": 100,
 						"layers": [
 							{
-								"l": "entities",
+								"l": "floor",
+								"p": {
+									"alpha": 1
+								}
+							},
+							{
+								"l": "objects",
 								"p": {
 									"alpha": 1
 								}
 							}
 						]
-					}
+					},
+					"floor": "AAAAAAABAAEAAAAAAAEBAQEBAAAAAAEBAQEBAQEAAAABAQEBAQEBAQABAQEBAAABAQEAAQEBAQAAAQEBAAEBAQEBAQEBAQAAAQEAAQEBAQIAAAAAAAABAQEBAAAAAAAAAAEBAA==",
+					"objects": "AAAAAAAAAwAAAAAAAAAAAwMAAAAAAAAAAAMAAQAAAAAAAQMDAwACAAAAAAADAwMAAAAAAAAAAwMDAQAAAAACAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=="
 				},
 				{
 					"id": "level01",
@@ -59,18 +70,25 @@
 					"height": 10,
 					"tileProps": [],
 					"layers": [],
-					"entities": "AAICAAAAAAAAAAAAAgICAAAAAAMAAAEAAAIAAAADAAAAAAICAAEDAwAAAAIAAAAAAwMAAAAAAAEAAwMDAAAAAAAAAwMDAwAAAQAAAwMDAwMAAwMDAwMDAwMDAwMDAwMDAwMDAw==",
 					"props": {
 						"tileSize": 100,
 						"layers": [
 							{
-								"l": "entities",
+								"l": "floor",
+								"p": {
+									"alpha": 1
+								}
+							},
+							{
+								"l": "objects",
 								"p": {
 									"alpha": 1
 								}
 							}
 						]
-					}
+					},
+					"floor": "AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAAEBAQEBAQEBAQECAQIBAQEBAQEAAQEBAQEBAQEBAAICAQEBAQEBAAACAQEBAAAAAAAAAAEBAQEBAQAAAA==",
+					"objects": "AAICAAAAAAAAAAAAAgICAAAAAAMAAAEAAAIAAAADAAAAAAICAAEDAwAAAAIAAAAAAwMAAAAAAAEAAwMDAAAAAAAAAwMDAwAAAQAAAwMDAwMAAwMDAwMDAwMDAwMDAwMDAwMDAw=="
 				},
 				{
 					"id": "level02",
@@ -78,18 +96,25 @@
 					"height": 7,
 					"tileProps": [],
 					"layers": [],
-					"entities": "AwMDAwMDAAAAAAAAAAMDAAAAAAABAAMAAAIAAAAAAAAAAAADAwAAAAAAAwMAAwAAAAAAAAAAAAA=",
 					"props": {
 						"tileSize": 100,
 						"layers": [
 							{
-								"l": "entities",
+								"l": "floor",
+								"p": {
+									"alpha": 1
+								}
+							},
+							{
+								"l": "objects",
 								"p": {
 									"alpha": 1
 								}
 							}
 						]
-					}
+					},
+					"floor": "AQEBAQEBAAABAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAgEBAQEBAQEBAQEBAQEBAQE=",
+					"objects": "AwMDAwMDAAAAAAAAAAMDAAAAAAABAAAAAAIAAAAAAAAAAAADAwAAAAAAAwMAAwAAAAAAAAAAAAA="
 				}
 			],
 			"separators": [],
@@ -127,7 +152,7 @@
 			]
 		},
 		{
-			"name": "entities",
+			"name": "objects",
 			"columns": [
 				{
 					"typeStr": "0",
@@ -173,6 +198,52 @@
 						"file": "tileset.png",
 						"size": 100,
 						"x": 3,
+						"y": 0
+					}
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "floor",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id",
+					"display": null
+				},
+				{
+					"typeStr": "14",
+					"name": "tile",
+					"display": null
+				}
+			],
+			"lines": [
+				{
+					"id": "Hole",
+					"tile": {
+						"file": "floor.png",
+						"size": 100,
+						"x": 0,
+						"y": 0
+					}
+				},
+				{
+					"id": "Basic",
+					"tile": {
+						"file": "floor.png",
+						"size": 100,
+						"x": 1,
+						"y": 0
+					}
+				},
+				{
+					"id": "Goal",
+					"tile": {
+						"file": "floor.png",
+						"size": 100,
+						"x": 4,
 						"y": 0
 					}
 				}

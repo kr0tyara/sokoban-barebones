@@ -1,6 +1,6 @@
 package entities;
 
-import avatars.Avatar;
+import avatars.BaseAvatar;
 import history.HistoryState;
 import haxe.Exception;
 
@@ -19,7 +19,7 @@ class BaseEntity
 
     public var dirty:Bool = true;
 
-    public var avatar:Avatar;
+    public var avatar:BaseAvatar;
     
     public function new()
     {

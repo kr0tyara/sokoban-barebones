@@ -1,20 +1,23 @@
 package avatars;
 
-import h3d.col.Bounds;
-import entities.*;
-import avatars.*;
+import entities.objects.*;
+import avatars.objects.*;
+
+import entities.floors.*;
+import avatars.floors.*;
+
 import h2d.Object;
 
 class LevelAvatar extends Object
 {
     public static inline var PixelsPerTile:Int = 100;
 
-    private var avatars:Array<Avatar>;
+    private var avatars:Array<BaseAvatar>;
     
-    private var avatarsContainer:Object;
+    private var objectsContainer:Object;
+    private var floorContainer:Object;
 
     private var grid:Grid;
-    private var bounds:Bounds;
 
     public function new(grid:Grid)
     {
@@ -22,10 +25,10 @@ class LevelAvatar extends Object
         
         this.grid = grid;
 
-        avatars = new Array<Avatar>();
+        avatars = new Array<BaseAvatar>();
 
-        avatarsContainer = new Object();
-        addChild(avatarsContainer);
+        floorContainer = new Object();
+        addChild(floorContainer);
 
         for(z in 0...grid.height)
         {
@@ -33,9 +36,25 @@ class LevelAvatar extends Object
             {
                 for(x in 0...grid.width)
                 {
-                    var entity = grid.GetEntity(x, y, z);
-                    if(entity != null)
-                        AddEntity(entity);
+                    var floor = grid.GetFloor(x, y, z);
+                    if(floor != null)
+                        AddFloor(floor);
+                }
+            }
+        }
+
+        objectsContainer = new Object();
+        addChild(objectsContainer);
+
+        for(z in 0...grid.height)
+        {
+            for(y in 0...grid.length)
+            {
+                for(x in 0...grid.width)
+                {
+                    var object = grid.GetObject(x, y, z);
+                    if(object != null)
+                        AddObject(object);
                 }
             }
         }
@@ -60,26 +79,39 @@ class LevelAvatar extends Object
         Main.inst.s2d.camera.y = (h - Main.inst.s2d.height / scale) / 2;
     }
 
-    public function AddEntity(entity:Entity)
+    public function AddObject(object:ObjectEntity)
     {
-        var avatar:Avatar;
-        
-        if(entity is Player)
-            avatar = new PlayerAvatar(entity);
+        var avatar:ObjectAvatar;
+
+        if(object is Player)
+            avatar = new PlayerAvatar(object);
         else
-            avatar = new Avatar(entity);
+            avatar = new ObjectAvatar(object);
         
         if(avatar != null)
         {
-            avatar.SetInitialPosition(entity.x, entity.y, entity.z);
-            avatarsContainer.addChild(avatar);
+            objectsContainer.addChild(avatar);
+            avatars.push(avatar);
+
+            avatar.Initialize();
+        }
+    }
+    public function AddFloor(floor:FloorEntity)
+    {
+        var avatar:FloorAvatar;
+        
+        avatar = new FloorAvatar(floor);
+        
+        if(avatar != null)
+        {
+            floorContainer.addChild(avatar);
             avatars.push(avatar);
 
             avatar.Initialize();
         }
     }
 
-    public function RemoveAvatar(avatar:Avatar)
+    public function RemoveAvatar(avatar:BaseAvatar)
     {
         avatars.remove(avatar);
         avatar.remove();

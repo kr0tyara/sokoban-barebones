@@ -1,5 +1,6 @@
+import entities.floors.FloorEntity;
+import entities.objects.ObjectEntity;
 import avatars.LevelAvatar;
-import entities.Entity;
 import InputManager.InputKey;
 import haxe.Exception;
 import h2d.Graphics;
@@ -29,6 +30,9 @@ class Level extends h2d.Object
 
         gfx = new Graphics();
         addChild(gfx);
+
+        var savedLevel = Main.save.levels.filter(a -> a.id == kind)[0];
+        trace('level $id:\n${savedLevel.completed ? 'completed in ${savedLevel.steps} steps' : 'not completed yet'}');
     }
     public override function onRemove()
     {
@@ -94,7 +98,6 @@ class Level extends h2d.Object
     public function update(dt:Float)
     {
         HandleInput();
-
         //DrawGrid(grid, 25);
         avatar.update(dt);
     }
@@ -115,29 +118,44 @@ class Level extends h2d.Object
             level.steps = Game.history.steps;
 
         hxd.Save.save(Main.save, Main.saveSlot);
+        trace('completed in ${Game.history.steps} steps (best result: ${level.steps})');
 
         Game.inst.NextLevel();    
     }
 
+    // this function is for debugging only!
+    // use LevelAvatar to render the game in its full glory!
     public function DrawGrid(grid:Grid, size:Int = 100)
     {
         gfx.clear();
-
-        gfx.lineStyle(2, 0x666666, 1);
 
         for(y in 0...grid.length)
         {
             for(x in 0...grid.width)
             {
-                var entity = grid.GetEntity(x, y, 0);
-                if(entity != null)
+                var floor = grid.GetFloor(x, y, 0);
+                if(floor != null)
                 {
-                    gfx.beginFill(Entity.GetDebugColor(entity.type));
+                    gfx.beginFill(FloorEntity.GetDebugColor(floor.type));
                     gfx.drawRect(x * size, y * size, size, size);
                 }
             }
         }
 
+        for(y in 0...grid.length)
+        {
+            for(x in 0...grid.width)
+            {
+                var object = grid.GetObject(x, y, 0);
+                if(object != null)
+                {
+                    gfx.beginFill(ObjectEntity.GetDebugColor(object.type));
+                    gfx.drawRect(x * size, y * size, size, size);
+                }
+            }
+        }
+
+        gfx.lineStyle(2, 0x666666, 1);
         for(x in 0...grid.width)
         {
             gfx.moveTo(x * size, 0);

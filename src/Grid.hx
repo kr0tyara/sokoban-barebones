@@ -1,28 +1,29 @@
-import entities.Wall;
-import entities.Player;
-import entities.Block;
-import entities.Entity;
-import entities.BaseEntity;
+import entities.floors.Goal;
+import entities.floors.FloorEntity;
+import entities.objects.ObjectEntity;
+import entities.objects.Player;
 import haxe.Exception;
 import haxe.ds.Vector;
-import entities.objects.*;
-import entities.floors.*;
+import entities.BaseEntity;
 
 typedef Neighbour = {
-    entity:Entity,
+    object:ObjectEntity,
     side:Int
 };
 
 class Grid
 {
-    private var entities:Vector<Vector<Vector<Entity>>>;
+    public var allEntities:Array<BaseEntity>;
+    
+    public var players:Array<Player>;
+    public var goals:Array<Goal>;
+
+    private var floors:Vector<Vector<Vector<FloorEntity>>>;
+    private var objects:Vector<Vector<Vector<ObjectEntity>>>;
 
     public var width:Int;
     public var length:Int;
     public var height:Int;
-
-    public var players:Array<Player>;
-    public var allEntities:Array<BaseEntity>;
 
     private var levelData:Data.Levels;
     
@@ -34,14 +35,18 @@ class Grid
         length = levelData.height;
         height = 1;
 
-        entities = new Vector(height);
+        objects = new Vector(height);
+        floors  = new Vector(height);
+
         for(i in 0...height)
         {
-            entities[i] = new Vector(length);
+            objects[i] = new Vector(length);
+            floors[i]  = new Vector(length);
 
             for(j in 0...length)
             {
-                entities[i][j] = new Vector(width, null);
+                objects[i][j] = new Vector(width, null);
+                floors[i][j]  = new Vector(width, null);
             }
         }
         
@@ -50,16 +55,25 @@ class Grid
     
     private function DecodeLevel()
     {
-        players = new Array<Player>();
         allEntities = new Array<BaseEntity>();
 
-        var entities = levelData.entities.decode(Data.entities.all);
+        players = new Array<Player>();
+        goals = new Array<Goal>();
 
-        for(i in 0...entities.length)
+        var objects = levelData.objects.decode(Data.objects.all);
+        for(i in 0...objects.length)
         {
             var x = i % width;
             var y = Math.floor(i / width);
-            SpawnTile(entities[i].id, x, y, 0);
+            SpawnObjectTile(objects[i].id, x, y, 0);
+        }
+
+        var floors = levelData.floor.decode(Data.floor.all);
+        for(i in 0...floors.length)
+        {
+            var x = i % width;
+            var y = Math.floor(i / width);
+            SpawnFloorTile(floors[i].id, x, y, 0);
         }
 
         Game.history.Initialize(this);
@@ -82,32 +96,29 @@ class Grid
         return list;
     }
 
-    public function SpawnTile(kind:Data.EntitiesKind, x:Int, y:Int, z:Int)
+    public function SpawnObjectTile(kind:Data.ObjectsKind, x:Int, y:Int, z:Int)
     {
-        var entity:Entity;
+        var object:ObjectEntity;
         switch(kind)
         {
-            case Data.EntitiesKind.Player:
-                entity = new Player();
-                players.push(cast(entity, Player));
+            case Data.ObjectsKind.Player:
+                object = new entities.objects.Player();
+                players.push(cast(object, Player));
 
-            case Data.EntitiesKind.Block:
-                entity = new Block();
+            case Data.ObjectsKind.Block:
+                object = new entities.objects.Block();
 
-            case Data.EntitiesKind.Wall:
-                entity = new Wall();
+            case Data.ObjectsKind.Wall:
+                object = new entities.objects.Wall();
 
             default:
-                entity = null;
+                object = null;
         }
 
-        if(entity != null)
-        {
-            AddEntity(entity, x, y, z);
-        }
+        if(object != null)
+            AddObject(object, x, y, z);
     }
-
-    public function AddEntity(entity:Entity, x:Int, y:Int, z:Int)
+    public function AddObject(object:ObjectEntity, x:Int, y:Int, z:Int)
     {
         if(x < 0 || x >= width || y < 0 || y >= length || z < 0 || z >= height)
         {
@@ -115,13 +126,52 @@ class Grid
             return;
         }
 
-        entities[z][y][x] = entity;
-        entity.x = x;
-        entity.y = y;
-        entity.z = z;
-        entity.OnCreate();
+        objects[z][y][x] = object;
+        object.x = x;
+        object.y = y;
+        object.z = z;
+        object.OnCreate();
 
-        allEntities.push(entity);
+        allEntities.push(object);
+    }
+
+    public function SpawnFloorTile(kind:Data.FloorKind, x:Int, y:Int, z:Int)
+    {
+        var floor:FloorEntity;
+        switch(kind)
+        {
+            case Data.FloorKind.Hole:
+                floor = new entities.floors.Hole();
+
+            case Data.FloorKind.Basic:
+                floor = new entities.floors.Basic();
+
+            case Data.FloorKind.Goal:
+                floor = new entities.floors.Goal();
+                goals.push(cast(floor, Goal));
+
+            default:
+                floor = null;
+        }
+
+        if(floor != null)
+            AddFloor(floor, x, y, z);
+    }
+    public function AddFloor(floor:FloorEntity, x:Int, y:Int, z:Int)
+    {
+        if(x < 0 || x >= width || y < 0 || y >= length || z < 0 || z >= height)
+        {
+            throw Exception;
+            return;
+        }
+
+        floors[z][y][x] = floor;
+        floor.x = x;
+        floor.y = y;
+        floor.z = z;
+        floor.OnCreate();
+
+        allEntities.push(floor);
     }
 
     public function Push(fromX:Int, fromY:Int, fromZ:Int, dirX:Int, dirY:Int, dirZ:Int):Bool
@@ -138,8 +188,8 @@ class Grid
             return false;
         }
 
-        var entity = entities[fromZ][fromY][fromX];
-        if(entity == null)
+        var object = objects[fromZ][fromY][fromX];
+        if(object == null)
         {
             trace('WARNING: nothing to push from [$fromX, $fromY]');
             return true;
@@ -150,12 +200,12 @@ class Grid
             return false;
         }
 
-        if(!entity.CanPush(dirX, dirY, dirZ))
+        if(!object.CanPush(dirX, dirY, dirZ))
         {
             return false;
         }
 
-        var entityOnwards = entities[fromZ + dirZ][fromY + dirY][fromX + dirX];
+        var entityOnwards = objects[fromZ + dirZ][fromY + dirY][fromX + dirX];
         if(entityOnwards == null)
         {
             return Move(fromX, fromY, fromZ, dirX, dirY, dirZ);
@@ -163,10 +213,7 @@ class Grid
         else
         {
             if(Push(fromX + dirX, fromY + dirY, fromZ, dirX, dirY, dirZ))
-            {
-                entityOnwards.pushedThisFrame = true;
                 return Move(fromX, fromY, fromZ, dirX, dirY, dirZ);
-            }
         }
 
         return false;
@@ -179,31 +226,38 @@ class Grid
             throw Exception;
         }
 
-        if(entities[z][y][x] != null)
+        if(objects[z][y][x] != null)
         {
-            entities[z][y][x].OnDestroy();
-            allEntities.remove(entities[z][y][x]);
+            objects[z][y][x].OnDestroy();
+            allEntities.remove(objects[z][y][x]);
         }
 
-        entities[z][y][x] = null;
+        objects[z][y][x] = null;
     }
 
     public function RebuildGrid()
     {
-        entities = new Vector(height);
+        objects = new Vector(height);
+        floors  = new Vector(height);
+
         for(i in 0...height)
         {
-            entities[i] = new Vector(length);
+            objects[i] = new Vector(length);
+            floors[i]  = new Vector(length);
 
             for(j in 0...length)
             {
-                entities[i][j] = new Vector(width, null);
+                objects[i][j] = new Vector(width, null);
+                floors[i][j]  = new Vector(width, null);
             }
         }
 
         for(entity in allEntities)
         {
-            entities[entity.z][entity.y][entity.x] = cast(entity, Entity);
+            if(entity is ObjectEntity)
+                objects[entity.z][entity.y][entity.x] = cast(entity, ObjectEntity);
+            else if(entity is FloorEntity)
+                floors[entity.z][entity.y][entity.x] = cast(entity, FloorEntity);
         }
     }
 
@@ -231,22 +285,14 @@ class Grid
         var toY = fromY + dirY;
         var toZ = fromZ + dirZ;
 
-        var entity = entities[fromZ][fromY][fromX];
-        if(entity == null)
+        var object = objects[fromZ][fromY][fromX];
+        if(object == null)
         {
             trace('WARNING: nothing to move from [$fromX, $fromY, $fromZ]');
             return false;
         }
 
-        //var floor:BaseEntity = GetFloor(toX, toY, toZ);
-
-        // gravity
-        /*var fall = FallZ(toX, toY, toZ);
-        if(fall.floor != null)
-        {
-            floor = fall.floor;
-            toZ = fall.z;
-        }
+        var floor = GetFloor(toX, toY, toZ);
         
         if(floor == null)
         {
@@ -254,38 +300,27 @@ class Grid
             return false;
         }
 
-        if(!floor.CanStep(entity))
-            return false;*/
+        if(!floor.CanStepOn(object))
+            return false;
         
-        if(entities[toZ][toY][toX] != null)
+        if(objects[toZ][toY][toX] != null)
         {
             trace('WARNING: can\'t move to [$toX, $toY, $toZ]: it\'s occupied!');
             return false;
         }
 
-        entities[fromZ][fromY][fromX] = null;
-        entities[toZ][toY][toX] = entity;
-        entity.x = toX;
-        entity.y = toY;
-        entity.z = toZ;
-        entity.movedThisFrame = true;
+        objects[fromZ][fromY][fromX] = null;
+        objects[toZ][toY][toX] = object;
+        object.x = toX;
+        object.y = toY;
+        object.z = toZ;
 
-        entity.OnMove(dirX, dirY, dirZ);
-        //floor.OnStepOn(entity);
+        object.OnMove(dirX, dirY, dirZ);
+        floor.OnStepOn(object);
 
-        // move neighbour on top
-        /*var neighbours = GetNeighbourEntities(fromX, fromY, fromZ);
-        for(neighbour in neighbours)
-        {
-            if(neighbour.side == BaseEntity.SIDE_UP)
-            {
-                Move(neighbour.entity.x, neighbour.entity.y, neighbour.entity.z, dirX, dirY, dirZ);
-            }
-        }*/
-
-        /*var oldFloor = GetFloor(fromX, fromY, fromZ);
+        var oldFloor = GetFloor(fromX, fromY, fromZ);
         if(oldFloor != null)
-            oldFloor.OnStepOff(entity);*/
+            oldFloor.OnStepOff(object);
 
         return true;
     }
@@ -298,12 +333,9 @@ class Grid
             {
                 for(x in 0...width)
                 {
-                    var entity = GetEntity(x, y, z);
-                    if(entity == null)
+                    var object = GetObject(x, y, z);
+                    if(object == null)
                         continue;
-                    
-                    entity.movedThisFrame = false;
-                    entity.pushedThisFrame = false;
                 }
             }
         }
@@ -328,9 +360,9 @@ class Grid
             if(position.x < 0 || position.x >= width || position.y < 0 || position.y >= length || position.z < 0 || position.z >= height)
                 continue;
 
-            var neighbour = GetEntity(position.x, position.y, position.z);
+            var neighbour = GetObject(position.x, position.y, position.z);
             if(neighbour != null)
-                neighbours.push({entity: neighbour, side: position.side});
+                neighbours.push({object: neighbour, side: position.side});
         }
 
         return neighbours;
@@ -338,15 +370,26 @@ class Grid
 
     public function CheckLevelCompletion()
     {
-        // todo: provide a winning condition
+        var won = true;
 
-        if(false)
+        // to win, there should be a block on top of each goal 
+        for(goal in goals)
+        {
+            var object = GetObject(goal.x, goal.y, goal.z);
+            if(object == null || object.type != Block)
+            {
+                won = false;
+                break;
+            }
+        }
+
+        if(won)
         {
             Game.level.Complete();
         }
     }
 
-    public function GetEntity(x:Int, y:Int, z:Int):Entity
+    public function GetObject(x:Int, y:Int, z:Int):ObjectEntity
     {
         if(x < 0 || x >= width || y < 0 || y >= length || z < 0 || z >= height)
         {
@@ -354,6 +397,17 @@ class Grid
             return null;
         }
 
-        return entities[z][y][x];
+        return objects[z][y][x];
+    }
+
+    public function GetFloor(x:Int, y:Int, z:Int):FloorEntity
+    {
+        if(x < 0 || x >= width || y < 0 || y >= length || z < 0 || z >= height)
+        {
+            throw Exception;
+            return null;
+        }
+
+        return floors[z][y][x];
     }
 }
