@@ -40,8 +40,8 @@
 			"lines": [
 				{
 					"id": "level00",
-					"width": 10,
-					"height": 10,
+					"width": 8,
+					"height": 8,
 					"tileProps": [],
 					"layers": [],
 					"props": {
@@ -61,41 +61,17 @@
 							}
 						]
 					},
-					"floor": "AAAAAAABAAEAAAAAAAEBAQEBAAAAAAEBAQEBAQEAAAABAQEBAQEBAQABAQEBAAABAQEAAQEBAQAAAQEBAAEBAQEBAQEBAQAAAQEAAQEBAQIAAAAAAAABAQEBAAAAAAAAAAEBAA==",
-					"objects": "AAAAAAAAAwAAAAAAAAAAAwMAAAAAAAAAAAMAAQAAAAAAAQMDAwACAAAAAAADAwMAAAAAAAAAAwMDAQAAAAACAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=="
+					"floor": "AAAAAAAAAAAAAQEBAQEBAAABAQEBAQEAAAEBAQEBAQAAAQEBAQEBAAABAQIBAQEAAAEBAQEBAQAAAAAAAAAAAA==",
+					"objects": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
 				},
 				{
 					"id": "level01",
-					"width": 10,
-					"height": 10,
-					"tileProps": [],
-					"layers": [],
-					"props": {
-						"tileSize": 100,
-						"layers": [
-							{
-								"l": "floor",
-								"p": {
-									"alpha": 1
-								}
-							},
-							{
-								"l": "objects",
-								"p": {
-									"alpha": 1
-								}
-							}
-						]
-					},
-					"floor": "AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAAEBAQEBAQEBAQECAQIBAQEBAQEAAQEBAQEBAQEBAAICAQEBAQEBAAACAQEBAAAAAAAAAAEBAQEBAQAAAA==",
-					"objects": "AAICAAAAAAAAAAAAAgICAAAAAAMAAAEAAAIAAAADAAAAAAICAAEDAwAAAAIAAAAAAwMAAAAAAAEAAwMDAAAAAAAAAwMDAwAAAQAAAwMDAwMAAwMDAwMDAwMDAwMDAwMDAwMDAw=="
-				},
-				{
-					"id": "level02",
 					"width": 8,
 					"height": 7,
 					"tileProps": [],
 					"layers": [],
+					"floor": "AAAAAAAAAAAAAQEAAQEBAAABAQEBAQEAAAECAQEBAQAAAQEBAQEBAAACAQABAQEAAAAAAAAAAAA=",
+					"objects": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAIAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=",
 					"props": {
 						"tileSize": 100,
 						"layers": [
@@ -112,9 +88,33 @@
 								}
 							}
 						]
-					},
-					"floor": "AQEBAQEBAAABAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAgEBAQEBAQEBAQEBAQEBAQE=",
-					"objects": "AwMDAwMDAAAAAAAAAAMDAAAAAAABAAAAAAIAAAAAAAAAAAADAwAAAAAAAwMAAwAAAAAAAAAAAAA="
+					}
+				},
+				{
+					"id": "level02",
+					"width": 6,
+					"height": 4,
+					"tileProps": [],
+					"layers": [],
+					"floor": "AQEAAAEBAAEBAQEAAAEBAQEAAAACAgAA",
+					"objects": "AAAAAAAAAAEAAAEAAAACAgAAAAAAAAAA",
+					"props": {
+						"tileSize": 100,
+						"layers": [
+							{
+								"l": "floor",
+								"p": {
+									"alpha": 1
+								}
+							},
+							{
+								"l": "objects",
+								"p": {
+									"alpha": 1
+								}
+							}
+						]
+					}
 				}
 			],
 			"separators": [],
