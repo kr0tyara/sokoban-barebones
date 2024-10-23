@@ -23,6 +23,7 @@ class Main extends hxd.App
 
     public static var save:GameSave;
 
+    // name of the save file, make it unique!
     public static var saveSlot:String = 'sokoban';
 
     private override function loadAssets(onLoaded:Void->Void)
