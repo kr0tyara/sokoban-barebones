@@ -1,5 +1,6 @@
 package entities;
 
+import avatars.objects.PlayerAvatar;
 import avatars.BaseAvatar;
 import history.HistoryState;
 import haxe.Exception;
@@ -20,13 +21,18 @@ class BaseEntity
     public var dirty:Bool = true;
 
     public var avatar:BaseAvatar;
-    
+    public var avatarClass:Class<BaseAvatar>;
+
     public function new()
     {
     }
 
     public function OnCreate()
     {
+        dirty = true;
+        
+        if(avatarClass != null && Level.avatar != null)
+            Level.avatar.AddAvatar(avatarClass, this);
     }
     public function OnDestroy()
     {
@@ -38,12 +44,12 @@ class BaseEntity
     {
         return new HistoryState(this, x, y, z);
     }
-    public function ApplyState(state:HistoryState)
+    public function ApplyState(state:HistoryState):Bool
     {
         if(state.entity != this)
         {
             throw Exception;
-            return;
+            return false;
         }
 
         x = state.x;
@@ -53,7 +59,15 @@ class BaseEntity
         if(avatar != null)
         {
             avatar.SetPosition(x, y, z);
-            avatar.Update();
+            UpdateAvatar();
         }
+
+        return true;
+    }
+
+    private function UpdateAvatar()
+    {
+        if(avatar != null)
+            avatar.Update();
     }
 }

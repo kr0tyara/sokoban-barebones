@@ -1,5 +1,6 @@
 package avatars;
 
+import entities.BaseEntity;
 import entities.objects.*;
 import avatars.objects.*;
 
@@ -30,33 +31,12 @@ class LevelAvatar extends Object
         floorContainer = new Object();
         addChild(floorContainer);
 
-        for(z in 0...grid.height)
-        {
-            for(y in 0...grid.length)
-            {
-                for(x in 0...grid.width)
-                {
-                    var floor = grid.GetFloor(x, y, z);
-                    if(floor != null)
-                        AddFloor(floor);
-                }
-            }
-        }
-
         objectsContainer = new Object();
         addChild(objectsContainer);
 
-        for(z in 0...grid.height)
+        for(entity in grid.allEntities)
         {
-            for(y in 0...grid.length)
-            {
-                for(x in 0...grid.width)
-                {
-                    var object = grid.GetObject(x, y, z);
-                    if(object != null)
-                        AddObject(object);
-                }
-            }
+            AddAvatar(entity.avatarClass, entity);
         }
 
         OnResize();
@@ -79,35 +59,19 @@ class LevelAvatar extends Object
         Main.inst.s2d.camera.y = (h - Main.inst.s2d.height / scale) / 2;
     }
 
-    public function AddObject(object:ObjectEntity)
+    public function AddAvatar(avatarClass:Class<BaseAvatar>, entity:BaseEntity)
     {
-        var avatar:ObjectAvatar;
-
-        if(object is Player)
-            avatar = new PlayerAvatar(object);
-        else
-            avatar = new ObjectAvatar(object);
+        var avatar = Type.createInstance(avatarClass, [entity]);
         
         if(avatar != null)
         {
-            objectsContainer.addChild(avatar);
+            avatar.Initialize();
             avatars.push(avatar);
 
-            avatar.Initialize();
-        }
-    }
-    public function AddFloor(floor:FloorEntity)
-    {
-        var avatar:FloorAvatar;
-        
-        avatar = new FloorAvatar(floor);
-        
-        if(avatar != null)
-        {
-            floorContainer.addChild(avatar);
-            avatars.push(avatar);
-
-            avatar.Initialize();
+            if(entity is ObjectEntity)
+                objectsContainer.addChild(avatar);
+            else if(entity is FloorEntity)
+                floorContainer.addChild(avatar);
         }
     }
 

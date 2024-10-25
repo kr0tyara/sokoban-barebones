@@ -1,5 +1,8 @@
 package entities.objects;
 
+import avatars.BaseAvatar;
+import avatars.objects.ObjectAvatar;
+
 enum ObjectType
 {
     Player;
@@ -9,12 +12,13 @@ enum ObjectType
 class ObjectEntity extends BaseEntity
 {
     public var type:ObjectType;
-    
+
     public function new(type:ObjectType)
     {
         super();
 
         this.type = type;
+        avatarClass = ObjectAvatar;
     }
 
     public function CanPush(dirX:Int, dirY:Int, dirZ:Int):Bool
@@ -28,14 +32,6 @@ class ObjectEntity extends BaseEntity
         
         if(avatar != null)
             avatar.SetPosition(x, y, z);
-    }
-    
-    public override function OnCreate()
-    {
-        dirty = true;
-
-        if(avatar == null && Level.avatar != null)
-            Level.avatar.AddObject(this);
     }
 
     public static function GetDebugColor(type:ObjectType):Int

@@ -1,5 +1,6 @@
 package entities.floors;
 
+import avatars.floors.FloorAvatar;
 import entities.objects.ObjectEntity;
 
 enum FloorType
@@ -17,6 +18,7 @@ class FloorEntity extends BaseEntity
         super();
 
         this.type = type;
+        avatarClass = FloorAvatar;
     }
 
     public function CanStepOn(by:ObjectEntity):Bool
@@ -28,14 +30,6 @@ class FloorEntity extends BaseEntity
     }
     public function OnStepOff(by:ObjectEntity)
     {
-    }
-
-    public override function OnCreate()
-    {
-        dirty = true;
-
-        if(avatar == null && Level.avatar != null)
-            Level.avatar.AddFloor(this);
     }
 
     public static function GetDebugColor(type:FloorType):Int
