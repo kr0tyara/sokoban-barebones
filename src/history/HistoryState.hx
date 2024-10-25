@@ -2,6 +2,12 @@ package history;
 
 import entities.BaseEntity;
 
+// this class is used to store entity information for every player action so it can be undone
+
+// you can define your own HistoryState extensions to store extra data
+// just make sure to override MakeState and ApplyState with your custom class
+//      (also don't forget to set dirty = true whenever you your change custom variables so they will actually be saved!)
+
 class HistoryState
 {
     public var entity:BaseEntity;
