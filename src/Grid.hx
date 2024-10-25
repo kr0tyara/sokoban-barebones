@@ -285,7 +285,7 @@ class Grid
         var toY = fromY + dirY;
         var toZ = fromZ + dirZ;
 
-        var object = objects[fromZ][fromY][fromX];
+        var object = GetObject(fromX, fromY, fromZ);
         if(object == null)
         {
             trace('WARNING: nothing to move from [$fromX, $fromY, $fromZ]');
@@ -303,7 +303,7 @@ class Grid
         if(!floor.CanStepOn(object))
             return false;
         
-        if(objects[toZ][toY][toX] != null)
+        if(GetObject(toX, toY, toZ) != null)
         {
             trace('WARNING: can\'t move to [$toX, $toY, $toZ]: it\'s occupied!');
             return false;
@@ -327,19 +327,6 @@ class Grid
 
     public function OnMovementEnd(madeAnything:Bool)
     {
-        for(z in 0...height)
-        {
-            for(y in 0...length)
-            {
-                for(x in 0...width)
-                {
-                    var object = GetObject(x, y, z);
-                    if(object == null)
-                        continue;
-                }
-            }
-        }
-
         Game.history.MakeState();
         CheckLevelCompletion();
     }
