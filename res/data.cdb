@@ -115,6 +115,32 @@
 							}
 						]
 					}
+				},
+				{
+					"id": "level03",
+					"width": 5,
+					"height": 4,
+					"tileProps": [],
+					"layers": [],
+					"floor": "AQEBAQEDAwMDAwMDAwMDAQEBAQI=",
+					"objects": "AQAAAAAAAAIAAAAAAAAAAAAAAAA=",
+					"props": {
+						"tileSize": 100,
+						"layers": [
+							{
+								"l": "floor",
+								"p": {
+									"alpha": 1
+								}
+							},
+							{
+								"l": "objects",
+								"p": {
+									"alpha": 1
+								}
+							}
+						]
+					}
 				}
 			],
 			"separators": [],
@@ -244,6 +270,15 @@
 						"file": "floor.png",
 						"size": 100,
 						"x": 4,
+						"y": 0
+					}
+				},
+				{
+					"id": "Fragile",
+					"tile": {
+						"file": "floor.png",
+						"size": 100,
+						"x": 2,
 						"y": 0
 					}
 				}

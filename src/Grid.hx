@@ -150,6 +150,9 @@ class Grid
                 floor = new entities.floors.Goal();
                 goals.push(cast(floor, Goal));
 
+            case Data.FloorKind.Fragile:
+                floor = new entities.floors.Fragile();
+
             default:
                 floor = null;
         }
@@ -316,17 +319,31 @@ class Grid
         object.z = toZ;
 
         object.OnMove(dirX, dirY, dirZ);
-        floor.OnStepOn(object);
+
+        floor.StashStepOn(object);
 
         var oldFloor = GetFloor(fromX, fromY, fromZ);
         if(oldFloor != null)
-            oldFloor.OnStepOff(object);
+            oldFloor.StashStepOff(object);
 
         return true;
     }
 
     public function OnMovementEnd(madeAnything:Bool)
     {
+        for(z in 0...height)
+        {
+            for(y in 0...length)
+            {
+                for(x in 0...width)
+                {
+                    var floor = GetFloor(x, y, z);
+                    if(floor != null)
+                        floor.OnMovementEnd();
+                }
+            }
+        }
+        
         Game.history.MakeState();
         CheckLevelCompletion();
     }
