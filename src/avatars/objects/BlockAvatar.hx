@@ -3,7 +3,7 @@ package avatars.objects;
 import h2d.Anim;
 import entities.objects.ObjectEntity;
 
-class PlayerAvatar extends ObjectAvatar
+class BlockAvatar extends ObjectAvatar
 {
     private var anim:Anim;
     
@@ -16,11 +16,10 @@ class PlayerAvatar extends ObjectAvatar
     {
         spriteContainer.removeChildren();
 
-        anim = new Anim(Main.sheet.Guy.frames);
+        anim = new Anim(Main.sheet.Wall.frames);
         anim.currentFrame = 0;
         anim.speed = 4;
         anim.x = -2;
-        anim.y = -4;
         spriteContainer.addChild(anim);
     
         Update();

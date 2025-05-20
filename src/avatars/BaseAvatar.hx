@@ -28,6 +28,7 @@ class BaseAvatar extends Object
 
     public function Initialize()
     {
+        Update();
     }
 
     public function SpawnSprite()

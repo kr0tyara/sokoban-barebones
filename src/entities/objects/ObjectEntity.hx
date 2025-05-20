@@ -18,6 +18,10 @@ class ObjectEntity extends BaseEntity
         super();
 
         this.type = type;
+
+        // By default all you will see is a colored square.
+        // That's why you need to implement custom avatar classes! It's not that hard, just override the ObjectAvatar class and set the variable avatarClass of the entity.
+        // Use avatars.objects.PlayerAvatar as an example. 
         avatarClass = ObjectAvatar;
     }
 

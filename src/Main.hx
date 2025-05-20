@@ -1,3 +1,4 @@
+import gfx.SpriteSheet;
 import cherry.tools.ResTools;
 import h2d.Font;
 import hxd.Res;
@@ -22,9 +23,10 @@ class Main extends hxd.App
     private var game:Game;
 
     public static var save:GameSave;
-
     // name of the save file, make it unique!
     public static var saveSlot:String = 'sokoban';
+    
+    public static var sheet:SpriteSheet;
 
     private override function loadAssets(onLoaded:Void->Void)
     {
@@ -36,6 +38,7 @@ class Main extends hxd.App
         super.init();
     
         Data.load(Res.data.entry.getText());
+        sheet = new SpriteSheet();
 
         var defaultSave:GameSave = {lastLevel: 0, levels: []};
         for(i in 0...Data.levels.all.length)

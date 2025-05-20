@@ -22,6 +22,10 @@ class FloorEntity extends BaseEntity
         super();
 
         this.type = type;
+
+        // By default all you will see is a colored square.
+        // That's why you need to implement custom avatar classes! It's not that hard, just override the FloorAvatar class and set the variable avatarClass of the entity.
+        // Use avatars.floors.FragileAvatar as an example.
         avatarClass = FloorAvatar;
     }
 

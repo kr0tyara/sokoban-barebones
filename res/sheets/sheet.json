@@ -1,0 +1,59 @@
+﻿{"frames": [
+
+{
+	"filename": "Guy0000",
+	"frame": {"x":0,"y":0,"w":105,"h":117},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":117},
+	"sourceSize": {"w":105,"h":117}
+}
+,{
+	"filename": "Guy0001",
+	"frame": {"x":110,"y":0,"w":105,"h":117},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":117},
+	"sourceSize": {"w":105,"h":117}
+}
+,{
+	"filename": "Guy0002",
+	"frame": {"x":0,"y":122,"w":105,"h":117},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":117},
+	"sourceSize": {"w":105,"h":117}
+}
+,{
+	"filename": "Wall0000",
+	"frame": {"x":110,"y":122,"w":105,"h":99},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":99},
+	"sourceSize": {"w":105,"h":99}
+}
+,{
+	"filename": "Wall0001",
+	"frame": {"x":110,"y":226,"w":105,"h":99},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":99},
+	"sourceSize": {"w":105,"h":99}
+}
+,{
+	"filename": "Wall0002",
+	"frame": {"x":0,"y":244,"w":105,"h":99},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":99},
+	"sourceSize": {"w":105,"h":99}
+}],
+"meta": {
+	"app": "Adobe Animate",
+	"version": "18.0.1.115",
+	"image": "sheet.png",
+	"format": "RGBA8888",
+	"size": {"w":256,"h":512},
+	"scale": "1"
+}
+}
