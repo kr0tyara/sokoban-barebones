@@ -1,0 +1,10 @@
+common.hxml
+-lib hldx
+
+-D windowSize=1280x720
+-D windowTitle=Sokoban
+-D windowFixed=1
+ 
+#-hl build/win/game.hl
+-hl build/bin/game.c
+--cmd start win.bat

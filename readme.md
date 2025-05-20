@@ -11,6 +11,7 @@ A really simplistic boilerplate for your Sokoban puzzle based on the Heaps.io en
 - Multiple playable characters at once ([desperatea](https://kr0tyara.itch.io/desperatea) style!)
 - Example CastleDB project for level data
 - Built-in .pak generator for the assets (using [Heeps library](https://github.com/Yanrishatum/heeps))
+- Builds to HTML5 and Windows (the latter is experimental and untested, you might need to tweak `win.bat`)
 
 ## Dependencies
 - [Heaps.io](https://github.com/HeapsIO/heaps)
