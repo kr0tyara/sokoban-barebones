@@ -118,8 +118,6 @@ class History
         {
             state.entity.ApplyState(state);
         }
-
-        grid.RebuildGrid();
     }
 
     public function Undo():Bool
@@ -136,7 +134,6 @@ class History
             state.entity.ApplyState(state);
         }
         
-        grid.RebuildGrid();
         return true;
     }
     
@@ -153,7 +150,6 @@ class History
             state.entity.ApplyState(state);
         }
         
-        grid.RebuildGrid();
         return true;
     }
 }

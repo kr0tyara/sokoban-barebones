@@ -18,8 +18,8 @@ class Grid
     public var players:Array<Player>;
     public var goals:Array<Goal>;
 
-    private var floors:Vector<Vector<Vector<FloorEntity>>>;
-    private var objects:Vector<Vector<Vector<ObjectEntity>>>;
+    private var floors:Array<FloorEntity>;
+    private var objects:Array<ObjectEntity>;
 
     public var width:Int;
     public var length:Int;
@@ -35,20 +35,8 @@ class Grid
         length = levelData.height;
         height = 1;
 
-        objects = new Vector(height);
-        floors  = new Vector(height);
-
-        for(i in 0...height)
-        {
-            objects[i] = new Vector(length);
-            floors[i]  = new Vector(length);
-
-            for(j in 0...length)
-            {
-                objects[i][j] = new Vector(width, null);
-                floors[i][j]  = new Vector(width, null);
-            }
-        }
+        objects = new Array();
+        floors  = new Array();
         
         DecodeLevel();
     }
@@ -126,13 +114,14 @@ class Grid
             return;
         }
 
-        objects[z][y][x] = object;
         object.x = x;
         object.y = y;
         object.z = z;
-        object.OnCreate();
 
+        objects.push(object);
         allEntities.push(object);
+
+        object.OnCreate();
     }
 
     public function SpawnFloorTile(kind:Data.FloorKind, x:Int, y:Int, z:Int)
@@ -168,13 +157,14 @@ class Grid
             return;
         }
 
-        floors[z][y][x] = floor;
         floor.x = x;
         floor.y = y;
         floor.z = z;
-        floor.OnCreate();
 
+        floors.push(floor);
         allEntities.push(floor);
+
+        floor.OnCreate();
     }
 
     public function Push(fromX:Int, fromY:Int, fromZ:Int, dirX:Int, dirY:Int, dirZ:Int):Bool
@@ -191,7 +181,7 @@ class Grid
             return false;
         }
 
-        var object = objects[fromZ][fromY][fromX];
+        var object = GetObject(fromX, fromY, fromZ);
         if(object == null)
         {
             trace('WARNING: nothing to push from [$fromX, $fromY]');
@@ -208,7 +198,7 @@ class Grid
             return false;
         }
 
-        var entityOnwards = objects[fromZ + dirZ][fromY + dirY][fromX + dirX];
+        var entityOnwards = GetObject(fromX + dirX, fromY + dirY, fromZ + dirZ);
         if(entityOnwards == null)
         {
             return Move(fromX, fromY, fromZ, dirX, dirY, dirZ);
@@ -229,38 +219,12 @@ class Grid
             throw Exception;
         }
 
-        if(objects[z][y][x] != null)
+        var object = GetObject(x, y, z);
+        if(object != null)
         {
-            objects[z][y][x].OnDestroy();
-            allEntities.remove(objects[z][y][x]);
-        }
-
-        objects[z][y][x] = null;
-    }
-
-    public function RebuildGrid()
-    {
-        objects = new Vector(height);
-        floors  = new Vector(height);
-
-        for(i in 0...height)
-        {
-            objects[i] = new Vector(length);
-            floors[i]  = new Vector(length);
-
-            for(j in 0...length)
-            {
-                objects[i][j] = new Vector(width, null);
-                floors[i][j]  = new Vector(width, null);
-            }
-        }
-
-        for(entity in allEntities)
-        {
-            if(entity is ObjectEntity)
-                objects[entity.z][entity.y][entity.x] = cast(entity, ObjectEntity);
-            else if(entity is FloorEntity)
-                floors[entity.z][entity.y][entity.x] = cast(entity, FloorEntity);
+            object.OnDestroy();
+            objects.remove(object);
+            allEntities.remove(object);
         }
     }
 
@@ -312,8 +276,6 @@ class Grid
             return false;
         }
 
-        objects[fromZ][fromY][fromX] = null;
-        objects[toZ][toY][toX] = object;
         object.x = toX;
         object.y = toY;
         object.z = toZ;
@@ -393,15 +355,28 @@ class Grid
         }
     }
 
-    public function GetObject(x:Int, y:Int, z:Int):ObjectEntity
+    public function GetObjects(x:Int, y:Int, z:Int):Array<ObjectEntity>
     {
         if(x < 0 || x >= width || y < 0 || y >= length || z < 0 || z >= height)
         {
             throw Exception;
-            return null;
+            return [];
         }
 
-        return objects[z][y][x];
+        return objects.filter(a -> a.x == x && a.y == y && a.z == z);
+    }
+    public function GetObject(x:Int, y:Int, z:Int):ObjectEntity
+    {
+        var objects = GetObjects(x, y, z);
+        if(objects.length == 0)
+            return null;
+
+        // here you can filter for certain object types you're looking for. 
+        // this example code just grabs the first object under the specified coordinates, which is
+        // not perfect if you want to use multiple objects per same tile
+        // (like sugar cubes or rat carriers from desperatea)
+        
+        return objects[0];
     }
 
     public function GetFloor(x:Int, y:Int, z:Int):FloorEntity
@@ -412,6 +387,6 @@ class Grid
             return null;
         }
 
-        return floors[z][y][x];
+        return floors.filter(a -> a.x == x && a.y == y && a.z == z)[0];
     }
 }
