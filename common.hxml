@@ -7,4 +7,10 @@
 -dce full
 -D analyzer-optimize
 
+--macro include("entities")
+--macro include("avatars")
+--macro include("levels")
+
+--macro macros.LevelsMacro.build()
+
 --debug

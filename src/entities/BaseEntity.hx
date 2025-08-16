@@ -5,6 +5,7 @@ import avatars.BaseAvatar;
 import history.HistoryState;
 import haxe.Exception;
 
+@:keepSub
 class BaseEntity
 {
     public static inline var SIDE_BOTTOM = 0;

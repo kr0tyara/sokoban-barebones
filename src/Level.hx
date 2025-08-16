@@ -5,27 +5,38 @@ import InputManager.InputKey;
 import haxe.Exception;
 import h2d.Graphics;
 
+@:keepSub
 class Level extends h2d.Object
 {
-    private var id:Int;
-    private var kind:Data.LevelsKind;
+    public var id:Int;
+    public var kind:Data.LevelsKind;
+    private var data:Data.Levels;
 
     public static var grid:Grid;
     private var gfx:Graphics;
 
     public static var avatar:LevelAvatar;
 
-    public function new(id:Int)
+    public function new(kind:Data.LevelsKind)
     {
         super();
 
-        this.id = id;
-        var level = Data.levels.all[id];
-        kind = level.id;
+        this.kind = kind;
+        data = Data.levels.get(kind);
+
+        for(i in 0...Data.levels.all.length)
+        {
+            var room = Data.levels.all[i];
+            if(room.id == kind)
+            {
+                id = i;
+                break;
+            }
+        }
         
-        grid = new Grid(level);
+        grid = new Grid(data);
         
-        avatar = new LevelAvatar(grid);
+        avatar = new LevelAvatar(id, grid);
         addChild(avatar);
 
         gfx = new Graphics();
@@ -34,9 +45,15 @@ class Level extends h2d.Object
         var savedLevel = Main.save.levels.filter(a -> a.id == kind)[0];
         trace('level $id:\n${savedLevel.completed ? 'completed in ${savedLevel.steps} steps' : 'not completed yet'}');
     }
+
+    public function Init()
+    {
+
+    }
+
     public override function onRemove()
     {
-        removeChild(avatar);
+        avatar.remove();
     }
 
     public function OnResize()
@@ -46,7 +63,7 @@ class Level extends h2d.Object
 
     public function HandleInput()
     {
-        if(InputManager.inst.inputBlocked)
+        if(Game.inst.InputBlocked())
             return;
 
         var key = InputManager.inst.currentKey;

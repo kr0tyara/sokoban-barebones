@@ -53,7 +53,10 @@ class Grid
         {
             var x = i % width;
             var y = Math.floor(i / width);
-            SpawnObjectTile(objects[i].id, x, y, 0);
+            
+            var object = SpawnObjectTile(objects[i].id, x, y, 0);
+            if(objects[i].id == Data.ObjectsKind.Player)
+                players.push(cast(object, Player));
         }
 
         var floors = levelData.floor.decode(Data.floor.all);
@@ -61,7 +64,10 @@ class Grid
         {
             var x = i % width;
             var y = Math.floor(i / width);
-            SpawnFloorTile(floors[i].id, x, y, 0);
+            
+            var floor = SpawnFloorTile(floors[i].id, x, y, 0);
+            if(floors[i].id == Data.FloorKind.Goal)
+                goals.push(cast(floor, Goal));
         }
 
         Game.history.Initialize(this);
@@ -86,32 +92,26 @@ class Grid
 
     public function SpawnObjectTile(kind:Data.ObjectsKind, x:Int, y:Int, z:Int)
     {
-        var object:ObjectEntity;
-        switch(kind)
+        if(kind == Data.ObjectsKind.Void)
+            return null;
+
+        var objectClass = Type.resolveClass('entities.objects.${kind}');
+
+        if(objectClass == null)
         {
-            case Data.ObjectsKind.Player:
-                object = new entities.objects.Player();
-                players.push(cast(object, Player));
-
-            case Data.ObjectsKind.Block:
-                object = new entities.objects.Block();
-
-            case Data.ObjectsKind.Wall:
-                object = new entities.objects.Wall();
-
-            default:
-                object = null;
+            throw new Exception('No such class: entities.objects.${kind}');
+            return null;
         }
 
-        if(object != null)
-            AddObject(object, x, y, z);
+        var object = Type.createInstance(objectClass, []);
+        return AddObject(object, x, y, z);
     }
     public function AddObject(object:ObjectEntity, x:Int, y:Int, z:Int)
     {
         if(x < 0 || x >= width || y < 0 || y >= length || z < 0 || z >= height)
         {
             throw Exception;
-            return;
+            return null;
         }
 
         object.x = x;
@@ -122,39 +122,28 @@ class Grid
         allEntities.push(object);
 
         object.OnCreate();
+        return object;
     }
 
     public function SpawnFloorTile(kind:Data.FloorKind, x:Int, y:Int, z:Int)
     {
-        var floor:FloorEntity;
-        switch(kind)
+        var floorClass = Type.resolveClass('entities.floors.${kind}');
+
+        if(floorClass == null)
         {
-            case Data.FloorKind.Hole:
-                floor = new entities.floors.Hole();
-
-            case Data.FloorKind.Basic:
-                floor = new entities.floors.Basic();
-
-            case Data.FloorKind.Goal:
-                floor = new entities.floors.Goal();
-                goals.push(cast(floor, Goal));
-
-            case Data.FloorKind.Fragile:
-                floor = new entities.floors.Fragile();
-
-            default:
-                floor = null;
+            throw new Exception('No such class: entities.floors.${kind}');
+            return null;
         }
 
-        if(floor != null)
-            AddFloor(floor, x, y, z);
+        var floor = Type.createInstance(floorClass, []);
+        return AddFloor(floor, x, y, z);
     }
     public function AddFloor(floor:FloorEntity, x:Int, y:Int, z:Int)
     {
         if(x < 0 || x >= width || y < 0 || y >= length || z < 0 || z >= height)
         {
             throw Exception;
-            return;
+            return null;
         }
 
         floor.x = x;
@@ -165,6 +154,7 @@ class Grid
         allEntities.push(floor);
 
         floor.OnCreate();
+        return floor;
     }
 
     public function Push(fromX:Int, fromY:Int, fromZ:Int, dirX:Int, dirY:Int, dirZ:Int):Bool
@@ -293,17 +283,10 @@ class Grid
 
     public function OnMovementEnd(madeAnything:Bool)
     {
-        for(z in 0...height)
+        for(floor in floors)
         {
-            for(y in 0...length)
-            {
-                for(x in 0...width)
-                {
-                    var floor = GetFloor(x, y, z);
-                    if(floor != null)
-                        floor.OnMovementEnd();
-                }
-            }
+            if(floor != null)
+                floor.OnMovementEnd();
         }
         
         Game.history.MakeState();

@@ -18,12 +18,14 @@ class LevelAvatar extends Object
     private var objectsContainer:Object;
     private var floorContainer:Object;
 
+    private var id:Int;
     private var grid:Grid;
 
-    public function new(grid:Grid)
+    public function new(id:Int, grid:Grid)
     {
         super();
         
+        this.id = id;
         this.grid = grid;
 
         avatars = new Array<BaseAvatar>();

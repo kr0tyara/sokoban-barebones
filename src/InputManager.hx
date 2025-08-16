@@ -43,7 +43,6 @@ class Input
 class InputManager
 {
     public static var inst:InputManager;
-    public var inputBlocked:Bool;
 
     private var repeatDelay:Float = 0.33;
     private var repeatInterval:Float = 0.2;

@@ -1,4 +1,4 @@
-package cherry.tools;
+package macros;
 
 import hxd.fs.FileInput;
 import haxe.macro.Expr;

@@ -1,11 +1,11 @@
 import gfx.SpriteSheet;
-import cherry.tools.ResTools;
+import macros.ResTools;
 import h2d.Font;
 import hxd.Res;
 
 typedef GameSave =
 {
-    lastLevel:Int,
+    lastLevel:Data.LevelsKind,
     levels:Array<LevelSave>
 }
 typedef LevelSave = 
@@ -40,7 +40,7 @@ class Main extends hxd.App
         Data.load(Res.data.entry.getText());
         sheet = new SpriteSheet();
 
-        var defaultSave:GameSave = {lastLevel: 0, levels: []};
+        var defaultSave:GameSave = {lastLevel: Data.LevelsKind.level00, levels: []};
         for(i in 0...Data.levels.all.length)
         {
             defaultSave.levels.push({id: Data.levels.all[i].id, steps: -1, completed: false});
@@ -62,8 +62,8 @@ class Main extends hxd.App
                     save.levels.remove(i);
             }
 
-            if(save.lastLevel >= Data.levels.all.length)
-                save.lastLevel = 0;
+            if(Data.levels.get(save.lastLevel) == null)
+                save.lastLevel = Data.LevelsKind.level00;
 
             hxd.Save.save(save, saveSlot);
         }

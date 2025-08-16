@@ -1,5 +1,6 @@
 package macros;
 
+import sys.FileSystem;
 import haxe.macro.Expr;
 import haxe.macro.Context;
 import gfx.SheetData;
@@ -9,14 +10,35 @@ import gfx.SheetData;
 
 class SpriteMacro
 {
-    macro public static function load(path:Array<String>):Array<Field>
+    macro public static function load():Array<Field>
     {
         var sprites:Map<String, SpriteData> = new Map();
 
-        for(p in path)
+        var paths = [];
+        function process(path:String)
         {
-            var json = sys.FileSystem.fullPath('res/sheets/') + p + '.json';
-            var png = sys.FileSystem.fullPath('res/sheets/') + p + '.png';
+            var files = sys.FileSystem.readDirectory(sys.FileSystem.fullPath(path));
+
+            for(p in files)
+            {
+                var pp = path + "/" + p;
+                if(FileSystem.isDirectory(pp))
+                    process(pp);
+                else
+                    paths.push(pp.split('res/sheets')[1]);
+            }
+        }
+        process('res/sheets');
+
+        for(path in paths)
+        {
+            var p = path.split('.')[0];
+            if(path.split('.')[1] == 'json')
+                continue;
+
+            var fullPath = sys.FileSystem.fullPath('res/sheets');
+            var json = fullPath + p + '.json';
+            var png = fullPath + p + '.png';
 
             haxe.macro.Context.registerModuleDependency(haxe.macro.Context.getLocalModule(), json);
             haxe.macro.Context.registerModuleDependency(haxe.macro.Context.getLocalModule(), png);
@@ -33,7 +55,7 @@ class SpriteMacro
                     var name = f.filename.substr(0, -4);
                     var index = Std.parseInt(f.filename.substr(-4));
                     if(!sprites.exists(name))
-                        sprites.set(name, {img: 'sheets/' + p + '.png', frames: []});
+                        sprites.set(name, {img: 'sheets' + p + '.png', frames: []});
 
                     sprites[name].frames.push({x: f.frame.x, y: f.frame.y, w: f.frame.w, h: f.frame.h});
                 }
