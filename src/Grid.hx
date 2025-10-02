@@ -157,7 +157,7 @@ class Grid
         return floor;
     }
 
-    public function Push(fromX:Int, fromY:Int, fromZ:Int, dirX:Int, dirY:Int, dirZ:Int):Bool
+    public function Push(object:ObjectEntity, dirX:Int, dirY:Int, dirZ:Int):Bool
     {
         if(dirX != 0 && dirY != 0 && dirZ != 0)
         {
@@ -165,20 +165,7 @@ class Grid
             return false;
         }
 
-        if(fromX < 0 || fromX >= width || fromY < 0 || fromY >= length || fromZ < 0 || fromZ >= height)
-        {
-            throw Exception;
-            return false;
-        }
-
-        var object = GetObject(fromX, fromY, fromZ);
-        if(object == null)
-        {
-            trace('WARNING: nothing to push from [$fromX, $fromY]');
-            return true;
-        }
-
-        if(fromX + dirX < 0 || fromX + dirX >= width || fromY + dirY < 0 || fromY + dirY >= length || fromZ + dirZ < 0 || fromZ + dirZ >= height)
+        if(object.x + dirX < 0 || object.x + dirX >= width || object.y + dirY < 0 || object.y + dirY >= length || object.z + dirZ < 0 || object.z + dirZ >= height)
         {
             return false;
         }
@@ -188,15 +175,15 @@ class Grid
             return false;
         }
 
-        var entityOnwards = GetObject(fromX + dirX, fromY + dirY, fromZ + dirZ);
+        var entityOnwards = GetObject(object.x + dirX, object.y + dirY, object.z + dirZ);
         if(entityOnwards == null)
         {
-            return Move(fromX, fromY, fromZ, dirX, dirY, dirZ);
+            return Move(object, dirX, dirY, dirZ);
         }
         else
         {
-            if(Push(fromX + dirX, fromY + dirY, fromZ, dirX, dirY, dirZ))
-                return Move(fromX, fromY, fromZ, dirX, dirY, dirZ);
+            if(Push(entityOnwards, dirX, dirY, dirZ))
+                return Move(object, dirX, dirY, dirZ);
         }
 
         return false;
@@ -218,7 +205,7 @@ class Grid
         }
     }
 
-    public function Move(fromX:Int, fromY:Int, fromZ:Int, dirX:Int, dirY:Int, dirZ:Int):Bool
+    public function Move(object:ObjectEntity, dirX:Int, dirY:Int, dirZ:Int):Bool
     {
         if(dirX != 0 && dirY != 0 && dirZ != 0)
         {
@@ -226,28 +213,15 @@ class Grid
             return false;
         }
         
-        if(fromX < 0 || fromX >= width || fromY < 0 || fromY >= length || fromZ < 0 || fromZ >= height)
+        if(object.x + dirX < 0 || object.x + dirX >= width || object.y + dirY < 0 || object.y + dirY >= length || object.z + dirZ < 0 || object.z + dirZ >= height)
         {
             throw Exception;
             return false;
         }
 
-        if(fromX + dirX < 0 || fromX + dirX >= width || fromY + dirY < 0 || fromY + dirY >= length || fromZ + dirZ < 0 || fromZ + dirZ >= height)
-        {
-            throw Exception;
-            return false;
-        }
-
-        var toX = fromX + dirX;
-        var toY = fromY + dirY;
-        var toZ = fromZ + dirZ;
-
-        var object = GetObject(fromX, fromY, fromZ);
-        if(object == null)
-        {
-            trace('WARNING: nothing to move from [$fromX, $fromY, $fromZ]');
-            return false;
-        }
+        var toX = object.x + dirX;
+        var toY = object.y + dirY;
+        var toZ = object.z + dirZ;
 
         var floor = GetFloor(toX, toY, toZ);
         
@@ -266,6 +240,10 @@ class Grid
             return false;
         }
 
+        var oldX = object.x;
+        var oldY = object.y;
+        var oldZ = object.z;
+
         object.x = toX;
         object.y = toY;
         object.z = toZ;
@@ -274,7 +252,7 @@ class Grid
 
         floor.StashStepOn(object);
 
-        var oldFloor = GetFloor(fromX, fromY, fromZ);
+        var oldFloor = GetFloor(oldX, oldY, oldZ);
         if(oldFloor != null)
             oldFloor.StashStepOff(object);
 
