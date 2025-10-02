@@ -48,17 +48,17 @@ class LevelAvatar extends Object
     {
         var w = grid.width * PixelsPerTile;
         var h = grid.length * PixelsPerTile;
-
-        var scaleX = Main.inst.s2d.width  / w;
+        
+        var scaleX = Main.inst.s2d.width / w;
         var scaleY = Main.inst.s2d.height / h;
         
         var scale = Math.min(scaleX, scaleY);
         
-        Main.inst.s2d.camera.scaleX = scale;
-        Main.inst.s2d.camera.scaleY = scale;
+        this.scaleX = scale;
+        this.scaleY = scale;
 
-        Main.inst.s2d.camera.x = (w - Main.inst.s2d.width / scale) / 2;
-        Main.inst.s2d.camera.y = (h - Main.inst.s2d.height / scale) / 2;
+        this.x = (Main.inst.s2d.width - w * scale) / 2;
+        this.y = (Main.inst.s2d.height - h * scale) / 2;
     }
 
     public function AddAvatar(avatarClass:Class<BaseAvatar>, entity:BaseEntity)

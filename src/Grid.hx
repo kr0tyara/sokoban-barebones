@@ -283,10 +283,9 @@ class Grid
 
     public function OnMovementEnd(madeAnything:Bool)
     {
-        for(floor in floors)
+        for(entity in allEntities)
         {
-            if(floor != null)
-                floor.OnMovementEnd();
+            entity.OnTick();
         }
         
         Game.history.MakeState();

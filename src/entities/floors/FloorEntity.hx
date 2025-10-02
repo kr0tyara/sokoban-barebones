@@ -49,7 +49,7 @@ class FloorEntity extends BaseEntity
     {
         steppedOff = by;
     }
-    public function OnMovementEnd()
+    public override function OnTick()
     {
         if(steppedOn != null)
         {

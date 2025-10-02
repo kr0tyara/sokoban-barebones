@@ -41,6 +41,11 @@ class BaseEntity
             avatar.OnDestroy();
     }
 
+    public function OnTick()
+    {
+        
+    }
+
     public function MakeState():HistoryState
     {
         return new HistoryState(this, x, y, z);
