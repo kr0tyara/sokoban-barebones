@@ -5,7 +5,8 @@ A really simplistic boilerplate for your Sokoban puzzle based on the Heaps.io en
 
 ## Features
 - Basic Sokoban game loop (move the boxes into green cells!)
-- Undo / Redo functionality (override `history.HistoryState` to implement custom states for your entities)
+- Mobile controls support
+- Undo / Redo functionality; Restart can be undone as well!
 - Save / Load progress
 - Simple scoring system based on the number of steps made to complete the level (displayed in the Console)
 - Multiple playable characters at once ([desperatea](https://kr0tyara.itch.io/desperatea) style!)
