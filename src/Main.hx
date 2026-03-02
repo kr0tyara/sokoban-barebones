@@ -3,6 +3,11 @@ import macros.ResTools;
 import h2d.Font;
 import hxd.Res;
 
+#if js
+import js.Browser;
+import js.html.ProgressElement;
+#end
+
 typedef GameSave =
 {
     lastLevel:Data.LevelsKind,
@@ -30,12 +35,27 @@ class Main extends hxd.App
 
     private override function loadAssets(onLoaded:Void->Void)
     {
-        ResTools.initPakAuto(onLoaded, (p) -> trace('loading', p));
+        macros.ResTools.initPakAuto(onLoaded, OnProgress);
+    }
+
+    private function OnProgress(p:Float)
+    {
+        #if js
+        var percentage = cast(Browser.document.querySelector('#percentage'), ProgressElement);
+        percentage.value = Math.floor(p * 100);
+        #end
+
+        trace('loading ${Math.floor(p * 100)}%');
     }
 
     private override function init() 
     {
         super.init();
+        
+        #if js
+        var preloader = Browser.document.querySelector('#preloader');
+        preloader.style.display = 'none';
+        #end
     
         Data.load(Res.data.entry.getText());
         sheet = new SpriteSheet();
