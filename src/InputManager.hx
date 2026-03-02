@@ -9,6 +9,7 @@ enum InputKey
     RIGHT;
     Z;
     Y;
+    R;
 }
 
 class Input
@@ -65,6 +66,7 @@ class InputManager
         inputs.push(new Input(InputKey.RIGHT, [Key.RIGHT, Key.D]));
         inputs.push(new Input(InputKey.Z, [Key.Z]));
         inputs.push(new Input(InputKey.Y, [Key.Y]));
+        inputs.push(new Input(InputKey.R, [Key.R]));
 
         queue = [];
     }

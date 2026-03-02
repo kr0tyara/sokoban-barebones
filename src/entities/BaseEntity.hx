@@ -2,10 +2,11 @@ package entities;
 
 import avatars.objects.PlayerAvatar;
 import avatars.BaseAvatar;
-import history.HistoryState;
 import haxe.Exception;
 
 @:keepSub
+// add this to every class that contains fields with @:history prefix
+@:build(macros.HistoryMaker.load())
 class BaseEntity
 {
     public static inline var SIDE_BOTTOM = 0;
@@ -15,14 +16,20 @@ class BaseEntity
     public static inline var SIDE_BACK   = 4;
     public static inline var SIDE_UP     = 5;
     
+    // use this prefix for every variable that can be undone
+    @:history
     public var x:Int = 0;
+    @:history
     public var y:Int = 0;
+    @:history
     public var z:Int = 0;
 
     public var dirty:Bool = true;
 
     public var avatar:BaseAvatar;
     public var avatarClass:Class<BaseAvatar>;
+
+    public var historyFields:Array<String> = [];
 
     public function new()
     {
@@ -46,29 +53,45 @@ class BaseEntity
         
     }
 
-    public function MakeState():HistoryState
+    public function MakeState()
     {
-        return new HistoryState(this, x, y, z);
-    }
-    public function ApplyState(state:HistoryState):Bool
-    {
-        if(state.entity != this)
+        var state = {};
+
+        for(field in historyFields)
         {
-            throw Exception;
-            return false;
+            var f = Reflect.field(this, field);
+            Reflect.setField(state, field, f);
         }
 
-        x = state.x;
-        y = state.y;
-        z = state.z;
+        dirty = false;
 
+        return state;
+    }
+
+    public function ApplyState(state:Dynamic)
+    {
+        var changes = [];
+
+        for(field in Reflect.fields(state))
+        {
+            if(Reflect.hasField(this, field) && Reflect.field(this, field) != Reflect.field(state, field))
+            {
+                Reflect.setField(this, field, Reflect.field(state, field));
+                changes.push(field);
+            }
+        }
+
+        if(changes.length > 0)
+            OnNewState(changes);
+    }
+
+    public function OnNewState(changes:Array<String>)
+    {
         if(avatar != null)
         {
             avatar.SetPosition(x, y, z);
             UpdateAvatar();
         }
-
-        return true;
     }
 
     private function UpdateAvatar()

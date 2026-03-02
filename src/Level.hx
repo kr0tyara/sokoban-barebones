@@ -73,6 +73,10 @@ class Level extends h2d.Object
 
         switch(key)
         {
+            case InputKey.R:
+                Game.history.Restart();
+                return;
+
             case InputKey.Z:
                 Game.history.Undo();
                 return;

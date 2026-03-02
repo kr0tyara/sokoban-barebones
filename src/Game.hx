@@ -1,6 +1,5 @@
 import haxe.Exception;
 import hxd.Key;
-import history.History;
 
 class Game extends h2d.Object
 {
@@ -25,12 +24,10 @@ class Game extends h2d.Object
         history = new History();
         SetLevel(currentLevel);
     }
+
     public function update(dt:Float)
     {
         // debug keys
-        if(Key.isPressed(Key.R))
-            SetLevel(currentLevel);
-        
         if(Key.isPressed(Key.N))
             NextLevel(true);
         if(Key.isPressed(Key.B))

@@ -72,12 +72,12 @@ class Main extends hxd.App
 
         game = new Game();
         s2d.addChild(game);
-
-        engine.onResized = OnResize;
     }
 
-    private function OnResize()
+    private override function onResize()
     {
+        super.onResize();
+        
         game.OnResize();
     }
 
