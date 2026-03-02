@@ -85,13 +85,13 @@ class Level extends h2d.Object
                 Game.history.Redo();
                 return;
             
-            case InputKey.LEFT:
+            case InputKey.Left:
                 dirX = -1;
-            case InputKey.RIGHT:
+            case InputKey.Right:
                 dirX = 1;
-            case InputKey.UP:
+            case InputKey.Up:
                 dirY = -1;
-            case InputKey.DOWN:
+            case InputKey.Down:
                 dirY = 1;
 
             default:
