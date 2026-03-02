@@ -3,25 +3,18 @@ package entities.floors;
 import avatars.floors.FloorAvatar;
 import entities.objects.ObjectEntity;
 
-enum FloorType
-{
-    Hole;
-    Basic;
-    Goal;
-    Fragile;
-}
 class FloorEntity extends BaseEntity
 {
-    public var type:FloorType;
+    public var kind:Data.FloorKind;
     
     private var steppedOn:ObjectEntity;
     private var steppedOff:ObjectEntity;
 
-    public function new(type:FloorType)
+    public function new(kind:Data.FloorKind)
     {
         super();
 
-        this.type = type;
+        this.kind = kind;
 
         // By default all you will see is a colored square.
         // That's why you need to implement custom avatar classes! It's not that hard, just override the FloorAvatar class and set the variable avatarClass of the entity.
@@ -61,21 +54,6 @@ class FloorEntity extends BaseEntity
         {
             OnStepOff(steppedOff);
             steppedOff = null;
-        }
-    }
-
-    public static function GetDebugColor(type:FloorType):Int
-    {
-        switch(type)
-        {
-            case FloorType.Hole:
-                return 0x000000;
-            case FloorType.Goal:
-                return 0x15FF00;
-            case FloorType.Fragile:
-                return 0xA51900;
-            default:
-                return 0xFFFFFF;
         }
     }
 }

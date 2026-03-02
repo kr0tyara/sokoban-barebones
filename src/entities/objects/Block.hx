@@ -1,13 +1,12 @@
 package entities.objects;
 
 import avatars.objects.BlockAvatar;
-import entities.objects.ObjectEntity.ObjectType;
 
 class Block extends ObjectEntity
 {
     public function new()
     {
-        super(ObjectType.Block);
+        super(Data.ObjectsKind.Block);
         avatarClass = BlockAvatar;
     }
 }

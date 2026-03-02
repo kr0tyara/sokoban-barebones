@@ -16,11 +16,5 @@ class FloorAvatar extends BaseAvatar
     public override function SpawnSprite()
     {
         spriteContainer.removeChildren();
-
-        var gfx = new Graphics();
-        gfx.beginFill(FloorEntity.GetDebugColor(floor.type));
-        gfx.drawRect(0, 0, LevelAvatar.PixelsPerTile, LevelAvatar.PixelsPerTile);
-
-        spriteContainer.addChild(gfx);
     }
 }

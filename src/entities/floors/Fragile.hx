@@ -2,7 +2,6 @@ package entities.floors;
 
 import avatars.floors.FragileAvatar;
 import entities.objects.ObjectEntity;
-import entities.floors.FloorEntity.FloorType;
 
 @:build(macros.HistoryMaker.load())
 class Fragile extends FloorEntity
@@ -12,7 +11,7 @@ class Fragile extends FloorEntity
 
     public function new()
     {
-        super(FloorType.Fragile);
+        super(Data.FloorKind.Fragile);
         avatarClass = FragileAvatar;
     }
 

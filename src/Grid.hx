@@ -95,11 +95,12 @@ class Grid
         if(kind == Data.ObjectsKind.Void)
             return null;
 
-        var objectClass = Type.resolveClass('entities.objects.${kind}');
+        var object = Data.objects.get(kind);
+        var objectClass = Type.resolveClass('entities.objects.${object.className}');
 
         if(objectClass == null)
         {
-            throw new Exception('No such class: entities.objects.${kind}');
+            throw new Exception('No such class: entities.objects.${object.className}');
             return null;
         }
 
@@ -127,11 +128,12 @@ class Grid
 
     public function SpawnFloorTile(kind:Data.FloorKind, x:Int, y:Int, z:Int)
     {
-        var floorClass = Type.resolveClass('entities.floors.${kind}');
+        var floor = Data.floor.get(kind);
+        var floorClass = Type.resolveClass('entities.floors.${floor.className}');
 
         if(floorClass == null)
         {
-            throw new Exception('No such class: entities.floors.${kind}');
+            throw new Exception('No such class: entities.floors.${floor.className}');
             return null;
         }
 
@@ -302,7 +304,7 @@ class Grid
         for(goal in goals)
         {
             var object = GetObject(goal.x, goal.y, goal.z);
-            if(object == null || object.type != Block)
+            if(object == null || object.kind != Data.ObjectsKind.Block)
             {
                 won = false;
                 break;

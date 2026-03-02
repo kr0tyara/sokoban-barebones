@@ -20,12 +20,6 @@ class ObjectAvatar extends BaseAvatar
     public override function SpawnSprite()
     {
         spriteContainer.removeChildren();
-
-        var gfx = new Graphics();
-        gfx.beginFill(ObjectEntity.GetDebugColor(object.type));
-        gfx.drawRect(0, 0, LevelAvatar.PixelsPerTile, LevelAvatar.PixelsPerTile);
-
-        spriteContainer.addChild(gfx);
     }
 
     private function SnapPosition()

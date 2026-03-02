@@ -188,6 +188,11 @@
 					"typeStr": "14",
 					"name": "tile",
 					"display": null
+				},
+				{
+					"typeStr": "1",
+					"name": "className",
+					"display": null
 				}
 			],
 			"lines": [
@@ -198,7 +203,8 @@
 						"size": 100,
 						"x": 0,
 						"y": 0
-					}
+					},
+					"className": ""
 				},
 				{
 					"id": "Player",
@@ -207,7 +213,8 @@
 						"size": 100,
 						"x": 1,
 						"y": 0
-					}
+					},
+					"className": "Player"
 				},
 				{
 					"id": "Block",
@@ -216,7 +223,8 @@
 						"size": 100,
 						"x": 2,
 						"y": 0
-					}
+					},
+					"className": "Block"
 				},
 				{
 					"id": "Wall",
@@ -225,7 +233,8 @@
 						"size": 100,
 						"x": 3,
 						"y": 0
-					}
+					},
+					"className": "Wall"
 				}
 			],
 			"separators": [],
@@ -243,6 +252,11 @@
 					"typeStr": "14",
 					"name": "tile",
 					"display": null
+				},
+				{
+					"typeStr": "1",
+					"name": "className",
+					"display": null
 				}
 			],
 			"lines": [
@@ -253,7 +267,8 @@
 						"size": 100,
 						"x": 0,
 						"y": 0
-					}
+					},
+					"className": "Hole"
 				},
 				{
 					"id": "Basic",
@@ -262,7 +277,8 @@
 						"size": 100,
 						"x": 1,
 						"y": 0
-					}
+					},
+					"className": "Basic"
 				},
 				{
 					"id": "Goal",
@@ -271,7 +287,8 @@
 						"size": 100,
 						"x": 4,
 						"y": 0
-					}
+					},
+					"className": "Goal"
 				},
 				{
 					"id": "Fragile",
@@ -280,7 +297,8 @@
 						"size": 100,
 						"x": 2,
 						"y": 0
-					}
+					},
+					"className": "Fragile"
 				}
 			],
 			"separators": [],

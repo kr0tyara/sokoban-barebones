@@ -130,49 +130,4 @@ class Level extends h2d.Object
 
         Game.inst.NextLevel();
     }
-
-    // this function is for debugging only!
-    // use LevelAvatar to render the game in its full glory!
-    public function DrawGrid(grid:Grid, size:Int = 100)
-    {
-        gfx.clear();
-
-        for(y in 0...grid.length)
-        {
-            for(x in 0...grid.width)
-            {
-                var floor = grid.GetFloor(x, y, 0);
-                if(floor != null)
-                {
-                    gfx.beginFill(FloorEntity.GetDebugColor(floor.type));
-                    gfx.drawRect(x * size, y * size, size, size);
-                }
-            }
-        }
-
-        for(y in 0...grid.length)
-        {
-            for(x in 0...grid.width)
-            {
-                var object = grid.GetObject(x, y, 0);
-                if(object != null)
-                {
-                    gfx.beginFill(ObjectEntity.GetDebugColor(object.type));
-                    gfx.drawRect(x * size, y * size, size, size);
-                }
-            }
-        }
-
-        gfx.lineStyle(2, 0x666666, 1);
-        for(x in 0...grid.width)
-        {
-            gfx.moveTo(x * size, 0);
-            gfx.lineTo(x * size, grid.length * size);
-        }
-        for(y in 0...grid.length)
-        {
-            gfx.moveTo(0, y * size);
-            gfx.lineTo(grid.width * size, y * size);
-        }
-    }
 }

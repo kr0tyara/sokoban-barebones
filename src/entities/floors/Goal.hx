@@ -1,11 +1,12 @@
 package entities.floors;
 
-import entities.floors.FloorEntity.FloorType;
+import avatars.floors.GoalAvatar;
 
 class Goal extends FloorEntity
 {
     public function new()
     {
-        super(FloorType.Goal);
+        super(Data.FloorKind.Goal);
+        avatarClass = GoalAvatar;
     }
 }
