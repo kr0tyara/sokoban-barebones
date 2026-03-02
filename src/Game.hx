@@ -8,7 +8,7 @@ class Game extends h2d.Object
 
     public static var level:Level;
     public static var history:History;
-    private var currentLevel:Data.LevelsKind = Main.save.lastLevel;
+    private var currentLevel:Data.LevelsKind = SaveManager.save.lastLevel;
 
     public function new()
     {
@@ -81,8 +81,7 @@ class Game extends h2d.Object
             level = null;
         }
         
-        Main.save.lastLevel = id;
-        hxd.Save.save(Main.save, Main.saveSlot);
+        SaveManager.SetLastLevel(id);
 
         var levelClass = Type.resolveClass('levels.Level_${id}');
         if(levelClass != null)

@@ -42,7 +42,7 @@ class Level extends h2d.Object
         gfx = new Graphics();
         addChild(gfx);
 
-        var savedLevel = Main.save.levels.filter(a -> a.id == kind)[0];
+        var savedLevel = SaveManager.GetLevelInfo(kind);
         trace('level $id:\n${savedLevel.completed ? 'completed in ${savedLevel.steps} steps' : 'not completed yet'}');
     }
 
@@ -123,23 +123,12 @@ class Level extends h2d.Object
 
     public function Complete()
     {
-        var level = Main.save.levels.filter(a -> a.id == kind)[0];
-        if(level == null)
-        {
-            throw Exception;
-            return;
-        }
-        level.completed = true;
+        SaveManager.CompleteLevel(kind, Game.history.steps);
 
-        if(level.steps == -1)
-            level.steps = Game.history.steps;
-        else if(Game.history.steps < level.steps)
-            level.steps = Game.history.steps;
-
-        hxd.Save.save(Main.save, Main.saveSlot);
+        var level = SaveManager.GetLevelInfo(kind);
         trace('completed in ${Game.history.steps} steps (best result: ${level.steps})');
 
-        Game.inst.NextLevel();    
+        Game.inst.NextLevel();
     }
 
     // this function is for debugging only!
