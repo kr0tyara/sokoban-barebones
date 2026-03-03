@@ -17,6 +17,7 @@ class Main extends hxd.App
     private var game:Game;
 
     public static var sheet:SpriteSheet;
+    public static var font:Font;
 
     private override function loadAssets(onLoaded:Void->Void)
     {
@@ -45,9 +46,14 @@ class Main extends hxd.App
         Data.load(Res.data.entry.getText());
         sheet = new SpriteSheet();
 
+        font = hxd.Res.fonts.font.toFont();
+        font.resizeTo(50);
+
         saveManager = new SaveManager();
         inputManager = new InputManager();
 
+        engine.backgroundColor = 0x787878;
+        
         game = new Game();
         s2d.addChild(game);
     }

@@ -1,3 +1,4 @@
+import ui.LevelUI;
 import haxe.Exception;
 import hxd.Key;
 
@@ -7,6 +8,8 @@ class Game extends h2d.Object
     public static var nextLevelRequested:Bool = false;
 
     public static var level:Level;
+    public static var ui:LevelUI;
+    
     public static var history:History;
     private var currentLevel:Data.LevelsKind = SaveManager.save.lastLevel;
 
@@ -22,6 +25,10 @@ class Game extends h2d.Object
 
         inst = this;
         history = new History();
+
+        ui = new LevelUI();
+        addChild(ui);
+
         SetLevel(currentLevel);
     }
 
@@ -39,6 +46,7 @@ class Game extends h2d.Object
     public function OnResize()
     {
         level.OnResize();
+        ui.OnResize();
     }
 
     public function InputBlocked()
@@ -97,6 +105,9 @@ class Game extends h2d.Object
         
         addChild(level);
         level.Init();
+        
+        addChild(ui);
+        ui.Refresh();
 
         nextLevelRequested = false;
     }

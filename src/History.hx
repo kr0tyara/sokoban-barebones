@@ -71,7 +71,7 @@ class History
         {
             if(entity.dirty || forceAll)
             {
-                // запомним старый стэйт перед обновлением
+                // remember the previous state before updating
                 if(currentState >= 0 && !ContainsEntity(states[currentState], entity))
                 {
                     var state = LastStateOf(entity);
@@ -96,6 +96,8 @@ class History
 
             undone = new Array<Array<HistoryState>>();
         }
+
+        Game.ui.Refresh();
     }
 
     public function SetState(state:Int)
@@ -113,6 +115,8 @@ class History
     {
         for(state in states[currentState])
             state.entity.ApplyState(state.state);
+
+        Game.ui.Refresh();
     }
 
     public function Undo():Bool

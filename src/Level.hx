@@ -13,7 +13,6 @@ class Level extends h2d.Object
     private var data:Data.Levels;
 
     public static var grid:Grid;
-    private var gfx:Graphics;
 
     public static var avatar:LevelAvatar;
 
@@ -35,12 +34,6 @@ class Level extends h2d.Object
         }
         
         grid = new Grid(data);
-        
-        avatar = new LevelAvatar(id, grid);
-        addChild(avatar);
-
-        gfx = new Graphics();
-        addChild(gfx);
 
         var savedLevel = SaveManager.GetLevelInfo(kind);
         trace('level $id:\n${savedLevel.completed ? 'completed in ${savedLevel.steps} steps' : 'not completed yet'}');
@@ -48,7 +41,10 @@ class Level extends h2d.Object
 
     public function Init()
     {
-
+        grid.Init();
+        
+        avatar = new LevelAvatar(id, grid);
+        addChild(avatar);
     }
 
     public override function onRemove()

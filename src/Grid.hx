@@ -37,8 +37,14 @@ class Grid
 
         objects = new Array();
         floors  = new Array();
-        
+    }
+
+    public function Init()
+    {
         DecodeLevel();
+
+        Game.history.Initialize(this);
+        Game.history.MakeState();
     }
     
     private function DecodeLevel()
@@ -69,9 +75,6 @@ class Grid
             if(floors[i].id == Data.FloorKind.Goal)
                 goals.push(cast(floor, Goal));
         }
-
-        Game.history.Initialize(this);
-        Game.history.MakeState();
     }
 
     public function SortByDirection(dirX:Int, dirY:Int)
