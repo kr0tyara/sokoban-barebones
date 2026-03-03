@@ -83,11 +83,17 @@ class Game extends h2d.Object
         
         SaveManager.SetLastLevel(id);
 
-        var levelClass = Type.resolveClass('levels.Level_${id}');
-        if(levelClass != null)
-            level = Type.createInstance(levelClass, []);
+        var levelData = Data.levels.get(id);
+        if(levelData.className != '')
+        {
+            var levelClass = Type.resolveClass('levels.${levelData.className}');
+            if(levelClass != null)
+                level = Type.createInstance(levelClass, []);
+            else
+                throw new Exception('No such class: levels.Level_${levelData.className}');
+        }
         else
-            throw new Exception('No such class: levels.Level_${id}');
+            level = new Level(id);
         
         addChild(level);
         level.Init();

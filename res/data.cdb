@@ -16,6 +16,10 @@
 					"typeStr": "3"
 				},
 				{
+					"typeStr": "1",
+					"name": "className"
+				},
+				{
 					"name": "props",
 					"typeStr": "16"
 				},
@@ -40,8 +44,8 @@
 			"lines": [
 				{
 					"id": "level00",
-					"width": 8,
-					"height": 8,
+					"width": 6,
+					"height": 6,
 					"tileProps": [],
 					"layers": [],
 					"props": {
@@ -61,17 +65,18 @@
 							}
 						]
 					},
-					"floor": "AAAAAAAAAAAAAQEBAQEBAAABAQEBAQEAAAEBAQEBAQAAAQEBAQEBAAABAQIBAQEAAAEBAQEBAQAAAAAAAAAAAA==",
-					"objects": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+					"floor": "AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQECAQEBAQEBAQEB",
+					"objects": "AAAAAAAAAAAAAAEAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+					"className": "SampleLevel"
 				},
 				{
 					"id": "level01",
-					"width": 8,
-					"height": 7,
+					"width": 6,
+					"height": 5,
 					"tileProps": [],
 					"layers": [],
-					"floor": "AAAAAAAAAAAAAQEAAQEBAAABAQEBAQEAAAECAQEBAQAAAQEBAQEBAAACAQABAQEAAAAAAAAAAAA=",
-					"objects": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAIAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=",
+					"floor": "AQEAAQEBAQEBAQEBAQIBAQEBAQEBAQEBAgEAAQEB",
+					"objects": "AAAAAAAAAAAAAAABAAAAAgAAAAAAAAIAAAAAAAAA",
 					"props": {
 						"tileSize": 100,
 						"layers": [
@@ -88,7 +93,8 @@
 								}
 							}
 						]
-					}
+					},
+					"className": ""
 				},
 				{
 					"id": "level02",
@@ -114,7 +120,8 @@
 								}
 							}
 						]
-					}
+					},
+					"className": ""
 				},
 				{
 					"id": "level03",
@@ -140,7 +147,8 @@
 								}
 							}
 						]
-					}
+					},
+					"className": ""
 				}
 			],
 			"separators": [],

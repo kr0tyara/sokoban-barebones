@@ -8,7 +8,8 @@ import sys.io.File;
 
 typedef RoomData = 
 {
-    id:String
+    id:String,
+    className:String
 };
 
 class LevelsMacro
@@ -23,7 +24,10 @@ class LevelsMacro
         var countedFiles = [];
         for(level in levels)
         {
-            var className = 'Level_' + level.id;
+            if(level.className == '')
+                continue;
+
+            var className = level.className;
             var name = path + '\\' + className + '.hx';
             countedFiles.push(className + '.hx');
 
