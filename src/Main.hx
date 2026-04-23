@@ -1,3 +1,4 @@
+import slide.TweenManager;
 import gfx.SpriteSheet;
 import macros.ResTools;
 import h2d.Font;
@@ -11,13 +12,16 @@ import js.html.ProgressElement;
 class Main extends hxd.App 
 {
     public static var inst:Main;
+    public static var tm:TweenManager;
 
     private var saveManager:SaveManager;
+    private var audioManager:AudioManager;
     private var inputManager:InputManager;
     private var game:Game;
 
     public static var sheet:SpriteSheet;
     public static var font:Font;
+    public static var fontBig:Font;
 
     private override function loadAssets(onLoaded:Void->Void)
     {
@@ -46,10 +50,14 @@ class Main extends hxd.App
         Data.load(Res.data.entry.getText());
         sheet = new SpriteSheet();
 
-        font = hxd.Res.fonts.font.toFont();
-        font.resizeTo(50);
+        font = hxd.Res.fonts.font.toFont().clone();
+        font.resizeTo(35);
+
+        fontBig = hxd.Res.fonts.font.toFont().clone();
+        fontBig.resizeTo(50);
 
         saveManager = new SaveManager();
+        audioManager = new AudioManager();
         inputManager = new InputManager();
 
         engine.backgroundColor = 0x787878;
@@ -69,6 +77,8 @@ class Main extends hxd.App
     {
         super.update(dt);
 
+        tm.update(dt);
+
         inputManager.update(dt);
         game.update(dt);
     }
@@ -76,5 +86,6 @@ class Main extends hxd.App
     public static function main()
     {
         inst = new Main();
+        tm = new TweenManager();
     }
 }

@@ -22,12 +22,11 @@ class BaseAvatar extends Object
 
         spriteContainer = new Object();
         addChild(spriteContainer);
-
-        SpawnSprite();
     }
 
     public function Initialize()
     {
+        SpawnSprite();
         Update();
     }
 

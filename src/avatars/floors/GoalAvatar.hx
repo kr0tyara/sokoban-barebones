@@ -3,13 +3,10 @@ package avatars.floors;
 import h2d.Tile;
 import h2d.Bitmap;
 
-class GoalAvatar extends FloorAvatar
+class GoalAvatar extends BasicAvatar
 {
-    public override function SpawnSprite()
+    public override function GetColors()
     {
-        spriteContainer.removeChildren();
-
-        var bitmap = new Bitmap(Tile.fromColor(0x15FF00, LevelAvatar.PixelsPerTile, LevelAvatar.PixelsPerTile));
-        spriteContainer.addChild(bitmap);
+        return [0x15FF00];
     }
 }

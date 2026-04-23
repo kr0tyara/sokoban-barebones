@@ -2,6 +2,7 @@
 
 -lib heaps
 -lib castle
+-lib slide
 
 -main Main
 -dce full

@@ -4,14 +4,11 @@ import h2d.Tile;
 import h2d.Bitmap;
 import entities.floors.Fragile;
 
-class FragileAvatar extends FloorAvatar
+class FragileAvatar extends BasicAvatar
 {
-    public override function SpawnSprite()
+    public override function GetColors()
     {
-        spriteContainer.removeChildren();
-
-        var bitmap = new Bitmap(Tile.fromColor(0xA51900, LevelAvatar.PixelsPerTile, LevelAvatar.PixelsPerTile));
-        spriteContainer.addChild(bitmap);
+        return [0xA51900];
     }
 
     public override function Update()

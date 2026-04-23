@@ -37,9 +37,10 @@ class LevelAvatar extends Object
         addChild(objectsContainer);
 
         for(entity in grid.allEntities)
-        {
-            AddAvatar(entity.avatarClass, entity);
-        }
+            AddAvatar(entity.avatarClass, entity, true);
+
+        for(avatar in avatars)
+            avatar.Initialize();
 
         OnResize();
     }
@@ -61,13 +62,15 @@ class LevelAvatar extends Object
         this.y = (Main.inst.s2d.height - h * scale) / 2;
     }
 
-    public function AddAvatar(avatarClass:Class<BaseAvatar>, entity:BaseEntity)
+    public function AddAvatar(avatarClass:Class<BaseAvatar>, entity:BaseEntity, initial:Bool)
     {
         var avatar = Type.createInstance(avatarClass, [entity]);
         
         if(avatar != null)
         {
-            avatar.Initialize();
+            if(!initial)
+                avatar.Initialize();
+            
             avatars.push(avatar);
 
             if(entity is ObjectEntity)

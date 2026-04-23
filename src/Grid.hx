@@ -44,7 +44,7 @@ class Grid
         DecodeLevel();
 
         Game.history.Initialize(this);
-        Game.history.MakeState();
+        OnMovementEnd(true);
     }
     
     private function DecodeLevel()
@@ -264,12 +264,10 @@ class Grid
         return true;
     }
 
-    public function OnMovementEnd(madeAnything:Bool)
+    public function OnMovementEnd(initial:Bool)
     {
         for(entity in allEntities)
-        {
-            entity.OnTick();
-        }
+            entity.OnTick(initial);
         
         Game.history.MakeState();
         CheckLevelCompletion();
@@ -303,6 +301,9 @@ class Grid
     {
         var won = true;
 
+        if(goals.length == 0)
+            return;
+
         // to win, there should be a block on top of each goal 
         for(goal in goals)
         {
@@ -323,10 +324,7 @@ class Grid
     public function GetObjects(x:Int, y:Int, z:Int):Array<ObjectEntity>
     {
         if(x < 0 || x >= width || y < 0 || y >= length || z < 0 || z >= height)
-        {
-            throw Exception;
             return [];
-        }
 
         return objects.filter(a -> a.x == x && a.y == y && a.z == z);
     }
@@ -347,10 +345,7 @@ class Grid
     public function GetFloor(x:Int, y:Int, z:Int):FloorEntity
     {
         if(x < 0 || x >= width || y < 0 || y >= length || z < 0 || z >= height)
-        {
-            throw Exception;
             return null;
-        }
 
         return floors.filter(a -> a.x == x && a.y == y && a.z == z)[0];
     }

@@ -1,5 +1,6 @@
 package avatars.objects;
 
+import slide.Tween;
 import h3d.Vector;
 import h2d.Graphics;
 import entities.objects.ObjectEntity;
@@ -10,6 +11,8 @@ class ObjectAvatar extends BaseAvatar
 
     private var object:ObjectEntity;
     private var targetPosition:Vector;
+
+    private var moveTween:Tween;
 
     public function new(prototype:ObjectEntity)
     {
@@ -26,6 +29,9 @@ class ObjectAvatar extends BaseAvatar
     {
         this.x = targetPosition.x;
         this.y = targetPosition.y;
+
+        if(moveTween != null && !moveTween.isComplete)
+            moveTween.stop();
     }
 
     public override function SetInitialPosition(x:Int, y:Int, z:Int)
@@ -38,16 +44,8 @@ class ObjectAvatar extends BaseAvatar
     {
         SnapPosition();
         targetPosition = new Vector(x * LevelAvatar.PixelsPerTile,  y * LevelAvatar.PixelsPerTile - z * LevelAvatar.PixelsPerTile / 2);
-    }
 
-    public override function update(dt:Float)
-    {
-        var speed = dt * animationSpeed;
-        
-        var movement = new Vector();
-        movement.lerp(new Vector(this.x, this.y), targetPosition, speed);
-
-        this.x = movement.x;
-        this.y = movement.y;
+        moveTween = Main.tm.animateTo(this, {x: targetPosition.x, y: targetPosition.y}, .1, slide.easing.Linear.none);
+        moveTween.start();
     }
 }

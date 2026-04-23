@@ -14,19 +14,21 @@ A really simplistic boilerplate for your Sokoban puzzle based on the Heaps.io en
 - Built-in .pak generator for the assets (using [Heeps library](https://github.com/Yanrishatum/heeps))
 - JSON-Array spritesheets support with type-safe references. If you use Adobe Animate, there's an example at `dev/sprites.fla`.
 - Builds to HTML5 and Windows (the latter is experimental and untested, you might need to tweak `win.bat`)
+- Simple UI
 
 ## Dependencies
 - [Heaps.io](https://github.com/HeapsIO/heaps)
 - [CastleDB](https://lib.haxe.org/p/castle)
+- [Slide](https://lib.haxe.org/p/slide)
 
 ## Controls
 - WASD / Arrows - Movement
 - Z / Y - Undo / Redo
+- R - Restart
 
 Add your own controls by modifying the `InputManager` class!
 
 ## Debug hotkeys
-- R - Restart
 - B / N - Previous / Next level
 
 These are defined in the `update` function inside the `Game` class.

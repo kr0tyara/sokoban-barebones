@@ -70,15 +70,18 @@ class Level extends h2d.Object
         switch(key)
         {
             case InputKey.R:
+                AudioManager.inst.Click();
                 Game.history.Restart();
                 return;
 
             case InputKey.Z:
-                Game.history.Undo();
+                if(Game.history.Undo())
+                    AudioManager.inst.Click();
                 return;
 
             case InputKey.Y:
-                Game.history.Redo();
+                if(Game.history.Redo())
+                    AudioManager.inst.Click();
                 return;
             
             case InputKey.Left:
@@ -106,7 +109,10 @@ class Level extends h2d.Object
             }
 
             if(madeAnything)
-                grid.OnMovementEnd(madeAnything);
+            {
+                AudioManager.inst.Move();
+                grid.OnMovementEnd(false);
+            }
         }
     }
 
@@ -119,6 +125,8 @@ class Level extends h2d.Object
 
     public function Complete()
     {
+        AudioManager.inst.Unlock();
+
         SaveManager.CompleteLevel(kind, Game.history.steps);
 
         var level = SaveManager.GetLevelInfo(kind);

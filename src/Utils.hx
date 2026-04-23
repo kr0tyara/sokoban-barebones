@@ -1,3 +1,11 @@
+enum Dir
+{
+    Up;
+    Down;
+    Left;
+    Right;
+}
+
 class Utils
 {
     public static function LoopIndex(index:Int, delta:Int, length:Int):Int
@@ -11,6 +19,27 @@ class Utils
             return 0;
 
         return nextIndex;
+    }
+
+    public static inline function Sign(value:Float)
+    {
+        if(value < 0)
+            return -1;
+        if(value > 0)
+            return 1;
+        return 0;
+    }
+    public static function RandomFloat(min:Float, max:Float)
+    {
+        return Math.random() * (max - min) + min;
+    }
+    public static function Random(min:Int, max:Int)
+    {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+    public static function RandomArray<T>(array:Array<T>)
+    {
+        return array[Utils.Random(0, array.length - 1)];
     }
 
     public static inline function Clamp(value:Float, min:Float, max:Float)

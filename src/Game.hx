@@ -29,16 +29,19 @@ class Game extends h2d.Object
         ui = new LevelUI();
         addChild(ui);
 
+        AudioManager.inst.BGM();
+
         SetLevel(currentLevel);
     }
 
     public function update(dt:Float)
     {
-        // debug keys
-        if(Key.isPressed(Key.N))
-            NextLevel(true);
-        if(Key.isPressed(Key.B))
-            PrevLevel(true);
+        #if debug
+            if(Key.isPressed(Key.N))
+                NextLevel(true);
+            if(Key.isPressed(Key.B))
+                PrevLevel(true);
+        #end
 
         level.update(dt);
     }

@@ -40,7 +40,7 @@ class BaseEntity
         dirty = true;
         
         if(avatarClass != null && Level.avatar != null)
-            Level.avatar.AddAvatar(avatarClass, this);
+            Level.avatar.AddAvatar(avatarClass, this, false);
     }
     public function OnDestroy()
     {
@@ -48,7 +48,7 @@ class BaseEntity
             avatar.OnDestroy();
     }
 
-    public function OnTick()
+    public function OnTick(initial:Bool)
     {
         
     }
