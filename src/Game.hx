@@ -111,6 +111,7 @@ class Game extends h2d.Object
         
         addChild(ui);
         ui.Refresh();
+        ui.Settings(false);
 
         nextLevelRequested = false;
     }

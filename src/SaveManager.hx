@@ -18,7 +18,7 @@ class SaveManager
 
     public static var save:GameSave;
     // name of the save file, make it unique!
-    public static var saveSlot:String = 'dropDaMyc';
+    public static var saveSlot:String = 'sokothing';
     
     public function new()
     {
