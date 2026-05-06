@@ -103,7 +103,7 @@ class Level extends h2d.Object
             var sortedPlayers = grid.SortByDirection(dirX, dirY);
             for(player in sortedPlayers)
             {
-                var push = grid.Push(player, dirX, dirY, 0);
+                var push = grid.Push(player, dirX, dirY, 0, true);
                 if(push)
                     madeAnything = true;
             }

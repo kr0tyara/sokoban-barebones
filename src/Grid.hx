@@ -162,7 +162,7 @@ class Grid
         return floor;
     }
 
-    public function Push(object:ObjectEntity, dirX:Int, dirY:Int, dirZ:Int):Bool
+    public function Push(object:ObjectEntity, dirX:Int, dirY:Int, dirZ:Int, move:Bool):Bool
     {
         if(dirX != 0 && dirY != 0 && dirZ != 0)
         {
@@ -187,7 +187,7 @@ class Grid
         }
         else
         {
-            if(Push(entityOnwards, dirX, dirY, dirZ))
+            if(Push(entityOnwards, dirX, dirY, dirZ, false))
                 return Move(object, dirX, dirY, dirZ);
         }
 
