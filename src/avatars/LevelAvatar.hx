@@ -90,5 +90,7 @@ class LevelAvatar extends Object
     {
         for(avatar in avatars)
             avatar.update(dt);
+        
+        objectsContainer.children.sort((a, b) -> Math.round(a.y - b.y));
     }
 }

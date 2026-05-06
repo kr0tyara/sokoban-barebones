@@ -9,6 +9,8 @@ import h2d.Tile;
 
 class Button extends Interactive
 {
+    public static var All:Array<Button> = [];
+
     private var gfx:Graphics;
     private var bitmap:Bitmap;
     public var label:Text;
@@ -51,6 +53,21 @@ class Button extends Interactive
         onOut = Out;
         onPush = Push;
         onClick = Click;
+    }
+
+    private override function onAdd()
+    {
+        super.onAdd();
+        
+        if(!All.contains(this))
+            All.push(this);
+    }
+    private override function onRemove()
+    {
+        super.onRemove();
+        
+        if(All.contains(this))
+            All.remove(this);
     }
 
     public function Over(e:Event)

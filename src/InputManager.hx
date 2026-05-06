@@ -62,6 +62,8 @@ class InputManager
     private var startPos:Vector = new Vector();
     private var inputPos:Vector = new Vector();
     private var isSwiping:Bool = false;
+    private var wasSwiping:Bool = false;
+    private var isClick:Bool = false;
     private var swipeThreshold:Float = 10;
 
     public function new()
@@ -94,14 +96,22 @@ class InputManager
 
     public function OnEvent(e:Event)
     {
+        var focused = ui.Button.All.filter(a -> a.isOver()).length > 0;
+
         switch(e.kind)
         {
             case EventKind.EPush:
+                if(focused)
+                    return;
+
                 startPos.x = inputPos.x = e.relX;
                 startPos.y = inputPos.y = e.relY;
                 isSwiping = true;
 
             case EventKind.EMove:
+                if(focused)
+                    return;
+                
                 if(isSwiping)
                 {
                     inputPos.x = e.relX;
@@ -109,7 +119,16 @@ class InputManager
                 }
 
             case EventKind.ERelease:
-                isSwiping = false;
+                if(focused)
+                    return;
+
+                if(wasSwiping)
+                    wasSwiping = false;
+                else
+                {
+                    isClick = true;
+                    isSwiping = false;
+                }
 
             default:
         }
@@ -133,10 +152,17 @@ class InputManager
                 this.currentKey = direction;
 
                 isSwiping = false;
+                wasSwiping = true;
                 inputPos = new Vector();
 
                 return;
             }
+        }
+        else if(!wasSwiping && isClick)
+        {
+            this.currentKey = InputKey.Enter;
+            isClick = false;
+            return;
         }
         
         if(queue.length > 0)

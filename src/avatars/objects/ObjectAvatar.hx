@@ -45,7 +45,7 @@ class ObjectAvatar extends BaseAvatar
         SnapPosition();
         targetPosition = new Vector(x * LevelAvatar.PixelsPerTile,  y * LevelAvatar.PixelsPerTile - z * LevelAvatar.PixelsPerTile / 2);
 
-        moveTween = Main.tm.animateTo(this, {x: targetPosition.x, y: targetPosition.y}, .1, slide.easing.Linear.none);
+        moveTween = Main.tm.animateTo(this, {x: targetPosition.x, y: targetPosition.y}, .075, slide.easing.Linear.none);
         moveTween.start();
     }
 }
