@@ -162,7 +162,7 @@ class Grid
         return floor;
     }
 
-    public function Push(object:ObjectEntity, dirX:Int, dirY:Int, dirZ:Int, move:Bool):Bool
+    public function Push(object:ObjectEntity, dirX:Int, dirY:Int, dirZ:Int, isPlayerMove:Bool):Bool
     {
         if(dirX != 0 && dirY != 0 && dirZ != 0)
         {
@@ -183,12 +183,12 @@ class Grid
         var entityOnwards = GetObject(object.x + dirX, object.y + dirY, object.z + dirZ);
         if(entityOnwards == null)
         {
-            return Move(object, dirX, dirY, dirZ);
+            return Move(object, dirX, dirY, dirZ, isPlayerMove);
         }
         else
         {
             if(Push(entityOnwards, dirX, dirY, dirZ, false))
-                return Move(object, dirX, dirY, dirZ);
+                return Move(object, dirX, dirY, dirZ, isPlayerMove);
         }
 
         return false;
@@ -210,7 +210,7 @@ class Grid
         }
     }
 
-    public function Move(object:ObjectEntity, dirX:Int, dirY:Int, dirZ:Int):Bool
+    public function Move(object:ObjectEntity, dirX:Int, dirY:Int, dirZ:Int, isPlayerMove:Bool):Bool
     {
         if(dirX != 0 && dirY != 0 && dirZ != 0)
         {
