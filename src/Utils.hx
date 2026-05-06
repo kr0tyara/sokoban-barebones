@@ -5,9 +5,82 @@ enum Dir
     Left;
     Right;
 }
+typedef IntVector = {
+    x:Int,
+    y:Int
+}
 
 class Utils
 {
+    
+    public static function OppositeDir(dir:Dir)
+    {
+        switch(dir)
+        {
+            case Dir.Down:
+                return Dir.Up;
+
+            case Dir.Left:
+                return Dir.Right;
+
+            case Dir.Up:
+                return Dir.Down;
+
+            case Dir.Right:
+                return Dir.Left;
+        }
+
+        return Dir.Up;
+    }
+    public static function VectorToDir(vec:IntVector):Dir
+    {
+        if(vec.x == 0 && vec.y < 0)
+            return Dir.Up;
+
+        if(vec.x == 0 && vec.y > 0)
+            return Dir.Down;
+
+        if(vec.y == 0 && vec.x < 0)
+            return Dir.Left;
+
+        if(vec.y == 0 && vec.x > 0)
+            return Dir.Right;
+        
+        return null;
+    }
+    public static function DirToVector(dir:Dir):IntVector
+    {
+        switch(dir)
+        {
+            case Dir.Down:
+                return {x: 0, y: 1};
+            case Dir.Up:
+                return {x: 0, y: -1};
+            case Dir.Right:
+                return {x: 1, y: 0};
+            case Dir.Left:
+                return {x: -1, y: 0};
+        }
+        
+        return {x: 0, y: 0};
+    }
+    public static function DirToString(dir:Dir):String
+    {
+        switch(dir)
+        {
+            case Dir.Down:
+                return 'down';
+            case Dir.Up:
+                return 'up';
+            case Dir.Right:
+                return 'right';
+            case Dir.Left:
+                return 'left';
+        }
+        
+        return 'left';
+    }
+
     public static function LoopIndex(index:Int, delta:Int, length:Int):Int
     {
         var nextIndex = index + delta;
