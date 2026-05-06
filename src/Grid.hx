@@ -61,7 +61,7 @@ class Grid
             var y = Math.floor(i / width);
             
             var object = SpawnObjectTile(objects[i].id, x, y, 0);
-            if(objects[i].id == Data.ObjectsKind.Player)
+            if(object is Player)
                 players.push(cast(object, Player));
         }
 
@@ -107,7 +107,7 @@ class Grid
             return null;
         }
 
-        var object = Type.createInstance(objectClass, []);
+        var object = Type.createInstance(objectClass, [kind]);
         return AddObject(object, x, y, z);
     }
     public function AddObject(object:ObjectEntity, x:Int, y:Int, z:Int)
@@ -140,7 +140,7 @@ class Grid
             return null;
         }
 
-        var floor = Type.createInstance(floorClass, []);
+        var floor = Type.createInstance(floorClass, [kind]);
         return AddFloor(floor, x, y, z);
     }
     public function AddFloor(floor:FloorEntity, x:Int, y:Int, z:Int)

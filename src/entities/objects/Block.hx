@@ -4,9 +4,9 @@ import avatars.objects.BlockAvatar;
 
 class Block extends ObjectEntity
 {
-    public function new()
+    public function new(kind:Data.ObjectsKind)
     {
-        super(Data.ObjectsKind.Block);
+        super(kind);
         avatarClass = BlockAvatar;
     }
 }

@@ -4,9 +4,9 @@ import avatars.objects.PlayerAvatar;
 
 class Player extends ObjectEntity
 {
-    public function new()
+    public function new(kind:Data.ObjectsKind)
     {
-        super(Data.ObjectsKind.Player);
+        super(kind);
         avatarClass = PlayerAvatar;
     }
 }

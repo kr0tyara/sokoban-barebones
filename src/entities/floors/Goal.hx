@@ -4,9 +4,9 @@ import avatars.floors.GoalAvatar;
 
 class Goal extends FloorEntity
 {
-    public function new()
+    public function new(kind:Data.FloorKind)
     {
-        super(Data.FloorKind.Goal);
+        super(kind);
         avatarClass = GoalAvatar;
     }
 }

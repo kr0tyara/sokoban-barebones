@@ -4,9 +4,9 @@ import avatars.floors.BasicAvatar;
 
 class Basic extends FloorEntity
 {
-    public function new()
+    public function new(kind:Data.FloorKind)
     {
-        super(Data.FloorKind.Basic);
+        super(kind);
         avatarClass = BasicAvatar;
     }
 }

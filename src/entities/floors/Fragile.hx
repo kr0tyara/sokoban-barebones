@@ -9,9 +9,9 @@ class Fragile extends FloorEntity
     @:history
     public var alive:Bool = true;
 
-    public function new()
+    public function new(kind:Data.FloorKind)
     {
-        super(Data.FloorKind.Fragile);
+        super(kind);
         avatarClass = FragileAvatar;
     }
 

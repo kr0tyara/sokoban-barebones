@@ -2,9 +2,9 @@ package entities.objects;
 
 class Wall extends ObjectEntity
 {
-    public function new()
+    public function new(kind:Data.ObjectsKind)
     {
-        super(Data.ObjectsKind.Wall);
+        super(kind);
     }
     
     public override function CanPush(dirX:Int, dirY:Int, dirZ:Int):Bool

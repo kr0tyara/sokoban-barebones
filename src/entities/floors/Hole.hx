@@ -4,9 +4,9 @@ import entities.objects.ObjectEntity;
 
 class Hole extends FloorEntity
 {
-    public function new()
+    public function new(kind:Data.FloorKind)
     {
-        super(Data.FloorKind.Hole);
+        super(kind);
     }
 
     public override function CanStepOn(by:ObjectEntity):Bool
