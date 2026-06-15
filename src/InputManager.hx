@@ -26,11 +26,16 @@ class Input
 
     public var lastPress:Float;
     public var hold:Bool;
+    
+    public var acceleratesOnHold:Bool = false;
+    public var holdTime:Float = 0;
+    public var originalRepeatInterval:Float = 0;
 
-    public function new(inputKey:InputKey, aliases:Array<Int>)
+    public function new(inputKey:InputKey, aliases:Array<Int>, acceleratesOnHold:Bool = false)
     {
         this.inputKey = inputKey;
         this.aliases = aliases;
+        this.acceleratesOnHold = acceleratesOnHold;
 
         lastPress = 0;
         hold = false;
@@ -46,6 +51,20 @@ class Input
 
         return false;
     }
+
+    public function GetCurrentRepeatInterval(repeatDelay:Float, minRepeatInterval:Float, accelerationTime:Float):Float
+    {
+        if(!acceleratesOnHold || holdTime < repeatDelay)
+            return originalRepeatInterval;
+
+        var accelerationProgress = (holdTime - repeatDelay) / accelerationTime;
+        accelerationProgress = Math.min(accelerationProgress, 1.0);
+
+        var currentInterval = originalRepeatInterval - 
+            (originalRepeatInterval - minRepeatInterval) * accelerationProgress;
+
+        return currentInterval;
+    }
 }
 
 class InputManager
@@ -54,10 +73,13 @@ class InputManager
 
     private var repeatDelay:Float = 0.2;
     private var repeatInterval:Float = 0.2;
+    private var minRepeatInterval:Float = 0.05;
+    private var accelerationTime:Float = 1.0;
 
     public  var currentKey:InputKey = InputKey.None;
     private var inputs:Array<Input>;
-    private var queue:Array<InputKey>;
+
+    private var queue:Array<{ key:InputKey, time:Float }>;
 
     private var startPos:Vector = new Vector();
     private var inputPos:Vector = new Vector();
@@ -65,6 +87,9 @@ class InputManager
     private var wasSwiping:Bool = false;
     private var isClick:Bool = false;
     private var swipeThreshold:Float = 10;
+
+    private var isBlocked:Bool = false;
+    private var maxLifetime:Float = 1;
 
     public function new()
     {
@@ -82,16 +107,29 @@ class InputManager
         inputs.push(new Input(InputKey.Escape, [Key.ESCAPE]));
         inputs.push(new Input(InputKey.X, [Key.X, Key.SHIFT]));
 
-        inputs.push(new Input(InputKey.Z, [Key.Z]));
-        inputs.push(new Input(InputKey.Y, [Key.Y]));
+        inputs.push(new Input(InputKey.Z, [Key.Z], true));
+        inputs.push(new Input(InputKey.Y, [Key.Y], true));
         inputs.push(new Input(InputKey.R, [Key.R]));
 
         inputs.push(new Input(InputKey.B, [Key.B]));
         inputs.push(new Input(InputKey.N, [Key.N]));
 
+        for(input in inputs)
+            input.originalRepeatInterval = repeatInterval;
+
         queue = [];
 
         hxd.Window.getInstance().addEventTarget(OnEvent);
+    }
+
+    public function Block()
+    {
+        isBlocked = true;
+    }
+
+    public function Unblock()
+    {
+        isBlocked = false;
     }
 
     public function OnEvent(e:Event)
@@ -149,24 +187,41 @@ class InputManager
                 else
                     direction = delta.y > 0 ? InputKey.Down : InputKey.Up;
 
-                this.currentKey = direction;
+                queue.push({key: direction, time: 0.0});
 
                 isSwiping = false;
                 wasSwiping = true;
                 inputPos = new Vector();
-
-                return;
             }
         }
         else if(!wasSwiping && isClick)
         {
-            this.currentKey = InputKey.Enter;
+            queue.push({key: InputKey.Enter, time: 0.0});
             isClick = false;
+        }
+        
+        var i = queue.length - 1;
+        while(i >= 0)
+        {
+            queue[i].time += dt;
+
+            if(queue[i].time > maxLifetime)
+                queue.remove(queue[i]);
+
+            i--;
+        }
+
+        if(isBlocked)
+        {
+            this.currentKey = InputKey.None;
             return;
         }
         
         if(queue.length > 0)
-            this.currentKey = queue.shift();
+        {
+            var element = queue.shift();
+            this.currentKey = element.key;
+        }
         else 
             this.currentKey = InputKey.None;
     }
@@ -177,26 +232,35 @@ class InputManager
         {
             if(input.IsDown())
             {
+                input.holdTime += dt;
+
                 if(!input.hold)
                 {
-                    queue.push(input.inputKey);
+                    queue.push({ key: input.inputKey, time: 0.0 });
                     input.hold = true;
                     input.lastPress = 0;
                 }
                 else
                 {
+                    var currentRepeatInterval = input.GetCurrentRepeatInterval(repeatDelay, minRepeatInterval, accelerationTime);
                     var lastPress = input.lastPress;
+                    
                     if(lastPress >= repeatDelay)
                     {
-                        queue.push(input.inputKey);
-                        input.lastPress -= repeatInterval;
+                        queue.push({ key: input.inputKey, time: 0.0 });
+                        input.lastPress -= currentRepeatInterval;
                     }
                     else
                         input.lastPress += dt;
                 }
             }
             else
+            {
+                if(input.hold)
+                    input.holdTime = 0;
+                    
                 input.hold = false;
+            }
         }
     }
 }
