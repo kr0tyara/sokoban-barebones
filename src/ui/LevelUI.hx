@@ -61,7 +61,7 @@ class LevelUI extends Object
             status.text = '0/34';
             status.textAlign = Align.Center;
             status.x = t.width / 2;
-            status.y = 10;
+            status.y = 5;
 
             t.addChild(status);
 
@@ -141,13 +141,13 @@ class LevelUI extends Object
 
         was = redo.cancelEvents;
         redo.cancelEvents = Game.history.undoneCount == 0;
-        redo.visible = !redo.cancelEvents;
+        redo.alpha = redo.cancelEvents ? 0 : 1;
         if(was != redo.cancelEvents)
             redo.Out(null);
 
         if(status != null)
         {
-            status.text = '${Game.level.id + 1}/${Data.levels.all.length}';
+            status.text = '${Game.level.kind}\n${Game.level.id + 1}/${Data.levels.all.length}';
             status.textColor = SaveManager.GetLevelInfo(Game.level.kind).completed ? 0x00FF00 : 0xFFFFFF;
         }
     }
