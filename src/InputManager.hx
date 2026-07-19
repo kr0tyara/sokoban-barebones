@@ -31,11 +31,14 @@ class Input
     public var holdTime:Float = 0;
     public var originalRepeatInterval:Float = 0;
 
-    public function new(inputKey:InputKey, aliases:Array<Int>, acceleratesOnHold:Bool = false)
+    public var rightPress:Bool = false;
+
+    public function new(inputKey:InputKey, aliases:Array<Int>, acceleratesOnHold:Bool = false, rightPress:Bool = false)
     {
         this.inputKey = inputKey;
         this.aliases = aliases;
         this.acceleratesOnHold = acceleratesOnHold;
+        this.rightPress = rightPress;
 
         lastPress = 0;
         hold = false;
@@ -46,6 +49,9 @@ class Input
         for(alias in aliases)
         {
             if(Key.isDown(alias))
+                return true;
+
+            if(rightPress && InputManager.inst.isRightPress)
                 return true;
         }
 
@@ -89,7 +95,9 @@ class InputManager
     private var swipeThreshold:Float = 10;
 
     private var isBlocked:Bool = false;
-    private var maxLifetime:Float = 1;
+    private var maxLifetime:Float = .1;
+
+    public var isRightPress:Bool = false;
 
     public function new()
     {
@@ -107,12 +115,12 @@ class InputManager
         inputs.push(new Input(InputKey.Escape, [Key.ESCAPE]));
         inputs.push(new Input(InputKey.X, [Key.X, Key.SHIFT]));
 
-        inputs.push(new Input(InputKey.Z, [Key.Z], true));
+        inputs.push(new Input(InputKey.Z, [Key.Z], true, true));
         inputs.push(new Input(InputKey.Y, [Key.Y], true));
         inputs.push(new Input(InputKey.R, [Key.R]));
 
-        inputs.push(new Input(InputKey.B, [Key.B]));
-        inputs.push(new Input(InputKey.N, [Key.N]));
+        inputs.push(new Input(InputKey.B, [Key.B], true));
+        inputs.push(new Input(InputKey.N, [Key.N], true));
 
         for(input in inputs)
             input.originalRepeatInterval = repeatInterval;
@@ -120,6 +128,12 @@ class InputManager
         queue = [];
 
         hxd.Window.getInstance().addEventTarget(OnEvent);
+        OnResize();
+    }
+
+    public function OnResize()
+    {
+        swipeThreshold = 1920 / Math.max(Main.inst.s2d.width, Main.inst.s2d.height) * 10;
     }
 
     public function Block()
@@ -134,23 +148,49 @@ class InputManager
 
     public function OnEvent(e:Event)
     {
-        var focused = ui.Button.All.filter(a -> a.isOver()).length > 0;
+        var focus = ui.Button.All.filter(a -> a.isOver());
+        var pos = new Vector(e.relX, e.relY);
+        // make sure it works on mobile 
+        var focused = focus.filter(a -> a.x >= pos.x && a.y >= pos.y && a.x + a.width <= pos.x && a.y + a.height <= pos.y).length > 0;
 
         switch(e.kind)
         {
+            case EventKind.EFocusLost, EventKind.EReleaseOutside:
+                isRightPress = false;
+                isSwiping = false;
+                isClick = false;
+                queue = [];
+
+                for(input in inputs)
+                {
+                    input.hold = false;
+                    input.holdTime = 0;
+                    input.lastPress = 0;
+                }
+
             case EventKind.EPush:
                 if(focused)
                     return;
 
-                startPos.x = inputPos.x = e.relX;
-                startPos.y = inputPos.y = e.relY;
-                isSwiping = true;
+                if(e.button == 1)
+                {
+                    isRightPress = true;
+                }
+                else
+                {
+                    startPos.x = inputPos.x = e.relX;
+                    startPos.y = inputPos.y = e.relY;
+                    isSwiping = true;
+                }
 
             case EventKind.EMove:
                 if(focused)
                     return;
-                
-                if(isSwiping)
+
+                if(e.button == 1)
+                {
+                }
+                else if(isSwiping)
                 {
                     inputPos.x = e.relX;
                     inputPos.y = e.relY;
@@ -158,14 +198,26 @@ class InputManager
 
             case EventKind.ERelease:
                 if(focused)
+                {
+                    isRightPress = false;
+                    isClick = false;
+                    isSwiping = false;
                     return;
+                }
 
-                if(wasSwiping)
-                    wasSwiping = false;
+                if(e.button == 1)
+                {
+                    isRightPress = false;
+                }
                 else
                 {
-                    isClick = true;
-                    isSwiping = false;
+                    if(wasSwiping)
+                        wasSwiping = false;
+                    else
+                    {
+                        isClick = true;
+                        isSwiping = false;
+                    }
                 }
 
             default:
