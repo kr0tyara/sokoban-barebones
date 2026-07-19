@@ -4,3 +4,6 @@
 
 /build/win
 /build/bin
+/build/hl
+
+*.sav

@@ -32,8 +32,10 @@ class ResTools {
     #if (!display || heeps_make_pak_on_display)
     if(haxe.macro.Context.definedValue("target.name") == "js")
       hxd.fmt.pak.Build.make(sys.FileSystem.fullPath(file), sys.FileSystem.fullPath(file) + '/../build/html5/' + file, false);
-    else if(haxe.macro.Context.definedValue("target.name") == "hl")
+    else if(haxe.macro.Context.definedValue("win") != null)
       hxd.fmt.pak.Build.make(sys.FileSystem.fullPath(file), sys.FileSystem.fullPath(file) + '/../build/win/' + file, false);
+    else if(haxe.macro.Context.definedValue("target.name") == "hl")
+      hxd.fmt.pak.Build.make(sys.FileSystem.fullPath(file), sys.FileSystem.fullPath(file) + '/../build/hl/' + file, false);
     #end
     
     if (haxe.macro.Context.definedValue("target.name") == "js") {

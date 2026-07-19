@@ -5,6 +5,18 @@
 call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
 cd "./build/bin"
 :: Replace with the path to your Hashlink
-cl /Ox /Fo:main.obj /Fe:../win/game.exe game.c /I ./ /I C:/HaxeToolkit/hashlink-1.14.0-win/include /link /LIBPATH:C:/HaxeToolkit/hashlink-1.14.0-win libhl.lib ssl.lib ui.lib directx.lib openal.lib fmt.lib /subsystem:windows
+
+cl /Ox /Fo:main.obj /Fe:../win/game.exe game.c ^
+  /I ./ ^
+  /I C:/HaxeToolkit/hashlink-1.15.0-win/include ^
+  /I C:/HaxeToolkit/hashlink-1.15.0-win/include/openal/include ^
+  /link ^
+  /LIBPATH:C:/HaxeToolkit/hashlink-1.15.0-win ^
+  /LIBPATH:C:/HaxeToolkit/hashlink-1.15.0-win/include/openal/libs/Win64 ^
+  /LIBPATH:. ^
+  libhl.lib ssl.lib ui.lib uv.lib sdl.lib fmt.lib ^
+  openal_new.lib OpenAL32.lib ^
+  /subsystem:windows
+
 cd "../win"
 start "" game.exe

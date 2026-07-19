@@ -8,6 +8,8 @@
 -dce full
 -D analyzer-optimize
 
+-D no-deprecation-warnings
+
 --macro include("entities")
 --macro include("avatars")
 --macro include("levels")

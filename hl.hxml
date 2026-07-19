@@ -7,8 +7,8 @@ common.hxml
 -D windowSize=1280x720
 -D windowTitle=sokoban
 -D heaps_enable_hl_mp3
--D win
- 
-#-hl build/win/game.hl
--hl build/bin/game.c
---cmd start win.bat
+
+-hl build/hl/hlboot.dat
+--debug
+
+--cmd start ./build/hl/game.exe
