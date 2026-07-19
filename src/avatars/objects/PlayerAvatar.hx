@@ -19,8 +19,8 @@ class PlayerAvatar extends ObjectAvatar
         anim = new Anim(Main.sheet.Guy.frames);
         anim.currentFrame = 0;
         anim.speed = 4;
-        anim.x = -2;
-        anim.y = -4;
+        anim.x = LevelAvatar.PixelsPerTile / 2;
+        anim.y = LevelAvatar.PixelsPerTile + 8;
         spriteContainer.addChild(anim);
     
         Update();

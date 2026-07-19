@@ -18,6 +18,7 @@ class Sprite
         for(frame in data.frames)
         {
             var tile = img.sub(frame.x, frame.y, frame.w, frame.h);
+            tile.setCenterRatio(.5, 1);
             frames.push(tile);
         }
     }

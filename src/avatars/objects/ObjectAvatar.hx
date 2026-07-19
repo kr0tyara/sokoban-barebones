@@ -1,5 +1,7 @@
 package avatars.objects;
 
+import h2d.Bitmap;
+import h2d.Anim;
 import slide.Tween;
 import h3d.Vector;
 import h2d.Graphics;
@@ -20,9 +22,21 @@ class ObjectAvatar extends BaseAvatar
         super(prototype);
     }
 
+    // If nothing overrides this method, uses the same placeholder tiles as in CastleDB editor
     public override function SpawnSprite()
     {
         spriteContainer.removeChildren();
+
+        var sprite = Data.objects.get(object.kind).tile;
+        var tile = hxd.Res.load(sprite.file).toTile().sub(sprite.x * sprite.size, sprite.y * sprite.size, sprite.size, sprite.size);
+        tile.setCenterRatio(.5, 1);
+
+        var bitmap = new Bitmap(tile);
+        bitmap.x = LevelAvatar.PixelsPerTile / 2;
+        bitmap.y = LevelAvatar.PixelsPerTile;
+        spriteContainer.addChild(bitmap);
+    
+        Update();
     }
 
     private function SnapPosition()

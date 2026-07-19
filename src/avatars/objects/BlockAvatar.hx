@@ -19,7 +19,8 @@ class BlockAvatar extends ObjectAvatar
         anim = new Anim(Main.sheet.Wall.frames);
         anim.currentFrame = 0;
         anim.speed = 4;
-        anim.x = -2;
+        anim.x = LevelAvatar.PixelsPerTile / 2;
+        anim.y = LevelAvatar.PixelsPerTile;
         spriteContainer.addChild(anim);
     
         Update();
