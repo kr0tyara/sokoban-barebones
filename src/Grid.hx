@@ -114,7 +114,7 @@ class Grid
     {
         if(x < 0 || x >= width || y < 0 || y >= length || z < 0 || z >= height)
         {
-            throw Exception;
+            throw new Exception('AddObject $object out of bounds: {$x, $y, $z}');
             return null;
         }
 
@@ -147,7 +147,7 @@ class Grid
     {
         if(x < 0 || x >= width || y < 0 || y >= length || z < 0 || z >= height)
         {
-            throw Exception;
+            throw new Exception('AddFloor $floor out of bounds: {$x, $y, $z}');
             return null;
         }
 
@@ -166,7 +166,7 @@ class Grid
     {
         if(dirX != 0 && dirY != 0 && dirZ != 0)
         {
-            throw Exception;
+            throw new Exception('Push $object invalid: {$dirX, $dirY, $dirZ}');
             return false;
         }
 
@@ -198,7 +198,8 @@ class Grid
     {
         if(x < 0 || x >= width || y < 0 || y >= length || z < 0 || z >= height)
         {
-            throw Exception;
+            throw new Exception('Destroy out of bounds: {$x, $y, $z}');
+            return;
         }
 
         var object = GetObject(x, y, z);
@@ -214,13 +215,13 @@ class Grid
     {
         if(dirX != 0 && dirY != 0 && dirZ != 0)
         {
-            throw Exception;
+            throw new Exception('Move invalid: {$dirX, $dirY, $dirZ}');
             return false;
         }
         
         if(object.x + dirX < 0 || object.x + dirX >= width || object.y + dirY < 0 || object.y + dirY >= length || object.z + dirZ < 0 || object.z + dirZ >= height)
         {
-            throw Exception;
+            throw new Exception('Move out of bounds: {${object.x} + $dirX, ${object.y} + $dirY, ${object.z} + $dirZ}');
             return false;
         }
 
@@ -277,7 +278,7 @@ class Grid
     {
         if(x < 0 || x >= width || y < 0 || y >= length || z < 0 || z >= height)
         {
-            throw Exception;
+            throw new Exception('GetNeighbourEntities out of bounds: {$x, $y, $z}');
             return [];
         }
 
