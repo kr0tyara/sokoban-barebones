@@ -6,11 +6,6 @@ import haxe.Exception;
 import haxe.ds.Vector;
 import entities.BaseEntity;
 
-typedef Neighbour = {
-    object:ObjectEntity,
-    side:Int
-};
-
 class Grid
 {
     public var allEntities:Array<BaseEntity>;
@@ -22,7 +17,6 @@ class Grid
     private var objects:Array<ObjectEntity>;
 
     public var width:Int;
-    public var length:Int;
     public var height:Int;
 
     private var levelData:Data.Levels;
@@ -32,8 +26,7 @@ class Grid
         this.levelData = levelData;
 
         width = levelData.width;
-        length = levelData.height;
-        height = 1;
+        height = levelData.height;
 
         objects = new Array();
         floors  = new Array();
@@ -60,7 +53,7 @@ class Grid
             var x = i % width;
             var y = Math.floor(i / width);
             
-            var object = SpawnObjectTile(objects[i].id, x, y, 0);
+            var object = SpawnObjectTile(objects[i].id, x, y);
             if(object is Player)
                 players.push(cast(object, Player));
         }
@@ -71,7 +64,7 @@ class Grid
             var x = i % width;
             var y = Math.floor(i / width);
             
-            var floor = SpawnFloorTile(floors[i].id, x, y, 0);
+            var floor = SpawnFloorTile(floors[i].id, x, y);
             if(floors[i].id == Data.FloorKind.Goal)
                 goals.push(cast(floor, Goal));
         }
@@ -93,7 +86,7 @@ class Grid
         return list;
     }
 
-    public function SpawnObjectTile(kind:Data.ObjectsKind, x:Int, y:Int, z:Int)
+    public function SpawnObjectTile(kind:Data.ObjectsKind, x:Int, y:Int)
     {
         if(kind == Data.ObjectsKind.Void)
             return null;
@@ -108,19 +101,18 @@ class Grid
         }
 
         var object = Type.createInstance(objectClass, [kind]);
-        return AddObject(object, x, y, z);
+        return AddObject(object, x, y);
     }
-    public function AddObject(object:ObjectEntity, x:Int, y:Int, z:Int)
+    public function AddObject(object:ObjectEntity, x:Int, y:Int)
     {
-        if(x < 0 || x >= width || y < 0 || y >= length || z < 0 || z >= height)
+        if(x < 0 || x >= width || y < 0 || y >= height)
         {
-            throw new Exception('AddObject $object out of bounds: {$x, $y, $z}');
+            throw new Exception('AddObject $object out of bounds: {$x, $y}');
             return null;
         }
 
         object.x = x;
         object.y = y;
-        object.z = z;
 
         objects.push(object);
         allEntities.push(object);
@@ -129,7 +121,7 @@ class Grid
         return object;
     }
 
-    public function SpawnFloorTile(kind:Data.FloorKind, x:Int, y:Int, z:Int)
+    public function SpawnFloorTile(kind:Data.FloorKind, x:Int, y:Int)
     {
         var floor = Data.floor.get(kind);
         var floorClass = Type.resolveClass('entities.floors.${floor.className}');
@@ -141,19 +133,18 @@ class Grid
         }
 
         var floor = Type.createInstance(floorClass, [kind]);
-        return AddFloor(floor, x, y, z);
+        return AddFloor(floor, x, y);
     }
-    public function AddFloor(floor:FloorEntity, x:Int, y:Int, z:Int)
+    public function AddFloor(floor:FloorEntity, x:Int, y:Int)
     {
-        if(x < 0 || x >= width || y < 0 || y >= length || z < 0 || z >= height)
+        if(x < 0 || x >= width || y < 0 || y >= height)
         {
-            throw new Exception('AddFloor $floor out of bounds: {$x, $y, $z}');
+            throw new Exception('AddFloor $floor out of bounds: {$x, $y}');
             return null;
         }
 
         floor.x = x;
         floor.y = y;
-        floor.z = z;
 
         floors.push(floor);
         allEntities.push(floor);
@@ -162,47 +153,47 @@ class Grid
         return floor;
     }
 
-    public function Push(object:ObjectEntity, dirX:Int, dirY:Int, dirZ:Int, isPlayerMove:Bool):Bool
+    public function Push(object:ObjectEntity, dirX:Int, dirY:Int, isPlayerMove:Bool):Bool
     {
-        if(dirX != 0 && dirY != 0 && dirZ != 0)
+        if(dirX != 0 && dirY != 0)
         {
-            throw new Exception('Push $object invalid: {$dirX, $dirY, $dirZ}');
+            throw new Exception('Push $object invalid: {$dirX, $dirY}');
             return false;
         }
 
-        if(object.x + dirX < 0 || object.x + dirX >= width || object.y + dirY < 0 || object.y + dirY >= length || object.z + dirZ < 0 || object.z + dirZ >= height)
-        {
-            return false;
-        }
-
-        if(!object.CanPush(dirX, dirY, dirZ))
+        if(object.x + dirX < 0 || object.x + dirX >= width || object.y + dirY < 0 || object.y + dirY >= height)
         {
             return false;
         }
 
-        var entityOnwards = GetObject(object.x + dirX, object.y + dirY, object.z + dirZ);
+        if(!object.CanPush(dirX, dirY))
+        {
+            return false;
+        }
+
+        var entityOnwards = GetObject(object.x + dirX, object.y + dirY);
         if(entityOnwards == null)
         {
-            return Move(object, dirX, dirY, dirZ, isPlayerMove);
+            return Move(object, dirX, dirY, isPlayerMove);
         }
         else
         {
-            if(Push(entityOnwards, dirX, dirY, dirZ, false))
-                return Move(object, dirX, dirY, dirZ, isPlayerMove);
+            if(Push(entityOnwards, dirX, dirY, false))
+                return Move(object, dirX, dirY, isPlayerMove);
         }
 
         return false;
     }
 
-    public function Destroy(x:Int, y:Int, z:Int)
+    public function Destroy(x:Int, y:Int)
     {
-        if(x < 0 || x >= width || y < 0 || y >= length || z < 0 || z >= height)
+        if(x < 0 || x >= width || y < 0 || y >= height)
         {
-            throw new Exception('Destroy out of bounds: {$x, $y, $z}');
+            throw new Exception('Destroy out of bounds: {$x, $y}');
             return;
         }
 
-        var object = GetObject(x, y, z);
+        var object = GetObject(x, y);
         if(object != null)
         {
             object.OnDestroy();
@@ -211,54 +202,51 @@ class Grid
         }
     }
 
-    public function Move(object:ObjectEntity, dirX:Int, dirY:Int, dirZ:Int, isPlayerMove:Bool):Bool
+    public function Move(object:ObjectEntity, dirX:Int, dirY:Int, isPlayerMove:Bool):Bool
     {
-        if(dirX != 0 && dirY != 0 && dirZ != 0)
+        if(dirX != 0 && dirY != 0)
         {
-            throw new Exception('Move invalid: {$dirX, $dirY, $dirZ}');
+            throw new Exception('Move invalid: {$dirX, $dirY}');
             return false;
         }
         
-        if(object.x + dirX < 0 || object.x + dirX >= width || object.y + dirY < 0 || object.y + dirY >= length || object.z + dirZ < 0 || object.z + dirZ >= height)
+        if(object.x + dirX < 0 || object.x + dirX >= width || object.y + dirY < 0 || object.y + dirY >= height)
         {
-            throw new Exception('Move out of bounds: {${object.x} + $dirX, ${object.y} + $dirY, ${object.z} + $dirZ}');
+            throw new Exception('Move out of bounds: {${object.x} + $dirX, ${object.y} + $dirY');
             return false;
         }
 
         var toX = object.x + dirX;
         var toY = object.y + dirY;
-        var toZ = object.z + dirZ;
 
-        var floor = GetFloor(toX, toY, toZ);
+        var floor = GetFloor(toX, toY);
         
         if(floor == null)
         {
-            trace('WARNING: can\'t move to [$toX, $toY, $toZ]: no floor!');
+            trace('WARNING: can\'t move to [$toX, $toY]: no floor!');
             return false;
         }
 
         if(!floor.CanStepOn(object))
             return false;
         
-        if(GetObject(toX, toY, toZ) != null)
+        if(GetObject(toX, toY) != null)
         {
-            trace('WARNING: can\'t move to [$toX, $toY, $toZ]: it\'s occupied!');
+            trace('WARNING: can\'t move to [$toX, $toY]: it\'s occupied!');
             return false;
         }
 
         var oldX = object.x;
         var oldY = object.y;
-        var oldZ = object.z;
 
         object.x = toX;
         object.y = toY;
-        object.z = toZ;
 
-        object.OnMove(dirX, dirY, dirZ);
+        object.OnMove(dirX, dirY);
 
         floor.StashStepOn(object);
 
-        var oldFloor = GetFloor(oldX, oldY, oldZ);
+        var oldFloor = GetFloor(oldX, oldY);
         if(oldFloor != null)
             oldFloor.StashStepOff(object);
 
@@ -274,30 +262,6 @@ class Grid
         CheckLevelCompletion();
     }
 
-    public function GetNeighbourEntities(x:Int, y:Int, z:Int):Array<Neighbour>
-    {
-        if(x < 0 || x >= width || y < 0 || y >= length || z < 0 || z >= height)
-        {
-            throw new Exception('GetNeighbourEntities out of bounds: {$x, $y, $z}');
-            return [];
-        }
-
-        var positions = [{x: x - 1, y: y, z: z, side: BaseEntity.SIDE_LEFT}, {x: x + 1, y: y, z: z, side: BaseEntity.SIDE_RIGHT}, {x: x, y: y + 1, z: z, side: BaseEntity.SIDE_FRONT}, {x: x, y: y - 1, z: z, side: BaseEntity.SIDE_BACK}, {x: x, y: y, z: z + 1, side: BaseEntity.SIDE_UP}, {x: x, y: y, z: z - 1, side: BaseEntity.SIDE_BOTTOM}];
-        var neighbours = new Array<Neighbour>();
-        
-        for(position in positions)
-        {
-            if(position.x < 0 || position.x >= width || position.y < 0 || position.y >= length || position.z < 0 || position.z >= height)
-                continue;
-
-            var neighbour = GetObject(position.x, position.y, position.z);
-            if(neighbour != null)
-                neighbours.push({object: neighbour, side: position.side});
-        }
-
-        return neighbours;
-    }
-
     public function CheckLevelCompletion()
     {
         var won = true;
@@ -308,7 +272,7 @@ class Grid
         // to win, there should be a block on top of each goal 
         for(goal in goals)
         {
-            var object = GetObject(goal.x, goal.y, goal.z);
+            var object = GetObject(goal.x, goal.y);
             if(object == null || object.kind != Data.ObjectsKind.Block)
             {
                 won = false;
@@ -322,16 +286,16 @@ class Grid
         }
     }
 
-    public function GetObjects(x:Int, y:Int, z:Int):Array<ObjectEntity>
+    public function GetObjects(x:Int, y:Int):Array<ObjectEntity>
     {
-        if(x < 0 || x >= width || y < 0 || y >= length || z < 0 || z >= height)
+        if(x < 0 || x >= width || y < 0 || y >= height)
             return [];
 
-        return objects.filter(a -> a.x == x && a.y == y && a.z == z);
+        return objects.filter(a -> a.x == x && a.y == y);
     }
-    public function GetObject(x:Int, y:Int, z:Int):ObjectEntity
+    public function GetObject(x:Int, y:Int):ObjectEntity
     {
-        var objects = GetObjects(x, y, z);
+        var objects = GetObjects(x, y);
         if(objects.length == 0)
             return null;
 
@@ -343,11 +307,11 @@ class Grid
         return objects[0];
     }
 
-    public function GetFloor(x:Int, y:Int, z:Int):FloorEntity
+    public function GetFloor(x:Int, y:Int):FloorEntity
     {
-        if(x < 0 || x >= width || y < 0 || y >= length || z < 0 || z >= height)
+        if(x < 0 || x >= width || y < 0 || y >= height)
             return null;
 
-        return floors.filter(a -> a.x == x && a.y == y && a.z == z)[0];
+        return floors.filter(a -> a.x == x && a.y == y)[0];
     }
 }

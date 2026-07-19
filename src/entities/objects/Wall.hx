@@ -7,7 +7,7 @@ class Wall extends ObjectEntity
         super(kind);
     }
     
-    public override function CanPush(dirX:Int, dirY:Int, dirZ:Int):Bool
+    public override function CanPush(dirX:Int, dirY:Int):Bool
     {
         return false;
     }

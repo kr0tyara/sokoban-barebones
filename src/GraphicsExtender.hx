@@ -1,4 +1,3 @@
-import Utils.Dir;
 import h2d.Graphics;
 
 class GraphicsExtender extends Graphics

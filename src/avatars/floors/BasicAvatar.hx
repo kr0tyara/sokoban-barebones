@@ -4,7 +4,6 @@ import h2d.Object;
 import slide.Tween;
 import h2d.Graphics;
 import h2d.Anim;
-import Utils.Dir;
 import h2d.Tile;
 import h2d.Bitmap;
 import entities.floors.FloorEntity;
@@ -29,11 +28,7 @@ class BasicAvatar extends FloorAvatar
     {
         var grid = Level.grid;
 
-        var neighbours = new Map<Dir, FloorEntity>();
-        neighbours[Dir.Right] = grid.GetFloor(prototype.x + 1, prototype.y, prototype.z);
-        neighbours[Dir.Left] = grid.GetFloor(prototype.x - 1, prototype.y, prototype.z);
-        neighbours[Dir.Down] = grid.GetFloor(prototype.x, prototype.y + 1, prototype.z);
-        neighbours[Dir.Up] = grid.GetFloor(prototype.x, prototype.y - 1, prototype.z);
+        var neighbours = floor.GetNeighbourFloors();
 
         var dirs = new Map<Dir, Bool>();
         for(i => neigh in neighbours)

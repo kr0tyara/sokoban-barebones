@@ -17,7 +17,7 @@ class BaseAvatar extends Object
             this.prototype = prototype;
             prototype.avatar = this;
             
-            SetInitialPosition(prototype.x, prototype.y, prototype.z);
+            SetInitialPosition(prototype.x, prototype.y);
         }
 
         spriteContainer = new Object();
@@ -47,15 +47,15 @@ class BaseAvatar extends Object
         Level.avatar.RemoveAvatar(this);
     }
 
-    public function SetInitialPosition(x:Int, y:Int, z:Int)
+    public function SetInitialPosition(x:Int, y:Int)
     {
         this.x = x * LevelAvatar.PixelsPerTile;
-        this.y = y * LevelAvatar.PixelsPerTile - z * LevelAvatar.PixelsPerTile / 2;
+        this.y = y * LevelAvatar.PixelsPerTile;
     }
 
-    public function SetPosition(x:Int, y:Int, z:Int)
+    public function SetPosition(x:Int, y:Int)
     {
         this.x = x * LevelAvatar.PixelsPerTile;
-        this.y = y * LevelAvatar.PixelsPerTile - z * LevelAvatar.PixelsPerTile / 2;
+        this.y = y * LevelAvatar.PixelsPerTile;
     }
 }

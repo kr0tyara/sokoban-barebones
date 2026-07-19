@@ -1,5 +1,7 @@
 package entities;
 
+import entities.floors.FloorEntity;
+import entities.objects.ObjectEntity;
 import avatars.objects.PlayerAvatar;
 import avatars.BaseAvatar;
 import haxe.Exception;
@@ -9,20 +11,11 @@ import haxe.Exception;
 @:build(macros.HistoryMaker.load())
 class BaseEntity
 {
-    public static inline var SIDE_BOTTOM = 0;
-    public static inline var SIDE_LEFT   = 1;
-    public static inline var SIDE_FRONT  = 2;
-    public static inline var SIDE_RIGHT  = 3;
-    public static inline var SIDE_BACK   = 4;
-    public static inline var SIDE_UP     = 5;
-    
     // use this prefix for every variable that can be undone
     @:history
     public var x:Int = 0;
     @:history
     public var y:Int = 0;
-    @:history
-    public var z:Int = 0;
 
     public var dirty:Bool = true;
 
@@ -89,7 +82,7 @@ class BaseEntity
     {
         if(avatar != null)
         {
-            avatar.SetPosition(x, y, z);
+            avatar.SetPosition(x, y);
             UpdateAvatar();
         }
     }
@@ -98,5 +91,36 @@ class BaseEntity
     {
         if(avatar != null)
             avatar.Update();
+    }
+
+    public function GetNeighbourObjects():Map<Dir, ObjectEntity>
+    {
+        var positions = [{x: x - 1, y: y, dir: Dir.Left}, {x: x + 1, y: y, dir: Dir.Right}, {x: x, y: y + 1, dir: Dir.Down}, {x: x, y: y - 1, dir: Dir.Up}];
+        var neighbours = new Map<Dir, ObjectEntity>();
+        
+        for(position in positions)
+        {
+            var neighbour = Level.grid.GetObject(position.x, position.y);
+
+            if(neighbour != null)
+                neighbours.set(position.dir, neighbour);
+        }
+
+        return neighbours;
+    }
+    public function GetNeighbourFloors():Map<Dir, FloorEntity>
+    {
+        var positions = [{x: x - 1, y: y, dir: Dir.Left}, {x: x + 1, y: y, dir: Dir.Right}, {x: x, y: y + 1, dir: Dir.Down}, {x: x, y: y - 1, dir: Dir.Up}];
+        var neighbours = new Map<Dir, FloorEntity>();
+        
+        for(position in positions)
+        {
+            var neighbour = Level.grid.GetFloor(position.x, position.y);
+
+            if(neighbour != null)
+                neighbours.set(position.dir, neighbour);
+        }
+
+        return neighbours;
     }
 }

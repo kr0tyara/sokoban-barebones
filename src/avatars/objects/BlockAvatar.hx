@@ -1,13 +1,13 @@
 package avatars.objects;
 
 import h2d.Anim;
-import entities.objects.ObjectEntity;
+import entities.objects.Block;
 
 class BlockAvatar extends ObjectAvatar
 {
     private var anim:Anim;
     
-    public function new(prototype:ObjectEntity)
+    public function new(prototype:Block)
     {
         super(prototype);
     }

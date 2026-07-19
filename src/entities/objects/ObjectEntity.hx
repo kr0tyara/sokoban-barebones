@@ -19,16 +19,16 @@ class ObjectEntity extends BaseEntity
         avatarClass = ObjectAvatar;
     }
 
-    public function CanPush(dirX:Int, dirY:Int, dirZ:Int):Bool
+    public function CanPush(dirX:Int, dirY:Int):Bool
     {
         return true;
     }
     
-    public function OnMove(dirX:Int, dirY:Int, dirZ:Int)
+    public function OnMove(dirX:Int, dirY:Int)
     {
         dirty = true;
         
         if(avatar != null)
-            avatar.SetPosition(x, y, z);
+            avatar.SetPosition(x, y);
     }
 }

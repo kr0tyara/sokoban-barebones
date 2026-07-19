@@ -34,16 +34,16 @@ class ObjectAvatar extends BaseAvatar
             moveTween.stop();
     }
 
-    public override function SetInitialPosition(x:Int, y:Int, z:Int)
+    public override function SetInitialPosition(x:Int, y:Int)
     {
-        super.SetInitialPosition(x, y, z);
-        targetPosition = new Vector(x * LevelAvatar.PixelsPerTile,  y * LevelAvatar.PixelsPerTile - z * LevelAvatar.PixelsPerTile / 2);
+        super.SetInitialPosition(x, y);
+        targetPosition = new Vector(x * LevelAvatar.PixelsPerTile,  y * LevelAvatar.PixelsPerTile);
     }
 
-    public override function SetPosition(x:Int, y:Int, z:Int)
+    public override function SetPosition(x:Int, y:Int)
     {
         SnapPosition();
-        targetPosition = new Vector(x * LevelAvatar.PixelsPerTile,  y * LevelAvatar.PixelsPerTile - z * LevelAvatar.PixelsPerTile / 2);
+        targetPosition = new Vector(x * LevelAvatar.PixelsPerTile,  y * LevelAvatar.PixelsPerTile);
 
         moveTween = Main.tm.animateTo(this, {x: targetPosition.x, y: targetPosition.y}, .075, slide.easing.Linear.none);
         moveTween.start();

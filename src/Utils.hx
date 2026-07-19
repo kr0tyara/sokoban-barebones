@@ -1,10 +1,3 @@
-enum Dir
-{
-    Up;
-    Down;
-    Left;
-    Right;
-}
 typedef IntVector = {
     x:Int,
     y:Int
