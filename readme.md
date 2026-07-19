@@ -1,5 +1,5 @@
 # Sokoban Barebones
-![Showcase](showcase.gif)
+![Showcase](demo.gif)
 
 A really simplistic boilerplate for your Sokoban puzzle based on the Heaps.io engine.
 
@@ -23,7 +23,8 @@ A really simplistic boilerplate for your Sokoban puzzle based on the Heaps.io en
 
 ## Controls
 - WASD / Arrows - Movement
-- Z / Y - Undo / Redo
+- Z / Right click - Undo 
+- Y - Redo
 - R - Restart
 
 Add your own controls by modifying the `InputManager` class!
