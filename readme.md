@@ -20,6 +20,7 @@ A really simplistic boilerplate for your Sokoban puzzle based on the Heaps.io en
 ## Showcase
 ![Pet da Rat](media/pet.gif)
 - [Pet da Rat](https://github.com/kr0tyara/pet-da-rat)
+
 ![Drop da Myc](media/myc.gif)
 - [Drop da Myc](https://github.com/kr0tyara/ld59)
 
