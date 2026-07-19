@@ -17,10 +17,11 @@ A really simplistic boilerplate for your Sokoban puzzle based on the Heaps.io en
 - Builds to HTML5 and Windows (the latter is experimental and untested, you might need to tweak `win.bat`)
 - Simple UI
 
-## Dependencies
-- [Heaps.io](https://github.com/HeapsIO/heaps)
-- [CastleDB](https://lib.haxe.org/p/castle)
-- [Slide](https://lib.haxe.org/p/slide)
+## Showcase
+![Pet da Rat](media/pet.gif)
+- [Pet da Rat](https://github.com/kr0tyara/pet-da-rat)
+![Drop da Myc](media/myc.gif)
+- [Drop da Myc](https://github.com/kr0tyara/ld59)
 
 ## Controls
 - WASD / Arrows - Movement
@@ -41,3 +42,8 @@ These are defined in the `update` function inside the `Game` class.
 - Design some clever levels! :)
 - Make some custom graphics (by modifying `avatars`)
 - And contact me if you made something out of this!
+
+## Dependencies
+- [Heaps.io](https://github.com/HeapsIO/heaps)
+- [CastleDB](https://lib.haxe.org/p/castle)
+- [Slide](https://lib.haxe.org/p/slide)
