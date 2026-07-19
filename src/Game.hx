@@ -99,7 +99,13 @@ class Game extends h2d.Object
         {
             var levelClass = Type.resolveClass('levels.${levelData.className}');
             if(levelClass != null)
-                level = Type.createInstance(levelClass, []);
+            {
+                var args = [];
+                if(levelData.customArguments.length > 0)
+                    args = args.concat(levelData.customArguments.map(a -> a.argument));
+
+                level = Type.createInstance(levelClass, args);
+            }
             else
                 throw new Exception('No such class: levels.Level_${levelData.className}');
         }

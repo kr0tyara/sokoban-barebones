@@ -5,11 +5,11 @@ A really simplistic boilerplate for your Sokoban puzzle based on the Heaps.io en
 
 ## Features
 - Basic Sokoban game loop (move the boxes into green cells!)
-- Mobile controls support
+- Connected blocks support
+- Multi-agent movement support
+- Mobile controls support (via swipes)
 - Undo / Redo functionality; Restart can be undone as well!
 - Save / Load progress
-- Simple scoring system based on the number of steps made to complete the level (displayed in the Console)
-- Multiple playable characters at once ([desperatea](https://kr0tyara.itch.io/desperatea) style!)
 - Example CastleDB project for level data
 - Built-in .pak generator for the assets (using [Heeps library](https://github.com/Yanrishatum/heeps))
 - JSON-Array spritesheets support with type-safe references. If you use Adobe Animate, there's an example at `dev/sprites.fla`.

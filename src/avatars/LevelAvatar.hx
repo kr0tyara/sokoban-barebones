@@ -48,7 +48,7 @@ class LevelAvatar extends Object
     public function OnResize()
     {
         var w = grid.width * PixelsPerTile;
-        var h = grid.height * PixelsPerTile;
+        var h = (grid.height + 1) * PixelsPerTile;
         
         var scaleX = Main.inst.s2d.width / (w + PixelsPerTile * 2);
         var scaleY = Main.inst.s2d.height / (h + PixelsPerTile * 2);

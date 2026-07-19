@@ -19,6 +19,10 @@ class ObjectEntity extends BaseEntity
         avatarClass = ObjectAvatar;
     }
 
+    public function GetPushGroup():Array<ObjectEntity>
+    {
+        return [this];
+    }
     public function CanPush(dirX:Int, dirY:Int):Bool
     {
         return true;

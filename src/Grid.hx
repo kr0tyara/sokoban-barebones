@@ -3,7 +3,6 @@ import entities.floors.FloorEntity;
 import entities.objects.ObjectEntity;
 import entities.objects.Player;
 import haxe.Exception;
-import haxe.ds.Vector;
 import entities.BaseEntity;
 
 class Grid
@@ -13,8 +12,8 @@ class Grid
     public var players:Array<Player>;
     public var goals:Array<Goal>;
 
-    private var floors:Array<FloorEntity>;
-    private var objects:Array<ObjectEntity>;
+    public var floors:Array<FloorEntity>;
+    public var objects:Array<ObjectEntity>;
 
     public var width:Int;
     public var height:Int;
@@ -70,9 +69,9 @@ class Grid
         }
     }
 
-    public function SortByDirection(dirX:Int, dirY:Int)
+    public function SortByDirection(list:Array<ObjectEntity>, dirX:Int, dirY:Int)
     {
-        var list = players.copy();
+        var list = list.copy();
             
         if(dirX == -1)
             list.sort((a, b) -> a.x - b.x);
@@ -100,7 +99,11 @@ class Grid
             return null;
         }
 
-        var object = Type.createInstance(objectClass, [kind]);
+        var args = [kind];
+        if(object.customArguments.length > 0)
+            args = args.concat(object.customArguments.map(a -> a.argument));
+
+        var object = Type.createInstance(objectClass, args);
         return AddObject(object, x, y);
     }
     public function AddObject(object:ObjectEntity, x:Int, y:Int)
@@ -132,7 +135,11 @@ class Grid
             return null;
         }
 
-        var floor = Type.createInstance(floorClass, [kind]);
+        var args = [kind];
+        if(floor.customArguments.length > 0)
+            args = args.concat(floor.customArguments.map(a -> a.argument));
+
+        var floor = Type.createInstance(floorClass, args);
         return AddFloor(floor, x, y);
     }
     public function AddFloor(floor:FloorEntity, x:Int, y:Int)
@@ -153,6 +160,8 @@ class Grid
         return floor;
     }
 
+    public var lastMovedEntities:Array<ObjectEntity> = [];
+
     public function Push(object:ObjectEntity, dirX:Int, dirY:Int, isPlayerMove:Bool):Bool
     {
         if(dirX != 0 && dirY != 0)
@@ -161,28 +170,58 @@ class Grid
             return false;
         }
 
-        if(object.x + dirX < 0 || object.x + dirX >= width || object.y + dirY < 0 || object.y + dirY >= height)
-        {
+        var toMove = new Array<ObjectEntity>();
+        var primaryGroup = object.GetPushGroup();
+
+        if(!DiscoverPush(object, dirX, dirY, toMove))
             return false;
+
+        var ordered = SortByDirection(toMove, dirX, dirY);
+
+        lastMovedEntities = [];
+        for(entity in ordered)
+            if(Move(entity, dirX, dirY, isPlayerMove && primaryGroup.contains(entity)))
+                lastMovedEntities.push(entity);
+
+        return true;
+    }
+
+    private function DiscoverPush(entity:ObjectEntity, dirX:Int, dirY:Int, toMove:Array<ObjectEntity>):Bool
+    {
+        if(toMove.contains(entity))
+            return true;
+
+        var group = entity.GetPushGroup();
+
+        for(member in group)
+        {
+            if(member.x + dirX < 0 || member.x + dirX >= width || member.y + dirY < 0 || member.y + dirY >= height)
+                return false;
+
+            if(!member.CanPush(dirX, dirY))
+                return false;
+
+            var floor = GetFloor(member.x + dirX, member.y + dirY);
+            if(floor == null || !floor.CanStepOn(member))
+                return false;
         }
 
-        if(!object.CanPush(dirX, dirY))
+        for(member in group)
+            if(!toMove.contains(member))
+                toMove.push(member);
+
+        for(member in group)
         {
-            return false;
+            var occupant = GetObject(member.x + dirX, member.y + dirY);
+
+            if(occupant == null || group.contains(occupant) || toMove.contains(occupant))
+                continue;
+
+            if(!DiscoverPush(occupant, dirX, dirY, toMove))
+                return false;
         }
 
-        var entityOnwards = GetObject(object.x + dirX, object.y + dirY);
-        if(entityOnwards == null)
-        {
-            return Move(object, dirX, dirY, isPlayerMove);
-        }
-        else
-        {
-            if(Push(entityOnwards, dirX, dirY, false))
-                return Move(object, dirX, dirY, isPlayerMove);
-        }
-
-        return false;
+        return true;
     }
 
     public function Destroy(x:Int, y:Int)
@@ -273,7 +312,7 @@ class Grid
         for(goal in goals)
         {
             var object = GetObject(goal.x, goal.y);
-            if(object == null || object.kind != Data.ObjectsKind.Block)
+            if(object == null || !(object is entities.objects.Block))
             {
                 won = false;
                 break;

@@ -99,13 +99,25 @@ class Level extends h2d.Object
         if(dirX != 0 || dirY != 0)
         { 
             var madeAnything = false;
+            var movedThisTick = new Array<ObjectEntity>();
 
-            var sortedPlayers = grid.SortByDirection(dirX, dirY);
+            var sortedPlayers = grid.SortByDirection(grid.players.map(a -> cast(a, ObjectEntity)), dirX, dirY);
             for(player in sortedPlayers)
             {
+                if(movedThisTick.contains(player))
+                {
+                    madeAnything = true;
+                    continue;
+                }
+
                 var push = grid.Push(player, dirX, dirY, true);
                 if(push)
+                {
                     madeAnything = true;
+                    for(moved in grid.lastMovedEntities)
+                        if(!movedThisTick.contains(moved))
+                            movedThisTick.push(moved);
+                }
             }
 
             if(madeAnything)
