@@ -34,6 +34,7 @@ class LevelUI extends Object
         flow = new Flow();
         flow.x = 25;
         flow.layout = FlowLayout.Horizontal;
+        flow.verticalAlign = FlowAlign.Top;
         flow.horizontalSpacing = 10;
         addChild(flow);
 
@@ -61,7 +62,7 @@ class LevelUI extends Object
             status.text = '0/34';
             status.textAlign = Align.Center;
             status.x = t.width / 2;
-            status.y = 5;
+            status.y = -20;
 
             t.addChild(status);
 
