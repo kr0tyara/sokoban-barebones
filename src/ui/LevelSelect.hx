@@ -46,6 +46,7 @@ class LevelSelect extends Object
         backButton = new Button(100, 100, Main.sheet.Close.frames[0]);
         backButton.y = 25;
         backButton.trueClick = (e:Event) -> Game.inst.ToggleLevelSelect(false);
+        backButton.ignoreInputBlock = true;
         addChild(backButton);
     }
     

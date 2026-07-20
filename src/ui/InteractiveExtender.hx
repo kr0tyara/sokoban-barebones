@@ -21,6 +21,7 @@ class InteractiveExtender extends Interactive
     private var _disabled:Bool;
 
     public var clickSound:Bool = true;
+    public var ignoreInputBlock:Bool = false;
 
     public function new(w:Float, h:Float, ?parent:h2d.Object, ?shape:h2d.col.Collider)
     {
@@ -101,6 +102,9 @@ class InteractiveExtender extends Interactive
     {
         _over(e);
 
+        if(!ignoreInputBlock && Game.inst.InputBlocked())
+            return;
+        
         if(clickSound)
             AudioManager.inst.Play(Sfx.Click);
 
