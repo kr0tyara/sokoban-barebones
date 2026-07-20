@@ -1,3 +1,4 @@
+import motion.Actuate;
 import ui.LevelUI;
 import haxe.Exception;
 import hxd.Key;
@@ -76,11 +77,10 @@ class Game extends h2d.Object
         nextLevelRequested = true;
         currentLevel = kind;
         
-        var timer = Main.tm.delay(immediate ? 0 : 500, () ->
+        Actuate.timer(immediate ? 0 : .5).onComplete(() ->
         {
             SetLevel(currentLevel);
         });
-        timer.start();
     }
 
     public function SetLevel(id:Data.LevelsKind)

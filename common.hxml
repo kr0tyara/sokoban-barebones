@@ -2,13 +2,16 @@
 
 -lib heaps
 -lib castle
--lib slide
+-lib actuate
 
 -main Main
 -dce full
 
 -D analyzer-optimize
 -D no-deprecation-warnings
+
+-D actuate_manual_update
+-D actuate_manual_time
 
 --macro include("entities")
 --macro include("avatars")

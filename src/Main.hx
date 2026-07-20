@@ -1,4 +1,3 @@
-import slide.TweenManager;
 import gfx.SpriteSheet;
 import macros.ResTools;
 import h2d.Font;
@@ -12,7 +11,6 @@ import js.html.ProgressElement;
 class Main extends hxd.App 
 {
     public static var inst:Main;
-    public static var tm:TweenManager;
 
     private var saveManager:SaveManager;
     private var audioManager:AudioManager;
@@ -77,7 +75,7 @@ class Main extends hxd.App
     {
         super.update(dt);
 
-        tm.update(dt);
+        motion.actuators.SimpleActuator.stage_onEnterFrame(#if js dt #end);
 
         inputManager.update(dt);
         game.update(dt);
@@ -86,6 +84,6 @@ class Main extends hxd.App
     public static function main()
     {
         inst = new Main();
-        tm = new TweenManager();
+        motion.actuators.SimpleActuator.getTime = () -> hxd.Timer.lastTimeStamp;
     }
 }

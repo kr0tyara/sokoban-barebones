@@ -1,7 +1,6 @@
 package avatars.floors;
 
 import h2d.Object;
-import slide.Tween;
 import h2d.Graphics;
 import h2d.Anim;
 import h2d.Tile;

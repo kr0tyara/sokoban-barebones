@@ -1,10 +1,9 @@
 package avatars.objects;
 
+import motion.Actuate;
+import motion.easing.Linear;
 import h2d.Bitmap;
-import h2d.Anim;
-import slide.Tween;
 import h3d.Vector;
-import h2d.Graphics;
 import entities.objects.ObjectEntity;
 
 class ObjectAvatar extends BaseAvatar
@@ -13,8 +12,6 @@ class ObjectAvatar extends BaseAvatar
 
     private var object:ObjectEntity;
     private var targetPosition:Vector;
-
-    private var moveTween:Tween;
 
     public function new(prototype:ObjectEntity)
     {
@@ -44,8 +41,7 @@ class ObjectAvatar extends BaseAvatar
         this.x = targetPosition.x;
         this.y = targetPosition.y;
 
-        if(moveTween != null && !moveTween.isComplete)
-            moveTween.reset();
+        Actuate.stop(AnimateMove);
     }
 
     public override function SetInitialPosition(x:Int, y:Int)
@@ -59,8 +55,7 @@ class ObjectAvatar extends BaseAvatar
         SnapPosition();
         targetPosition = new Vector(x * LevelAvatar.PixelsPerTile,  y * LevelAvatar.PixelsPerTile);
 
-        moveTween = Main.tm.animateTo(this, {x: targetPosition.x, y: targetPosition.y}, .075, slide.easing.Linear.none);
-        moveTween.start();
+        Actuate.update(AnimateMove, .075, [this.x, this.y], [targetPosition.x, targetPosition.y]).ease(Linear.easeNone);
     }
 
     public function MoveFail(dirX:Int, dirY:Int)
@@ -70,7 +65,12 @@ class ObjectAvatar extends BaseAvatar
         this.x += dirX * LevelAvatar.PixelsPerTile / 10;
         this.y += dirY * LevelAvatar.PixelsPerTile / 10;
 
-        moveTween = Main.tm.animateTo(this, {x: targetPosition.x, y: targetPosition.y}, .075, slide.easing.Linear.none);
-        moveTween.start();
+        Actuate.update(AnimateMove, .075, [this.x, this.y], [targetPosition.x, targetPosition.y]).ease(Linear.easeNone);
+    }
+
+    private function AnimateMove(x:Float, y:Float)
+    {
+        this.x = x;
+        this.y = y;
     }
 }

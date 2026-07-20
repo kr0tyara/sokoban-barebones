@@ -48,5 +48,5 @@ These are defined in the `update` function inside the `Game` class.
 
 ## Dependencies
 - [Heaps.io](https://github.com/HeapsIO/heaps)
-- [CastleDB](https://lib.haxe.org/p/castle)
-- [Slide](https://lib.haxe.org/p/slide)
+- [CastleDB](http://castledb.org)
+- [Actuate](https://github.com/openfl/actuate)
