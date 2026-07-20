@@ -8,7 +8,23 @@
 				"kind": "build",
 				"isDefault": true
 			},
-			"label": "hxml: build.hxml"
+			"label": "Build for HTML5 (WebGL)"
+		},
+		{
+			"type": "hxml",
+			"file": "hl.hxml",
+			"group": {
+				"kind": "build",
+			},
+			"label": "Build for HashLink"
+		},
+		{
+			"type": "hxml",
+			"file": "win.hxml",
+			"group": {
+				"kind": "build",
+			},
+			"label": "Build for Windows"
 		}
 	]
 }
