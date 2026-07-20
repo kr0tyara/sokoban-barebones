@@ -99,7 +99,7 @@ class Game extends h2d.Object
             var levelClass = Type.resolveClass('levels.${levelData.className}');
             if(levelClass != null)
             {
-                var args = [];
+                var args:Array<Dynamic> = [];
                 if(levelData.customArguments.length > 0)
                     args = args.concat(levelData.customArguments.map(a -> a.argument));
 

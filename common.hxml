@@ -6,8 +6,8 @@
 
 -main Main
 -dce full
--D analyzer-optimize
 
+-D analyzer-optimize
 -D no-deprecation-warnings
 
 --macro include("entities")

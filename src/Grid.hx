@@ -99,7 +99,7 @@ class Grid
             return null;
         }
 
-        var args = [kind];
+        var args:Array<Dynamic> = [kind];
         if(object.customArguments.length > 0)
             args = args.concat(object.customArguments.map(a -> a.argument));
 
@@ -135,7 +135,7 @@ class Grid
             return null;
         }
 
-        var args = [kind];
+        var args:Array<Dynamic> = [kind];
         if(floor.customArguments.length > 0)
             args = args.concat(floor.customArguments.map(a -> a.argument));
 

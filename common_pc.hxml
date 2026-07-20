@@ -1,0 +1,9 @@
+common.hxml
+
+-lib format
+-lib hlsdl
+-lib hlopenal
+
+-D windowSize=1280x720
+-D windowTitle=sokoban
+-D heaps_enable_hl_mp3

@@ -20,3 +20,4 @@ cl /Ox /Fo:main.obj /Fe:../win/game.exe game.c ^
 
 cd "../win"
 start "" game.exe
+exit
