@@ -6,6 +6,7 @@ import h2d.Text;
 import h2d.Interactive;
 import h2d.Bitmap;
 import h2d.Tile;
+import AudioManager.Sfx;
 
 class Button extends Interactive
 {
@@ -104,7 +105,7 @@ class Button extends Interactive
     {
         Over(e);
 
-        AudioManager.inst.Click();
+        AudioManager.inst.Play(Sfx.Click);
         if(trueClick != null)
             trueClick(e);
     }

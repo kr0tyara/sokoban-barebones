@@ -30,7 +30,7 @@ class Game extends h2d.Object
         ui = new LevelUI();
         addChild(ui);
 
-        AudioManager.inst.BGM();
+        //AudioManager.inst.Play(Sfx.Bgm);
 
         SetLevel(currentLevel);
     }

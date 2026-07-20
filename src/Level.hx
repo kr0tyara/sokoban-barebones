@@ -1,9 +1,7 @@
-import entities.objects.Player;
-import entities.floors.FloorEntity;
 import entities.objects.ObjectEntity;
 import avatars.LevelAvatar;
 import InputManager.InputKey;
-import haxe.Exception;
+import AudioManager.Sfx;
 import h2d.Graphics;
 
 @:keepSub
@@ -71,18 +69,18 @@ class Level extends h2d.Object
         switch(key)
         {
             case InputKey.R:
-                AudioManager.inst.Click();
+                AudioManager.inst.Play(Sfx.Click);
                 Game.history.Restart();
                 return;
 
             case InputKey.Z:
                 if(Game.history.Undo())
-                    AudioManager.inst.Click();
+                    AudioManager.inst.Play(Sfx.Click);
                 return;
 
             case InputKey.Y:
                 if(Game.history.Redo())
-                    AudioManager.inst.Click();
+                    AudioManager.inst.Play(Sfx.Click);
                 return;
             
             case InputKey.Left:
@@ -130,12 +128,12 @@ class Level extends h2d.Object
                 for(f in failed)
                     f.MoveFail(dirX, dirY);
                 
-                AudioManager.inst.Hit();
+                AudioManager.inst.Play(Sfx.Hit);
             }
 
             if(madeAnything)
             {
-                AudioManager.inst.Move();
+                AudioManager.inst.Play(Sfx.Move);
                 grid.OnMovementEnd(false);
             }
         }
@@ -150,7 +148,7 @@ class Level extends h2d.Object
 
     public function Complete()
     {
-        AudioManager.inst.Unlock();
+        AudioManager.inst.Play(Sfx.Unlock);
 
         SaveManager.CompleteLevel(kind, Game.history.steps);
 
