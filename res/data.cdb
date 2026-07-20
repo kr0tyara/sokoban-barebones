@@ -49,7 +49,7 @@
 			"lines": [
 				{
 					"id": "level00",
-					"width": 6,
+					"width": 5,
 					"height": 6,
 					"tileProps": [],
 					"layers": [],
@@ -70,19 +70,19 @@
 							}
 						]
 					},
-					"floor": "AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQECAQEBAQEBAQEB",
-					"objects": "AAAAAAAAAAAAAAEAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+					"floor": "AAABAQABAQEBAAEBAQEAAAAAAQAAAAABAQAAAgEB",
+					"objects": "AAAAAAAAAgABAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
 					"className": "SampleLevel",
 					"customArguments": []
 				},
 				{
 					"id": "level01",
-					"width": 6,
+					"width": 4,
 					"height": 5,
 					"tileProps": [],
 					"layers": [],
-					"floor": "AQEAAQEBAQEBAQEBAQIBAQEBAQEBAQEBAgEAAQEB",
-					"objects": "AAAAAAAAAAAAAAABAAAAAgAAAAAAAAIAAAAAAAAA",
+					"floor": "AQIAAAEBAAACAQEBAQEBAQEBAAA=",
+					"objects": "AAAAAAAAAAACAQAAAAACAAAAAAA=",
 					"props": {
 						"tileSize": 100,
 						"layers": [
@@ -105,12 +105,12 @@
 				},
 				{
 					"id": "level02",
-					"width": 6,
+					"width": 4,
 					"height": 4,
 					"tileProps": [],
 					"layers": [],
-					"floor": "AQEAAAEBAAEBAQEAAAEBAQEAAAACAgAA",
-					"objects": "AAAAAAAAAAEAAAEAAAACAgAAAAAAAAAA",
+					"floor": "AQEAAAEBAQEBAQEBAAICAA==",
+					"objects": "AAAAAAEAAAAAAgIAAAABAA==",
 					"props": {
 						"tileSize": 100,
 						"layers": [
@@ -133,12 +133,12 @@
 				},
 				{
 					"id": "level03",
-					"width": 5,
-					"height": 4,
+					"width": 4,
+					"height": 5,
 					"tileProps": [],
 					"layers": [],
-					"floor": "AQEBAQEDAwMDAwMDAwMDAQEBAQI=",
-					"objects": "AQAAAAAAAAIAAAAAAAAAAAAAAAA=",
+					"floor": "AQEBAQMDAwMDAwMDAwMAAAEBAQI=",
+					"objects": "AQAAAAAAAgAAAAAAAAAAAAAAAAA=",
 					"props": {
 						"tileSize": 100,
 						"layers": [
@@ -186,6 +186,34 @@
 						]
 					},
 					"customArguments": []
+				},
+				{
+					"id": "level05",
+					"width": 6,
+					"height": 6,
+					"className": "",
+					"customArguments": [],
+					"tileProps": [],
+					"layers": [],
+					"floor": "AQEBAQEBAQEBAQEBAQEBAQEBAwMDAwMDAQEBAQEBAAICAgAA",
+					"objects": "AQAEBAAAAAIAAAQAAAAEBAQAAAAAAAAAAAAAAAAAAAAAAAAA",
+					"props": {
+						"tileSize": 100,
+						"layers": [
+							{
+								"l": "floor",
+								"p": {
+									"alpha": 1
+								}
+							},
+							{
+								"l": "objects",
+								"p": {
+									"alpha": 1
+								}
+							}
+						]
+					}
 				}
 			],
 			"separators": [],
