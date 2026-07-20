@@ -24,6 +24,7 @@ class LevelIcon extends InteractiveExtender
         var h = 200;
 
         super(w, h + 50);
+        ignoreInputBlock = true;
 
         this.level = level;
 
