@@ -6,4 +6,6 @@
 /build/bin
 /build/hl
 
+/res/.tmp
+
 *.sav
