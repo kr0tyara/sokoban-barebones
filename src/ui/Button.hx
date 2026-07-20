@@ -41,6 +41,7 @@ class Button extends InteractiveExtender
         if(txt != '')
         {
             label = new Text(Main.font);
+            label.smooth = true;
             label.text = txt;
             label.textAlign = Align.Right;
             label.x = w - 5;

@@ -95,6 +95,7 @@ class LevelIcon extends InteractiveExtender
         current.lineTo(w - 5, h - b - 5);
 
         label = new Text(Main.font, this);
+        label.smooth = true;
         label.text = level.id.toString();
         label.textAlign = Align.Center;
         label.x = w / 2;
@@ -109,7 +110,7 @@ class LevelIcon extends InteractiveExtender
         var selected = Game.level.kind == level.id;
 
         solved.visible = save.completed;
-        label.textColor = save.completed ? 0x00FF00 : selected ? 0xFFFFFF : 0x999999;
+        label.textColor = save.completed ? 0x00FF00 : selected ? 0xFFFFFF : 0xAAAAAA;
         current.visible = Game.level.kind == level.id;
     }
 

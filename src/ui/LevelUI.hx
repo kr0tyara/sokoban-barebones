@@ -1,5 +1,6 @@
 package ui;
 
+import h2d.filter.Outline;
 import h2d.Interactive;
 import h2d.Text;
 import h2d.Flow;
@@ -60,10 +61,12 @@ class LevelUI extends Object
             t.cancelEvents = true;
 
             status = new Text(Main.fontBig);
+            status.smooth = true;
             status.text = '0/34';
             status.textAlign = Align.Center;
             status.x = t.width / 2;
             status.y = -20;
+            status.filter = new Outline(2.5);
 
             t.addChild(status);
 

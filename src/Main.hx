@@ -51,11 +51,9 @@ class Main extends hxd.App
         sheet = new SpriteSheet();
         cdbSheet = new CdbSheet();
 
-        font = hxd.Res.fonts.font.toFont().clone();
+        font = hxd.Res.fonts.font.toSdfFont(50, SDFChannel.Alpha).clone();
         font.resizeTo(35);
-
-        fontBig = hxd.Res.fonts.font.toFont().clone();
-        fontBig.resizeTo(50);
+        fontBig = hxd.Res.fonts.font.toSdfFont(50, SDFChannel.Alpha).clone();
 
         saveManager = new SaveManager();
         audioManager = new AudioManager();
