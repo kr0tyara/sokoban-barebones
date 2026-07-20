@@ -1,3 +1,4 @@
+import gfx.CdbSheet;
 import gfx.SpriteSheet;
 import macros.ResTools;
 import h2d.Font;
@@ -18,6 +19,7 @@ class Main extends hxd.App
     private var game:Game;
 
     public static var sheet:SpriteSheet;
+    public static var cdbSheet:CdbSheet;
     public static var font:Font;
     public static var fontBig:Font;
 
@@ -47,6 +49,7 @@ class Main extends hxd.App
     
         Data.load(Res.data.entry.getText());
         sheet = new SpriteSheet();
+        cdbSheet = new CdbSheet();
 
         font = hxd.Res.fonts.font.toFont().clone();
         font.resizeTo(35);

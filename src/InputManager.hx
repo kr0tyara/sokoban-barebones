@@ -148,10 +148,7 @@ class InputManager
 
     public function OnEvent(e:Event)
     {
-        var focus = ui.Button.All.filter(a -> a.isOver());
-        var pos = new Vector(e.relX, e.relY);
-        // make sure it works on mobile 
-        var focused = focus.filter(a -> a.x >= pos.x && a.y >= pos.y && a.x + a.width <= pos.x && a.y + a.height <= pos.y).length > 0;
+        var focused = ui.InteractiveExtender.All.filter(a -> a.IsOver(e.relX, e.relY)).length > 0;
 
         switch(e.kind)
         {

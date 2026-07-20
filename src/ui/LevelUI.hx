@@ -18,6 +18,7 @@ class LevelUI extends Object
     private var settings:Button;
     private var bgm:Button;
     private var sfx:Button;
+    private var menu:Button;
     private var next:Button;
     private var next2:Button;
 
@@ -117,6 +118,12 @@ class LevelUI extends Object
 
             flow2.y = -(flow2.innerHeight - 100);
         }
+
+        menu = new Button(100, 100, Main.sheet.Levels.frames[0]);
+        flow2.addChild(menu);
+        menu.trueClick = (e:Event) -> {
+            Game.inst.ToggleLevelSelect(true);
+        }
         
         Settings(false);
     }
@@ -134,17 +141,11 @@ class LevelUI extends Object
 
     public function Refresh()
     {
-        var was = undo.cancelEvents;
-        undo.cancelEvents = Game.history.currentState <= 0;
-        undo.alpha = undo.cancelEvents ? 0.5 : 1;
-        if(was != undo.cancelEvents)
-            undo.Out(null);
+        undo.disabled = Game.history.currentState <= 0;
+        undo.alpha = undo.disabled ? 0.5 : 1;
 
-        was = redo.cancelEvents;
-        redo.cancelEvents = Game.history.undoneCount == 0;
-        redo.alpha = redo.cancelEvents ? 0 : 1;
-        if(was != redo.cancelEvents)
-            redo.Out(null);
+        redo.disabled = Game.history.undoneCount == 0;
+        redo.alpha = redo.disabled ? 0 : 1;
 
         if(status != null)
         {
@@ -155,7 +156,7 @@ class LevelUI extends Object
 
     public function OnResize()
     {
-        var scale = Utils.Clamp(Math.min(Main.inst.s2d.width, Main.inst.s2d.height) / 800, 0.5, 1);
+        var scale = Utils.Clamp(Math.min(Main.inst.s2d.width, Main.inst.s2d.height) / 920, 0.5, 1);
 
         flow2.x = Main.inst.s2d.width / scale - 125;
         flow2.y = -(flow2.innerHeight - 100);

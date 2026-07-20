@@ -1,3 +1,4 @@
+import ui.LevelSelect;
 import motion.Actuate;
 import ui.LevelUI;
 import haxe.Exception;
@@ -10,6 +11,7 @@ class Game extends h2d.Object
 
     public static var level:Level;
     public static var ui:LevelUI;
+    public static var select:LevelSelect;
     
     public static var history:History;
     private var currentLevel:Data.LevelsKind = SaveManager.save.lastLevel;
@@ -30,9 +32,21 @@ class Game extends h2d.Object
         ui = new LevelUI();
         addChild(ui);
 
+        select = new LevelSelect();
+        addChild(select);
+        select.visible = false;
+
         //AudioManager.inst.Play(Sfx.Bgm);
 
         SetLevel(currentLevel);
+        OnResize();
+    }
+
+    public function ToggleLevelSelect(visible:Bool)
+    {
+        select.visible = visible;
+        if(visible)
+            select.Refresh();
     }
 
     public function update(dt:Float)
@@ -51,11 +65,15 @@ class Game extends h2d.Object
     {
         level.OnResize();
         ui.OnResize();
+        select.OnResize();
     }
 
     public function InputBlocked()
     {
         if(nextLevelRequested)
+            return true;
+
+        if(select.visible)
             return true;
 
         return false;
@@ -69,7 +87,7 @@ class Game extends h2d.Object
     {
         LoadLevel(Data.levels.all[Utils.LoopIndex(level.id, -1, Data.levels.all.length)].id, immediate);
     }
-    public function LoadLevel(kind:Data.LevelsKind, immediate:Bool = false, warpedBack:Bool = false)
+    public function LoadLevel(kind:Data.LevelsKind, immediate:Bool = false)
     {
         if(nextLevelRequested)
             return;
@@ -85,6 +103,8 @@ class Game extends h2d.Object
 
     public function SetLevel(id:Data.LevelsKind)
     {
+        ToggleLevelSelect(false);
+
         if(level != null)
         {
             removeChild(level);
@@ -111,10 +131,9 @@ class Game extends h2d.Object
         else
             level = new Level(id);
         
-        addChild(level);
+        addChildAt(level, 0);
         level.Init();
         
-        addChild(ui);
         ui.Refresh();
         ui.Settings(false);
 

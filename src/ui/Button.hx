@@ -8,10 +8,8 @@ import h2d.Bitmap;
 import h2d.Tile;
 import AudioManager.Sfx;
 
-class Button extends Interactive
+class Button extends InteractiveExtender
 {
-    public static var All:Array<Button> = [];
-
     private var gfx:Graphics;
     private var bitmap:Bitmap;
     public var label:Text;
@@ -50,32 +48,14 @@ class Button extends Interactive
             addChild(label);
         }
 
-        onOver = Over;
-        onOut = Out;
-        onPush = Push;
-        onClick = Click;
-    }
-
-    private override function onAdd()
-    {
-        super.onAdd();
-        
-        if(!All.contains(this))
-            All.push(this);
-    }
-    private override function onRemove()
-    {
-        super.onRemove();
-        
-        if(All.contains(this))
-            All.remove(this);
+        tOver = Over;
+        tOut = Out;
+        tPush = Push;
+        tClick = Click;
     }
 
     public function Over(e:Event)
     {
-        if(cancelEvents)
-            return;
-
         gfx.alpha = 1;
 
         if(bitmap != null)
@@ -83,9 +63,6 @@ class Button extends Interactive
     }
     public function Out(e:Event)
     {
-        if(cancelEvents)
-            return;
-        
         gfx.alpha = .7;
 
         if(bitmap != null)
@@ -93,9 +70,6 @@ class Button extends Interactive
     }
     public function Push(e:Event)
     {
-        if(cancelEvents)
-            return;
-        
         gfx.alpha = .6;
 
         if(bitmap != null)
@@ -103,9 +77,6 @@ class Button extends Interactive
     }
     public function Click(e:Event)
     {
-        Over(e);
-
-        AudioManager.inst.Play(Sfx.Click);
         if(trueClick != null)
             trueClick(e);
     }

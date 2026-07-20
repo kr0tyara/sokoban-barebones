@@ -24,9 +24,7 @@ class ObjectAvatar extends BaseAvatar
     {
         spriteContainer.removeChildren();
 
-        var sprite = Data.objects.get(object.kind).tile;
-        var tile = hxd.Res.load(sprite.file).toTile().sub(sprite.x * sprite.size, sprite.y * sprite.size, sprite.size, sprite.size);
-        tile.setCenterRatio(.5, 1);
+        var tile = Main.cdbSheet.objects[object.kind];
 
         var bitmap = new Bitmap(tile);
         bitmap.x = LevelAvatar.PixelsPerTile / 2;
