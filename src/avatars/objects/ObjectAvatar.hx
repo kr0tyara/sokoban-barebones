@@ -45,7 +45,7 @@ class ObjectAvatar extends BaseAvatar
         this.y = targetPosition.y;
 
         if(moveTween != null && !moveTween.isComplete)
-            moveTween.stop();
+            moveTween.reset();
     }
 
     public override function SetInitialPosition(x:Int, y:Int)
@@ -58,6 +58,17 @@ class ObjectAvatar extends BaseAvatar
     {
         SnapPosition();
         targetPosition = new Vector(x * LevelAvatar.PixelsPerTile,  y * LevelAvatar.PixelsPerTile);
+
+        moveTween = Main.tm.animateTo(this, {x: targetPosition.x, y: targetPosition.y}, .075, slide.easing.Linear.none);
+        moveTween.start();
+    }
+
+    public function MoveFail(dirX:Int, dirY:Int)
+    {
+        SnapPosition();
+        
+        this.x += dirX * LevelAvatar.PixelsPerTile / 10;
+        this.y += dirY * LevelAvatar.PixelsPerTile / 10;
 
         moveTween = Main.tm.animateTo(this, {x: targetPosition.x, y: targetPosition.y}, .075, slide.easing.Linear.none);
         moveTween.start();

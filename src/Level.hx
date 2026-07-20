@@ -1,3 +1,4 @@
+import entities.objects.Player;
 import entities.floors.FloorEntity;
 import entities.objects.ObjectEntity;
 import avatars.LevelAvatar;
@@ -101,6 +102,8 @@ class Level extends h2d.Object
             var madeAnything = false;
             var movedThisTick = new Array<ObjectEntity>();
 
+            var failed = new Array<ObjectEntity>();
+
             var sortedPlayers = grid.SortByDirection(grid.players.map(a -> cast(a, ObjectEntity)), dirX, dirY);
             for(player in sortedPlayers)
             {
@@ -118,6 +121,16 @@ class Level extends h2d.Object
                         if(!movedThisTick.contains(moved))
                             movedThisTick.push(moved);
                 }
+                else
+                    failed.push(player);
+            }
+
+            if(failed.length > 0)
+            {
+                for(f in failed)
+                    f.MoveFail(dirX, dirY);
+                
+                AudioManager.inst.Hit();
             }
 
             if(madeAnything)

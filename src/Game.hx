@@ -76,12 +76,11 @@ class Game extends h2d.Object
         nextLevelRequested = true;
         currentLevel = kind;
         
-        var timer = new haxe.Timer(immediate ? 0 : 500);
-        timer.run = () -> 
+        var timer = Main.tm.delay(immediate ? 0 : 500, () ->
         {
             SetLevel(currentLevel);
-            timer.stop();
-        }
+        });
+        timer.start();
     }
 
     public function SetLevel(id:Data.LevelsKind)

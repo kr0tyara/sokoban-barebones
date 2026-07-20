@@ -18,6 +18,8 @@ class AudioManager
 
     private var unlock:Sound;
 
+    private var hit:Sound;
+
     public var sfxMuted:Bool = false;
     public var bgmMuted:Bool = false;
 
@@ -90,5 +92,14 @@ class AudioManager
 
         unlock = hxd.Res.sfx.unlock.unlock;
         unlock.play(false, .6, null, sfxGroup);
+    }
+
+    public function Hit()
+    {
+        if(hit != null)
+            hit.stop();
+
+        hit = hxd.Res.sfx.hit.hit;
+        hit.play(false, .7, null, sfxGroup);
     }
 }

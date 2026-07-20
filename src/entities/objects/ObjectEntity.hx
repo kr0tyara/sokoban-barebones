@@ -35,4 +35,10 @@ class ObjectEntity extends BaseEntity
         if(avatar != null)
             avatar.SetPosition(x, y);
     }
+
+    public function MoveFail(dirX:Int, dirY:Int)
+    {
+        if(avatar != null)
+            cast(avatar, ObjectAvatar).MoveFail(dirX, dirY);
+    }
 }
