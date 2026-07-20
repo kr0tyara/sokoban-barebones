@@ -1,6 +1,6 @@
 # Sokoban Barebones
 
-https://github.com/user-attachments/assets/b50d1cb6-ab49-4f62-82c4-59603e169a36
+![Showcase](media/show.gif)
 
 A really simplistic boilerplate for your Sokoban puzzle based on the Heaps.io engine.
 
