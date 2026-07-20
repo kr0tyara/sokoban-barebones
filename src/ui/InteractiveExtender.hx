@@ -1,5 +1,6 @@
 package ui;
 
+import h2d.col.Point;
 import h3d.Vector;
 import AudioManager.Sfx;
 import hxd.Event;
@@ -49,7 +50,8 @@ class InteractiveExtender extends Interactive
             }
         }
 
-        return parentVisible && (mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height);    
+        var pos = parent.localToGlobal(new Point(x, y));
+        return !disabled && parentVisible && (mouseX >= pos.x && mouseX <= pos.x + width && mouseY >= pos.y && mouseY <= pos.y + height);    
     }
 
     private function set_disabled(value:Bool):Bool
