@@ -60,6 +60,7 @@ class Main extends hxd.App
         inputManager = new InputManager();
 
         engine.backgroundColor = 0x787878;
+        s2d.defaultSmooth = true;
         
         game = new Game();
         s2d.addChild(game);

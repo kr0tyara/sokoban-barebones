@@ -53,9 +53,9 @@ class Game extends h2d.Object
     {
         #if debug
             if(Key.isPressed(Key.N))
-                NextLevel(true);
+                NextLevel(0);
             if(Key.isPressed(Key.B))
-                PrevLevel(true);
+                PrevLevel(0);
         #end
 
         level.update(dt);
@@ -79,15 +79,15 @@ class Game extends h2d.Object
         return false;
     }
 
-    public function NextLevel(immediate:Bool = false)
+    public function NextLevel(delay:Float = 0)
     {
-        LoadLevel(Data.levels.all[Utils.LoopIndex(level.id, 1, Data.levels.all.length)].id, immediate);
+        LoadLevel(Data.levels.all[Utils.LoopIndex(level.id, 1, Data.levels.all.length)].id, delay);
     }
-    public function PrevLevel(immediate:Bool = false)
+    public function PrevLevel(delay:Float = 0)
     {
-        LoadLevel(Data.levels.all[Utils.LoopIndex(level.id, -1, Data.levels.all.length)].id, immediate);
+        LoadLevel(Data.levels.all[Utils.LoopIndex(level.id, -1, Data.levels.all.length)].id, delay);
     }
-    public function LoadLevel(kind:Data.LevelsKind, immediate:Bool = false)
+    public function LoadLevel(kind:Data.LevelsKind, delay:Float = 0)
     {
         if(nextLevelRequested)
             return;
@@ -95,7 +95,7 @@ class Game extends h2d.Object
         nextLevelRequested = true;
         currentLevel = kind;
         
-        Actuate.timer(immediate ? 0 : .5).onComplete(() ->
+        Actuate.timer(delay).onComplete(() ->
         {
             SetLevel(currentLevel);
         });

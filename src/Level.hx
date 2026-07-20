@@ -1,3 +1,4 @@
+import motion.Actuate;
 import entities.objects.ObjectEntity;
 import avatars.LevelAvatar;
 import InputManager.InputKey;
@@ -134,9 +135,14 @@ class Level extends h2d.Object
             if(madeAnything)
             {
                 AudioManager.inst.Play(Sfx.Move);
-                grid.OnMovementEnd(false);
+                OnMovementEnd(false);
             }
         }
+    }
+
+    private function OnMovementEnd(initial:Bool)
+    {
+        grid.OnMovementEnd(initial);
     }
 
     public function update(dt:Float)
@@ -146,15 +152,23 @@ class Level extends h2d.Object
         avatar.update(dt);
     }
 
-    public function Complete()
+    public function OnComplete()
     {
-        AudioManager.inst.Play(Sfx.Unlock);
+        Actuate.timer(.5).onComplete(() ->
+        {
+            AudioManager.inst.Play(Sfx.Unlock);
+        });
 
+        Complete();
+    }
+
+    private function Complete(delay:Float = .5)
+    {
         SaveManager.CompleteLevel(kind, Game.history.steps);
 
         var level = SaveManager.GetLevelInfo(kind);
         trace('completed in ${Game.history.steps} steps (best result: ${level.steps})');
 
-        Game.inst.NextLevel();
+        Game.inst.NextLevel(delay);
     }
 }

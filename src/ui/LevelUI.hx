@@ -55,7 +55,7 @@ class LevelUI extends Object
         #if debug
             back = new Button(100, 100, Main.sheet.Skip.frames[1], 'B');
             flow.addChild(back);
-            back.onPush = (e:Event) -> Game.inst.PrevLevel(true);
+            back.onPush = (e:Event) -> Game.inst.PrevLevel(0);
 
             var t = new Interactive(200, 100);
             t.cancelEvents = true;
@@ -74,7 +74,7 @@ class LevelUI extends Object
 
             next2 = new Button(100, 100, Main.sheet.Skip.frames[0], 'N');
             flow.addChild(next2);
-            next2.onPush = (e:Event) -> Game.inst.NextLevel(true);
+            next2.onPush = (e:Event) -> Game.inst.NextLevel(0);
         #end
         
         flow2 = new Flow();
@@ -92,7 +92,7 @@ class LevelUI extends Object
             else
             {
                 next.label.visible = false;
-                Game.inst.NextLevel(true);
+                Game.inst.NextLevel(0);
                 Settings(false);
             }
         }

@@ -1,4 +1,3 @@
-import entities.floors.Goal;
 import entities.floors.FloorEntity;
 import entities.objects.ObjectEntity;
 import entities.objects.Player;
@@ -10,7 +9,6 @@ class Grid
     public var allEntities:Array<BaseEntity>;
     
     public var players:Array<Player>;
-    public var goals:Array<Goal>;
 
     public var floors:Array<FloorEntity>;
     public var objects:Array<ObjectEntity>;
@@ -44,15 +42,11 @@ class Grid
         allEntities = new Array<BaseEntity>();
 
         players = new Array<Player>();
-        goals = new Array<Goal>();
 
-        var objects = levelData.objects.decode(Data.objects.all);
-        for(i in 0...objects.length)
-        {
-            var x = i % width;
-            var y = Math.floor(i / width);
-            
-            var object = SpawnObjectTile(objects[i].id, x, y);
+        var objects = levelData.objects;
+        for(obj in objects)
+        {            
+            var object = SpawnObjectTile(obj.objectId, obj.x, obj.y, obj.tag);
             if(object is Player)
                 players.push(cast(object, Player));
         }
@@ -63,9 +57,7 @@ class Grid
             var x = i % width;
             var y = Math.floor(i / width);
             
-            var floor = SpawnFloorTile(floors[i].id, x, y);
-            if(floors[i].id == Data.FloorKind.Goal)
-                goals.push(cast(floor, Goal));
+            SpawnFloorTile(floors[i].id, x, y);
         }
     }
 
@@ -85,7 +77,7 @@ class Grid
         return list;
     }
 
-    public function SpawnObjectTile(kind:Data.ObjectsKind, x:Int, y:Int)
+    public function SpawnObjectTile(kind:Data.ObjectsKind, x:Int, y:Int, tag:String = '')
     {
         if(kind == Data.ObjectsKind.Void)
             return null;
@@ -104,6 +96,7 @@ class Grid
             args = args.concat(object.customArguments.map(a -> a.argument));
 
         var object = Type.createInstance(objectClass, args);
+        object.tag = tag;
         return AddObject(object, x, y);
     }
     public function AddObject(object:ObjectEntity, x:Int, y:Int)
@@ -305,6 +298,8 @@ class Grid
     {
         var won = true;
 
+        var goals = floors.filter(a -> a is entities.floors.Goal);
+
         if(goals.length == 0)
             return;
 
@@ -320,9 +315,7 @@ class Grid
         }
 
         if(won)
-        {
-            Game.level.Complete();
-        }
+            Game.level.OnComplete();
     }
 
     public function GetObjects(x:Int, y:Int):Array<ObjectEntity>
@@ -330,7 +323,7 @@ class Grid
         if(x < 0 || x >= width || y < 0 || y >= height)
             return [];
 
-        return objects.filter(a -> a.x == x && a.y == y);
+        return objects.filter(a -> a.x == x && a.y == y && !a.invisible);
     }
     public function GetObject(x:Int, y:Int):ObjectEntity
     {
@@ -342,6 +335,14 @@ class Grid
         // this example code just grabs the first object under the specified coordinates, which is
         // not perfect if you want to use multiple objects per same tile
         // (like sugar cubes or rat carriers from desperatea)
+        
+        return objects[0];
+    }
+    public function GetObjectByTag(tag:String):ObjectEntity
+    {
+        var objects = objects.filter(a -> a.tag == tag);
+        if(objects.length == 0)
+            return null;
         
         return objects[0];
     }

@@ -37,7 +37,7 @@ class LevelIcon extends InteractiveExtender
         preview = new TileGroup(this);
 
         var floors = level.floor.decode(Data.floor.all);
-        var objects = level.objects.decode(Data.objects.all);
+        var objects = level.objects;
 
         for(i => floor in floors)
         {
@@ -50,16 +50,13 @@ class LevelIcon extends InteractiveExtender
             var tile = Main.cdbSheet.floor[floor.id];
             preview.add((x + 0.5) * LevelAvatar.PixelsPerTile, (y + 1) * LevelAvatar.PixelsPerTile, tile);
         }
-        for(i => object in objects)
+        for(object in objects)
         {
-            if(object.id == Data.ObjectsKind.Void)
+            if(object.objectId == Data.ObjectsKind.Void || object.objectId == Data.ObjectsKind.Extra)
                 continue;
 
-            var x = i % level.width;
-            var y = Math.floor(i / level.width);
-
-            var tile = Main.cdbSheet.objects[object.id];
-            preview.add((x + 0.5) * LevelAvatar.PixelsPerTile, (y + 1) * LevelAvatar.PixelsPerTile, tile);
+            var tile = Main.cdbSheet.objects[object.objectId];
+            preview.add((object.x + 0.5) * LevelAvatar.PixelsPerTile, (object.y + 1) * LevelAvatar.PixelsPerTile, tile);
         }
 
         var tilesWidth = level.width * LevelAvatar.PixelsPerTile;
@@ -116,7 +113,7 @@ class LevelIcon extends InteractiveExtender
 
     private function Click(e:Event)
     {
-        Game.inst.LoadLevel(level.id, true);   
+        Game.inst.LoadLevel(level.id, 0);   
         Game.inst.ToggleLevelSelect(false); 
     }
 }

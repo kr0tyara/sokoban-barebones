@@ -3,9 +3,14 @@ package entities.objects;
 import avatars.BaseAvatar;
 import avatars.objects.ObjectAvatar;
 
+@:build(macros.HistoryMaker.load())
 class ObjectEntity extends BaseEntity
 {
     public var kind:Data.ObjectsKind;
+    public var tag:String = '';
+
+    @:history
+    public var invisible:Bool = false;
 
     public function new(kind:Data.ObjectsKind)
     {

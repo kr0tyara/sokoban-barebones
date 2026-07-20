@@ -14,6 +14,7 @@ enum Sfx
     Unlock;
     Hit;
     Bgm;
+    Pop;
 }
 
 typedef SoundDef =
@@ -63,6 +64,7 @@ class AudioManager
         Register({name: Sfx.Move,   group: SoundGroupKind.SFX, volume: 1,  clips: [hxd.Res.sfx.movement.synth1]});
         Register({name: Sfx.Unlock, group: SoundGroupKind.SFX, volume: .6, clips: [hxd.Res.sfx.unlock.unlock]});
         Register({name: Sfx.Hit,    group: SoundGroupKind.SFX, volume: .7, clips: [hxd.Res.sfx.hit.hit]});
+        Register({name: Sfx.Pop,    group: SoundGroupKind.SFX, volume: .7, clips: [hxd.Res.sfx.pop.pop]});
 
         //Register({name: Sfx.Bgm, group: SoundGroupKind.Music, volume: 1, loop: true, clips: [hxd.Res.sfx.mus]});
     }

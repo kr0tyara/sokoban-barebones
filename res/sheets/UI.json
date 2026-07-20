@@ -2,7 +2,7 @@
 
 {
 	"filename": "Checkmark0000",
-	"frame": {"x":102,"y":204,"w":100,"h":100},
+	"frame": {"x":2,"y":587,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -10,7 +10,7 @@
 }
 ,{
 	"filename": "Close0000",
-	"frame": {"x":205,"y":102,"w":100,"h":100},
+	"frame": {"x":104,"y":686,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -18,7 +18,7 @@
 }
 ,{
 	"filename": "Credits0000",
-	"frame": {"x":307,"y":102,"w":100,"h":100},
+	"frame": {"x":105,"y":584,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -26,7 +26,7 @@
 }
 ,{
 	"filename": "Dropdown0000",
-	"frame": {"x":309,"y":0,"w":100,"h":100},
+	"frame": {"x":207,"y":584,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -34,7 +34,7 @@
 }
 ,{
 	"filename": "Hint0000",
-	"frame": {"x":0,"y":210,"w":100,"h":101},
+	"frame": {"x":310,"y":380,"w":100,"h":101},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":101},
@@ -42,7 +42,7 @@
 }
 ,{
 	"filename": "Language0000",
-	"frame": {"x":204,"y":306,"w":100,"h":100},
+	"frame": {"x":2,"y":689,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -50,7 +50,7 @@
 }
 ,{
 	"filename": "Levels0000",
-	"frame": {"x":102,"y":306,"w":100,"h":100},
+	"frame": {"x":206,"y":686,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -58,7 +58,7 @@
 }
 ,{
 	"filename": "Lock0000",
-	"frame": {"x":0,"y":0,"w":100,"h":103},
+	"frame": {"x":2,"y":380,"w":100,"h":103},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":103},
@@ -66,7 +66,7 @@
 }
 ,{
 	"filename": "Lock0001",
-	"frame": {"x":0,"y":105,"w":100,"h":103},
+	"frame": {"x":104,"y":380,"w":100,"h":103},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":103},
@@ -74,7 +74,7 @@
 }
 ,{
 	"filename": "Menu0000",
-	"frame": {"x":204,"y":204,"w":100,"h":100},
+	"frame": {"x":308,"y":688,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -82,7 +82,7 @@
 }
 ,{
 	"filename": "Music0000",
-	"frame": {"x":102,"y":102,"w":101,"h":100},
+	"frame": {"x":206,"y":482,"w":101,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":101,"h":100},
@@ -90,7 +90,7 @@
 }
 ,{
 	"filename": "Pause0000",
-	"frame": {"x":0,"y":313,"w":100,"h":101},
+	"frame": {"x":309,"y":483,"w":100,"h":101},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":101},
@@ -98,7 +98,7 @@
 }
 ,{
 	"filename": "Play0000",
-	"frame": {"x":409,"y":102,"w":100,"h":100},
+	"frame": {"x":410,"y":688,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -106,7 +106,7 @@
 }
 ,{
 	"filename": "Rate0000",
-	"frame": {"x":306,"y":204,"w":100,"h":100},
+	"frame": {"x":309,"y":586,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -114,7 +114,7 @@
 }
 ,{
 	"filename": "Redo0000",
-	"frame": {"x":408,"y":204,"w":100,"h":100},
+	"frame": {"x":410,"y":790,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -122,7 +122,7 @@
 }
 ,{
 	"filename": "Restart0000",
-	"frame": {"x":102,"y":0,"w":102,"h":100},
+	"frame": {"x":206,"y":380,"w":102,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":100},
@@ -130,7 +130,7 @@
 }
 ,{
 	"filename": "Settings0000",
-	"frame": {"x":102,"y":408,"w":100,"h":100},
+	"frame": {"x":2,"y":791,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -138,7 +138,7 @@
 }
 ,{
 	"filename": "Sfx0000",
-	"frame": {"x":206,"y":0,"w":101,"h":100},
+	"frame": {"x":2,"y":485,"w":101,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":101,"h":100},
@@ -146,7 +146,7 @@
 }
 ,{
 	"filename": "Skip0000",
-	"frame": {"x":204,"y":408,"w":100,"h":100},
+	"frame": {"x":206,"y":788,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -154,15 +154,63 @@
 }
 ,{
 	"filename": "Skip0001",
-	"frame": {"x":306,"y":408,"w":100,"h":100},
+	"frame": {"x":308,"y":790,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 }
 ,{
+	"filename": "Tutorial0000",
+	"frame": {"x":2,"y":2,"w":159,"h":187},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":159,"h":187},
+	"sourceSize": {"w":159,"h":187}
+}
+,{
+	"filename": "Tutorial0001",
+	"frame": {"x":163,"y":2,"w":159,"h":187},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":159,"h":187},
+	"sourceSize": {"w":159,"h":187}
+}
+,{
+	"filename": "Tutorial0002",
+	"frame": {"x":324,"y":2,"w":159,"h":187},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":159,"h":187},
+	"sourceSize": {"w":159,"h":187}
+}
+,{
+	"filename": "Tutorial0003",
+	"frame": {"x":2,"y":191,"w":159,"h":187},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":159,"h":187},
+	"sourceSize": {"w":159,"h":187}
+}
+,{
+	"filename": "Tutorial0004",
+	"frame": {"x":163,"y":191,"w":159,"h":187},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":159,"h":187},
+	"sourceSize": {"w":159,"h":187}
+}
+,{
+	"filename": "Tutorial0005",
+	"frame": {"x":324,"y":191,"w":159,"h":187},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":159,"h":187},
+	"sourceSize": {"w":159,"h":187}
+}
+,{
 	"filename": "Undo0000",
-	"frame": {"x":306,"y":306,"w":100,"h":100},
+	"frame": {"x":104,"y":788,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -173,7 +221,7 @@
 	"version": "18.0.1.115",
 	"image": "UI.png",
 	"format": "RGBA8888",
-	"size": {"w":512,"h":512},
+	"size": {"w":512,"h":1024},
 	"scale": "1"
 }
 }

@@ -42,7 +42,7 @@
 					"display": null
 				},
 				{
-					"typeStr": "12:objects",
+					"typeStr": "8",
 					"name": "objects"
 				}
 			],
@@ -71,9 +71,28 @@
 						]
 					},
 					"floor": "AAABAQABAQEBAAEBAQEAAAAAAQAAAAABAQAAAgEB",
-					"objects": "AAAAAAAAAgABAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
 					"className": "SampleLevel",
-					"customArguments": []
+					"customArguments": [],
+					"objects": [
+						{
+							"x": 1,
+							"y": 1,
+							"object": "Block",
+							"tag": ""
+						},
+						{
+							"x": 3,
+							"y": 1,
+							"object": "Player",
+							"tag": "me"
+						},
+						{
+							"x": 1,
+							"y": 5,
+							"object": "Extra",
+							"tag": "tutorial"
+						}
+					]
 				},
 				{
 					"id": "level01",
@@ -82,7 +101,6 @@
 					"tileProps": [],
 					"layers": [],
 					"floor": "AQIAAAEBAAACAQEBAQEBAQEBAAA=",
-					"objects": "AAAAAAAAAAACAQAAAAACAAAAAAA=",
 					"props": {
 						"tileSize": 100,
 						"layers": [
@@ -100,8 +118,34 @@
 							}
 						]
 					},
-					"className": "",
-					"customArguments": []
+					"className": "Microban",
+					"customArguments": [],
+					"objects": [
+						{
+							"x": 2,
+							"y": 1,
+							"object": "Extra",
+							"tag": "tutorial"
+						},
+						{
+							"x": 0,
+							"y": 2,
+							"object": "Block",
+							"tag": ""
+						},
+						{
+							"x": 1,
+							"y": 2,
+							"object": "Player",
+							"tag": "player"
+						},
+						{
+							"x": 2,
+							"y": 3,
+							"object": "Block",
+							"tag": ""
+						}
+					]
 				},
 				{
 					"id": "level02",
@@ -110,7 +154,6 @@
 					"tileProps": [],
 					"layers": [],
 					"floor": "AQEAAAEBAQEBAQEBAAICAA==",
-					"objects": "AAAAAAEAAAAAAgIAAAABAA==",
 					"props": {
 						"tileSize": 100,
 						"layers": [
@@ -125,11 +168,43 @@
 								"p": {
 									"alpha": 1
 								}
+							},
+							{
+								"l": "objectt",
+								"p": {
+									"alpha": 1
+								}
 							}
 						]
 					},
 					"className": "",
-					"customArguments": []
+					"customArguments": [],
+					"objects": [
+						{
+							"x": 0,
+							"y": 1,
+							"object": "Player",
+							"tag": ""
+						},
+						{
+							"x": 1,
+							"y": 2,
+							"object": "Block",
+							"tag": ""
+						},
+						{
+							"x": 2,
+							"y": 2,
+							"object": "Block",
+							"tag": ""
+						},
+						{
+							"x": 2,
+							"y": 3,
+							"object": "Player",
+							"tag": ""
+						}
+					]
 				},
 				{
 					"id": "level03",
@@ -138,7 +213,6 @@
 					"tileProps": [],
 					"layers": [],
 					"floor": "AQEBAQMDAwMDAwMDAwMAAAEBAQI=",
-					"objects": "AQAAAAAAAgAAAAAAAAAAAAAAAAA=",
 					"props": {
 						"tileSize": 100,
 						"layers": [
@@ -153,11 +227,31 @@
 								"p": {
 									"alpha": 1
 								}
+							},
+							{
+								"l": "objectt",
+								"p": {
+									"alpha": 1
+								}
 							}
 						]
 					},
 					"className": "",
-					"customArguments": []
+					"customArguments": [],
+					"objects": [
+						{
+							"x": 0,
+							"y": 0,
+							"object": "Player",
+							"tag": ""
+						},
+						{
+							"x": 2,
+							"y": 1,
+							"object": "Block",
+							"tag": ""
+						}
+					]
 				},
 				{
 					"id": "level04",
@@ -167,7 +261,6 @@
 					"tileProps": [],
 					"layers": [],
 					"floor": "AQEBAQAAAAABAQEBAQEAAAEBAQECAQEAAQECAQIBAQEAAQICAgEBAQAAAQIBAQIBAAEBAgICAgEAAQEBAQEBAQ==",
-					"objects": "AQAAAAAAAAAAAAQAAAAAAAQABAAABgAABAUEAAUABgAABQUFBQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
 					"props": {
 						"tileSize": 100,
 						"layers": [
@@ -182,10 +275,102 @@
 								"p": {
 									"alpha": 1
 								}
+							},
+							{
+								"l": "objectt",
+								"p": {
+									"alpha": 1
+								}
 							}
 						]
 					},
-					"customArguments": []
+					"customArguments": [],
+					"objects": [
+						{
+							"x": 0,
+							"y": 0,
+							"object": "Player",
+							"tag": ""
+						},
+						{
+							"x": 2,
+							"y": 1,
+							"object": "Multiblock1",
+							"tag": ""
+						},
+						{
+							"x": 0,
+							"y": 2,
+							"object": "Multiblock1",
+							"tag": ""
+						},
+						{
+							"x": 2,
+							"y": 2,
+							"object": "Multiblock1",
+							"tag": ""
+						},
+						{
+							"x": 5,
+							"y": 2,
+							"object": "Multiblock3",
+							"tag": ""
+						},
+						{
+							"x": 0,
+							"y": 3,
+							"object": "Multiblock1",
+							"tag": ""
+						},
+						{
+							"x": 1,
+							"y": 3,
+							"object": "Multiblock2",
+							"tag": ""
+						},
+						{
+							"x": 2,
+							"y": 3,
+							"object": "Multiblock1",
+							"tag": ""
+						},
+						{
+							"x": 4,
+							"y": 3,
+							"object": "Multiblock2",
+							"tag": ""
+						},
+						{
+							"x": 6,
+							"y": 3,
+							"object": "Multiblock3",
+							"tag": ""
+						},
+						{
+							"x": 1,
+							"y": 4,
+							"object": "Multiblock2",
+							"tag": ""
+						},
+						{
+							"x": 2,
+							"y": 4,
+							"object": "Multiblock2",
+							"tag": ""
+						},
+						{
+							"x": 3,
+							"y": 4,
+							"object": "Multiblock2",
+							"tag": ""
+						},
+						{
+							"x": 4,
+							"y": 4,
+							"object": "Multiblock2",
+							"tag": ""
+						}
+					]
 				},
 				{
 					"id": "level05",
@@ -196,7 +381,6 @@
 					"tileProps": [],
 					"layers": [],
 					"floor": "AQEBAQEBAQEBAQEBAQEBAQEBAwMDAwMDAQEBAQEBAAICAgAA",
-					"objects": "AQAEBAAAAAIAAAQAAAAEBAQAAAAAAAAAAAAAAAAAAAAAAAAA",
 					"props": {
 						"tileSize": 100,
 						"layers": [
@@ -213,7 +397,57 @@
 								}
 							}
 						]
-					}
+					},
+					"objects": [
+						{
+							"x": 0,
+							"y": 0,
+							"object": "Player",
+							"tag": ""
+						},
+						{
+							"x": 2,
+							"y": 0,
+							"object": "Multiblock1",
+							"tag": ""
+						},
+						{
+							"x": 3,
+							"y": 0,
+							"object": "Multiblock1",
+							"tag": ""
+						},
+						{
+							"x": 1,
+							"y": 1,
+							"object": "Block",
+							"tag": ""
+						},
+						{
+							"x": 4,
+							"y": 1,
+							"object": "Multiblock1",
+							"tag": ""
+						},
+						{
+							"x": 2,
+							"y": 2,
+							"object": "Multiblock1",
+							"tag": ""
+						},
+						{
+							"x": 3,
+							"y": 2,
+							"object": "Multiblock1",
+							"tag": ""
+						},
+						{
+							"x": 4,
+							"y": 2,
+							"object": "Multiblock1",
+							"tag": ""
+						}
+					]
 				}
 			],
 			"separators": [],
@@ -361,6 +595,17 @@
 						"x": 6,
 						"y": 0
 					}
+				},
+				{
+					"id": "Extra",
+					"className": "Extra",
+					"customArguments": [],
+					"tile": {
+						"file": "tileset.png",
+						"size": 100,
+						"x": 7,
+						"y": 0
+					}
 				}
 			],
 			"separators": [],
@@ -481,6 +726,35 @@
 					"typeStr": "16",
 					"name": "argument",
 					"display": null
+				}
+			]
+		},
+		{
+			"name": "levels@objects",
+			"props": {
+				"hide": true
+			},
+			"separators": [],
+			"lines": [],
+			"columns": [
+				{
+					"typeStr": "6:objects",
+					"name": "object",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "x",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "y",
+					"display": null
+				},
+				{
+					"typeStr": "1",
+					"name": "tag"
 				}
 			]
 		}
