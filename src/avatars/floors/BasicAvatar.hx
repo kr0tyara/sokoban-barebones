@@ -54,7 +54,7 @@ class BasicAvatar extends FloorAvatar
             var dirs = dirs.copy();
             dirs[Dir.Up] = true;
 
-            gfx.beginFill(0x5A5A5A);
+            gfx.beginFill(0x355656);
             gfx.drawRoundedRectCorners(0, LevelAvatar.PixelsPerTile - radius, LevelAvatar.PixelsPerTile, LevelAvatar.PixelsPerTile / 2 + radius, radius, dirs);
             gfx.endFill();
         }

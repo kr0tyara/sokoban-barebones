@@ -1,5 +1,6 @@
 package avatars;
 
+import avatars.decorations.Background;
 import motion.Actuate;
 import entities.BaseEntity;
 import entities.objects.*;
@@ -23,8 +24,9 @@ class LevelAvatar extends Object
 
     private var avatars:Array<BaseAvatar>;
     
-    public var objectsContainer:Object;
+    public var background:Background;
     public var floorContainer:Object;
+    public var objectsContainer:Object;
     public var extraContainer:Object;
 
     private var id:Int;
@@ -42,6 +44,9 @@ class LevelAvatar extends Object
 
         avatars = new Array<BaseAvatar>();
 
+        background = new Background(hxd.Res.water.toTile());
+        addChild(background);
+
         floorContainer = new Object();
         addChild(floorContainer);
 
@@ -56,9 +61,11 @@ class LevelAvatar extends Object
 
         for(avatar in avatars)
             avatar.Initialize();
+    }
 
+    public function Init()
+    {
         Focus(null, false);
-        OnResize();
     }
 
     public function OnResize()
@@ -74,6 +81,7 @@ class LevelAvatar extends Object
         this.scaleX = this.scaleY = s.scale;
         this.x = s.x;
         this.y = s.y;
+        background.OnResize();
     }
 
     public function FocusScale(focus:Focus)

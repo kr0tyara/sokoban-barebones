@@ -45,6 +45,8 @@ class Level extends h2d.Object
         
         avatar = new LevelAvatar(id, grid);
         addChild(avatar);
+
+        avatar.Init();
     }
 
     public override function onRemove()
