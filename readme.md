@@ -1,6 +1,7 @@
 # Sokoban Barebones
 
 ![Showcase](media/show.gif)
+
 Showcase: https://youtu.be/2lYtqUzJclg
 
 A really simplistic boilerplate for your Sokoban puzzle based on the Heaps.io engine.
