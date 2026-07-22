@@ -1,3 +1,4 @@
+import cdb.Types.ArrayRead;
 import entities.floors.FloorEntity;
 import entities.objects.ObjectEntity;
 import entities.objects.Player;
@@ -46,7 +47,7 @@ class Grid
         var objects = levelData.objects;
         for(obj in objects)
         {            
-            var object = SpawnObjectTile(obj.objectId, obj.x, obj.y, obj.tag);
+            var object = SpawnObjectTile(obj.objectId, obj.x, obj.y, obj.tag, obj.customArguments);
             if(object is Player)
                 players.push(cast(object, Player));
         }
@@ -77,7 +78,11 @@ class Grid
         return list;
     }
 
-    public function SpawnObjectTile(kind:Data.ObjectsKind, x:Int, y:Int, tag:String = '')
+    // customArguments can be defined both in the Data.objects definition itself and for individual object instances at the level.
+    // Custom arguments defined in the Data.objects go first, Data.Levels_objects go next.
+    //  For example, entities.objects.Player has an optional argument altSprite.
+    //  level02 that contains two Players with altSprite that is defined in two ways: as a separate object PlayerAltSprite and a Player with a customArgument.
+    public function SpawnObjectTile(kind:Data.ObjectsKind, x:Int, y:Int, tag:String = '', customArguments:ArrayRead<Data.Levels_objects_customArguments> = null)
     {
         if(kind == Data.ObjectsKind.Void)
             return null;
@@ -94,6 +99,8 @@ class Grid
         var args:Array<Dynamic> = [kind];
         if(object.customArguments.length > 0)
             args = args.concat(object.customArguments.map(a -> a.argument));
+        if(customArguments != null)
+            args = args.concat(customArguments.map(a -> a.argument));
 
         var object = Type.createInstance(objectClass, args);
         object.tag = tag;

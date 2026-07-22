@@ -18,6 +18,22 @@
 }
 ,{
 	"filename": "Guy0002",
+	"frame": {"x":216,"y":2,"w":105,"h":117},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":117},
+	"sourceSize": {"w":105,"h":117}
+}
+,{
+	"filename": "GuyAlt0000",
+	"frame": {"x":323,"y":2,"w":105,"h":117},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":117},
+	"sourceSize": {"w":105,"h":117}
+}
+,{
+	"filename": "GuyAlt0001",
 	"frame": {"x":2,"y":121,"w":105,"h":117},
 	"rotated": false,
 	"trimmed": false,
@@ -25,8 +41,16 @@
 	"sourceSize": {"w":105,"h":117}
 }
 ,{
+	"filename": "GuyAlt0002",
+	"frame": {"x":109,"y":121,"w":105,"h":117},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":117},
+	"sourceSize": {"w":105,"h":117}
+}
+,{
 	"filename": "Wall0000",
-	"frame": {"x":109,"y":121,"w":105,"h":99},
+	"frame": {"x":216,"y":121,"w":105,"h":99},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":99},
@@ -34,7 +58,7 @@
 }
 ,{
 	"filename": "Wall0001",
-	"frame": {"x":109,"y":222,"w":105,"h":99},
+	"frame": {"x":323,"y":121,"w":105,"h":99},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":99},
@@ -42,7 +66,7 @@
 }
 ,{
 	"filename": "Wall0002",
-	"frame": {"x":2,"y":240,"w":105,"h":99},
+	"frame": {"x":216,"y":222,"w":105,"h":99},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":99},
@@ -53,7 +77,7 @@
 	"version": "18.0.1.115",
 	"image": "sheet.png",
 	"format": "RGBA8888",
-	"size": {"w":256,"h":512},
+	"size": {"w":512,"h":512},
 	"scale": "1"
 }
 }

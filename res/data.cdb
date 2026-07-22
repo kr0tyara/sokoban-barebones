@@ -78,19 +78,22 @@
 							"x": 1,
 							"y": 1,
 							"object": "Block",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						},
 						{
 							"x": 3,
 							"y": 1,
 							"object": "Player",
-							"tag": "me"
+							"tag": "me",
+							"customArguments": []
 						},
 						{
 							"x": 1,
 							"y": 5,
 							"object": "Extra",
-							"tag": "tutorial"
+							"tag": "tutorial",
+							"customArguments": []
 						}
 					]
 				},
@@ -125,25 +128,29 @@
 							"x": 2,
 							"y": 1,
 							"object": "Extra",
-							"tag": "tutorial"
+							"tag": "tutorial",
+							"customArguments": []
 						},
 						{
 							"x": 0,
 							"y": 2,
 							"object": "Block",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						},
 						{
 							"x": 1,
 							"y": 2,
 							"object": "Player",
-							"tag": "player"
+							"tag": "player",
+							"customArguments": []
 						},
 						{
 							"x": 2,
 							"y": 3,
 							"object": "Block",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						}
 					]
 				},
@@ -183,26 +190,34 @@
 						{
 							"x": 0,
 							"y": 1,
-							"object": "Player",
-							"tag": ""
-						},
-						{
-							"x": 1,
-							"y": 2,
-							"object": "Block",
-							"tag": ""
-						},
-						{
-							"x": 2,
-							"y": 2,
-							"object": "Block",
-							"tag": ""
+							"object": "PlayerAltSprite",
+							"tag": "",
+							"customArguments": []
 						},
 						{
 							"x": 2,
 							"y": 3,
 							"object": "Player",
-							"tag": ""
+							"tag": "",
+							"customArguments": [
+								{
+									"argument": true
+								}
+							]
+						},
+						{
+							"x": 1,
+							"y": 2,
+							"object": "Block",
+							"tag": "",
+							"customArguments": []
+						},
+						{
+							"x": 2,
+							"y": 2,
+							"object": "Block",
+							"tag": "",
+							"customArguments": []
 						}
 					]
 				},
@@ -243,13 +258,15 @@
 							"x": 0,
 							"y": 0,
 							"object": "Player",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						},
 						{
 							"x": 2,
 							"y": 1,
 							"object": "Block",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						}
 					]
 				},
@@ -290,85 +307,99 @@
 							"x": 0,
 							"y": 0,
 							"object": "Player",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						},
 						{
 							"x": 2,
 							"y": 1,
 							"object": "Multiblock1",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						},
 						{
 							"x": 0,
 							"y": 2,
 							"object": "Multiblock1",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						},
 						{
 							"x": 2,
 							"y": 2,
 							"object": "Multiblock1",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						},
 						{
 							"x": 5,
 							"y": 2,
 							"object": "Multiblock3",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						},
 						{
 							"x": 0,
 							"y": 3,
 							"object": "Multiblock1",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						},
 						{
 							"x": 1,
 							"y": 3,
 							"object": "Multiblock2",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						},
 						{
 							"x": 2,
 							"y": 3,
 							"object": "Multiblock1",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						},
 						{
 							"x": 4,
 							"y": 3,
 							"object": "Multiblock2",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						},
 						{
 							"x": 6,
 							"y": 3,
 							"object": "Multiblock3",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						},
 						{
 							"x": 1,
 							"y": 4,
 							"object": "Multiblock2",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						},
 						{
 							"x": 2,
 							"y": 4,
 							"object": "Multiblock2",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						},
 						{
 							"x": 3,
 							"y": 4,
 							"object": "Multiblock2",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						},
 						{
 							"x": 4,
 							"y": 4,
 							"object": "Multiblock2",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						}
 					]
 				},
@@ -403,49 +434,57 @@
 							"x": 0,
 							"y": 0,
 							"object": "Player",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						},
 						{
 							"x": 2,
 							"y": 0,
 							"object": "Multiblock1",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						},
 						{
 							"x": 3,
 							"y": 0,
 							"object": "Multiblock1",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						},
 						{
 							"x": 1,
 							"y": 1,
 							"object": "Block",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						},
 						{
 							"x": 4,
 							"y": 1,
 							"object": "Multiblock1",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						},
 						{
 							"x": 2,
 							"y": 2,
 							"object": "Multiblock1",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						},
 						{
 							"x": 3,
 							"y": 2,
 							"object": "Multiblock1",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						},
 						{
 							"x": 4,
 							"y": 2,
 							"object": "Multiblock1",
-							"tag": ""
+							"tag": "",
+							"customArguments": []
 						}
 					]
 				}
@@ -528,6 +567,21 @@
 					},
 					"className": "Player",
 					"customArguments": []
+				},
+				{
+					"id": "PlayerAltSprite",
+					"className": "Player",
+					"customArguments": [
+						{
+							"argument": true
+						}
+					],
+					"tile": {
+						"file": "tileset.png",
+						"size": 100,
+						"x": 8,
+						"y": 0
+					}
 				},
 				{
 					"id": "Block",
@@ -755,6 +809,25 @@
 				{
 					"typeStr": "1",
 					"name": "tag"
+				},
+				{
+					"typeStr": "8",
+					"name": "customArguments"
+				}
+			]
+		},
+		{
+			"name": "levels@objects@customArguments",
+			"props": {
+				"hide": true
+			},
+			"separators": [],
+			"lines": [],
+			"columns": [
+				{
+					"typeStr": "16",
+					"name": "argument",
+					"display": null
 				}
 			]
 		}
