@@ -3,7 +3,6 @@ package macros;
 import sys.FileSystem;
 import haxe.macro.Expr;
 import haxe.macro.Context;
-import gfx.SheetData;
 import sys.io.File;
 
 typedef RoomData = 

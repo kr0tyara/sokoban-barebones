@@ -1,6 +1,7 @@
 -cp src
 
 -lib heaps
+-lib heaps-sprites
 -lib castle
 -lib actuate
 

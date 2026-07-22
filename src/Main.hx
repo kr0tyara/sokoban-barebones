@@ -1,5 +1,5 @@
 import gfx.CdbSheet;
-import gfx.SpriteSheet;
+import hs.SpriteSheet;
 import macros.ResTools;
 import h2d.Font;
 import hxd.Res;
@@ -48,7 +48,14 @@ class Main extends hxd.App
         #end
     
         Data.load(Res.data.entry.getText());
+
         sheet = new SpriteSheet();
+        for(s in Reflect.fields(Main.sheet))
+        {
+            var sprite = cast(Reflect.field(Main.sheet, s), hs.Sprite);
+            sprite.setCenterRatio(.5, 1);
+        }
+
         cdbSheet = new CdbSheet();
 
         font = hxd.Res.fonts.font.toSdfFont(50, SDFChannel.Alpha).clone();
