@@ -21,17 +21,22 @@ class Transition extends Object
         addChild(bg);
     }
 
+    private function MoveBackground(y:Float)
+    {
+        bg.y = y;
+    }
+
     public function Start(delay:Float = 0)
     {
         this.visible = true;
-        bg.alpha = 0;
+        bg.y = -Main.inst.s2d.height;
 
-        Actuate.tween(bg, .25, {alpha: 1}).onComplete(() ->
+        Actuate.update(MoveBackground, .25, [-Main.inst.s2d.height], [0]).onComplete(() ->
         {
             if(onHalfway != null)
                 onHalfway();
 
-            Actuate.tween(bg, .25, {alpha: 0}).onComplete(() ->
+            Actuate.update(MoveBackground, .25, [0], [Main.inst.s2d.height]).onComplete(() ->
             {
                 if(onComplete != null)
                     onComplete();
