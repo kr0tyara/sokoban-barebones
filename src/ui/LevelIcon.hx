@@ -115,6 +115,5 @@ class LevelIcon extends InteractiveExtender
     private function Click(e:Event)
     {
         Game.inst.LoadLevel(level.id, 0);   
-        Game.inst.ToggleLevelSelect(false); 
     }
 }

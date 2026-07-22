@@ -1,5 +1,6 @@
-import ui.LevelSelect;
 import motion.Actuate;
+import ui.Transition;
+import ui.LevelSelect;
 import ui.LevelUI;
 import haxe.Exception;
 import hxd.Key;
@@ -12,6 +13,8 @@ class Game extends h2d.Object
     public static var level:Level;
     public static var ui:LevelUI;
     public static var select:LevelSelect;
+
+    public static var transition:Transition;
     
     public static var history:History;
     private var currentLevel:Data.LevelsKind = SaveManager.save.lastLevel;
@@ -33,8 +36,14 @@ class Game extends h2d.Object
         addChild(ui);
 
         select = new LevelSelect();
-        addChild(select);
         select.visible = false;
+        addChild(select);
+
+        transition = new Transition();
+        transition.visible = false;
+        transition.onHalfway = OnTransitionHalfway;
+        transition.onComplete = OnTransitionComplete;
+        addChild(transition);
 
         //AudioManager.inst.Play(Sfx.Bgm);
 
@@ -53,9 +62,9 @@ class Game extends h2d.Object
     {
         #if debug
             if(Key.isPressed(Key.N))
-                NextLevel(0);
+                NextLevel(0, false);
             if(Key.isPressed(Key.B))
-                PrevLevel(0);
+                PrevLevel(0, false);
         #end
 
         level.update(dt);
@@ -66,6 +75,7 @@ class Game extends h2d.Object
         level.OnResize();
         ui.OnResize();
         select.OnResize();
+        transition.OnResize();
     }
 
     public function InputBlocked()
@@ -79,15 +89,15 @@ class Game extends h2d.Object
         return false;
     }
 
-    public function NextLevel(delay:Float = 0)
+    public function NextLevel(delay:Float = 0, showTransition:Bool = true)
     {
-        LoadLevel(Data.levels.all[Utils.LoopIndex(level.id, 1, Data.levels.all.length)].id, delay);
+        LoadLevel(Data.levels.all[Utils.LoopIndex(level.id, 1, Data.levels.all.length)].id, delay, showTransition);
     }
-    public function PrevLevel(delay:Float = 0)
+    public function PrevLevel(delay:Float = 0, showTransition:Bool = true)
     {
-        LoadLevel(Data.levels.all[Utils.LoopIndex(level.id, -1, Data.levels.all.length)].id, delay);
+        LoadLevel(Data.levels.all[Utils.LoopIndex(level.id, -1, Data.levels.all.length)].id, delay, showTransition);
     }
-    public function LoadLevel(kind:Data.LevelsKind, delay:Float = 0)
+    public function LoadLevel(kind:Data.LevelsKind, delay:Float = 0, showTransition:Bool = true)
     {
         if(nextLevelRequested)
             return;
@@ -95,10 +105,23 @@ class Game extends h2d.Object
         nextLevelRequested = true;
         currentLevel = kind;
         
-        Actuate.timer(delay).onComplete(() ->
+        if(showTransition)
+            transition.Start(delay);
+        else
         {
-            SetLevel(currentLevel);
-        });
+            Actuate.timer(delay).onComplete(() ->
+            {
+                SetLevel(currentLevel);
+            });
+        }
+    }
+
+    public function OnTransitionHalfway()
+    {
+        SetLevel(currentLevel);
+    }
+    public function OnTransitionComplete()
+    {
     }
 
     public function SetLevel(id:Data.LevelsKind)
