@@ -1,4 +1,4 @@
-package entities.objects;
+package entities;
 
 import avatars.BaseAvatar;
 import avatars.ObjectAvatar;

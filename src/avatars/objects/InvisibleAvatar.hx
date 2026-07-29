@@ -1,7 +1,7 @@
 package avatars.objects;
 
 import h2d.Anim;
-import entities.objects.ObjectEntity;
+import entities.ObjectEntity;
 
 class InvisibleAvatar extends ObjectAvatar
 {

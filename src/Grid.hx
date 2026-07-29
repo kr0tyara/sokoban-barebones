@@ -1,10 +1,10 @@
 import cdb.Types.ArrayRead;
-import entities.floors.FloorEntity;
-import entities.objects.ObjectEntity;
 import entities.objects.Player;
 import haxe.Exception;
 import entities.BaseEntity;
 import avatars.*;
+import entities.FloorEntity;
+import entities.ObjectEntity;
 
 class Grid
 {

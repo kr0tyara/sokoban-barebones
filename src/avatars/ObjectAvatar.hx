@@ -4,7 +4,7 @@ import motion.Actuate;
 import motion.easing.Linear;
 import h2d.Bitmap;
 import h3d.Vector;
-import entities.objects.ObjectEntity;
+import entities.ObjectEntity;
 
 class ObjectAvatar extends BaseAvatar
 {

@@ -1,7 +1,7 @@
 package avatars;
 
 import h2d.Graphics;
-import entities.floors.FloorEntity;
+import entities.FloorEntity;
 
 class FloorAvatar extends BaseAvatar
 {

@@ -126,26 +126,6 @@ class Utils
         return vector.add(quat.w * t + crossT);
     }
 
-    public static function ReadableSide(side:Int):String
-    {
-        switch(side)
-        {
-            case 0:
-                return 'низ';
-            case 1:
-                return 'лево';
-            case 2:
-                return 'перед';
-            case 3:
-                return 'право';
-            case 4:
-                return 'зад';
-            case 5:
-                return 'верх';
-        }
-        return 'куёлда';
-    }
-
     public static function ShadeColor(color:Int, percent:Float):Int
     {
         var R = color >> 16;
@@ -170,5 +150,33 @@ class Utils
 
         return newColor;
     }
-    
+
+    public static function Clone(value:Dynamic):Dynamic
+    {
+        if(value == null)
+            return value;
+
+        if(Std.isOfType(value, Array))
+        {
+            var source:Array<Dynamic> = cast value;
+            var copy = new Array<Dynamic>();
+
+            for(item in source)
+                copy.push(Clone(item));
+
+            return copy;
+        }
+
+        if(Std.isOfType(value, entities.BaseEntity))
+            return value;
+
+        if(Std.isOfType(value, String) || !Reflect.isObject(value))
+            return value;
+
+        var copy:Dynamic = {};
+        for(field in Reflect.fields(value))
+            Reflect.setField(copy, field, Clone(Reflect.field(value, field)));
+        
+        return copy;
+    }
 }

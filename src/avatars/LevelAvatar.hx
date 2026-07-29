@@ -3,11 +3,8 @@ package avatars;
 import avatars.decorations.Background;
 import motion.Actuate;
 import entities.BaseEntity;
-import entities.objects.*;
-import avatars.objects.*;
-
-import entities.floors.*;
-import avatars.floors.*;
+import entities.ObjectEntity;
+import entities.FloorEntity;
 
 import h2d.Object;
 

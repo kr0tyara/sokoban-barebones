@@ -1,7 +1,7 @@
-package entities.floors;
+package entities;
 
 import avatars.FloorAvatar;
-import entities.objects.ObjectEntity;
+import entities.ObjectEntity;
 
 class FloorEntity extends BaseEntity
 {

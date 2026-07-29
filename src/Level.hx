@@ -1,9 +1,7 @@
-import motion.Actuate;
-import entities.objects.ObjectEntity;
 import avatars.LevelAvatar;
 import InputManager.InputKey;
 import AudioManager.Sfx;
-import h2d.Graphics;
+import entities.ObjectEntity;
 
 @:keepSub
 class Level extends h2d.Object

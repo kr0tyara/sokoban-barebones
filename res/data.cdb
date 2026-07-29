@@ -487,6 +487,70 @@
 							"customArguments": []
 						}
 					]
+				},
+				{
+					"id": "level06",
+					"width": 6,
+					"height": 6,
+					"className": "",
+					"customArguments": [],
+					"tileProps": [],
+					"layers": [],
+					"floor": "AAABAQAAAAEBAgEAAQECAQIBAQEBAgEBAAEBAQEAAAABAQAA",
+					"objects": [
+						{
+							"x": 1,
+							"y": 1,
+							"object": "Block",
+							"tag": "",
+							"customArguments": []
+						},
+						{
+							"x": 2,
+							"y": 1,
+							"object": "StickyPlayer",
+							"tag": "",
+							"customArguments": []
+						},
+						{
+							"x": 4,
+							"y": 1,
+							"object": "Block",
+							"tag": "",
+							"customArguments": []
+						},
+						{
+							"x": 1,
+							"y": 4,
+							"object": "Block",
+							"tag": "",
+							"customArguments": []
+						},
+						{
+							"x": 4,
+							"y": 4,
+							"object": "Block",
+							"tag": "",
+							"customArguments": []
+						}
+					],
+					"props": {
+						"tileSize": 100,
+						"layers": [
+							{
+								"l": "floor",
+								"p": {
+									"alpha": 1
+								}
+							},
+							{
+								"l": "objects",
+								"p": {
+									"alpha": 1
+								}
+							}
+						]
+					}
 				}
 			],
 			"separators": [],
@@ -576,6 +640,17 @@
 							"argument": true
 						}
 					],
+					"tile": {
+						"file": "tileset.png",
+						"size": 100,
+						"x": 8,
+						"y": 0
+					}
+				},
+				{
+					"id": "StickyPlayer",
+					"className": "StickyPlayer",
+					"customArguments": [],
 					"tile": {
 						"file": "tileset.png",
 						"size": 100,

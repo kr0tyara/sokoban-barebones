@@ -1,6 +1,6 @@
 package entities.floors;
 
-import entities.objects.ObjectEntity;
+import entities.ObjectEntity;
 
 class Hole extends FloorEntity
 {

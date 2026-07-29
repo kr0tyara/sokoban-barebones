@@ -1,8 +1,7 @@
 package entities;
 
-import entities.floors.FloorEntity;
-import entities.objects.ObjectEntity;
-import avatars.objects.PlayerAvatar;
+import entities.FloorEntity;
+import entities.ObjectEntity;
 import avatars.BaseAvatar;
 import haxe.Exception;
 
@@ -53,6 +52,9 @@ class BaseEntity
         for(field in historyFields)
         {
             var f = Reflect.field(this, field);
+            if(f is Array)
+                f = Utils.Clone(f);
+
             Reflect.setField(state, field, f);
         }
 
@@ -67,9 +69,13 @@ class BaseEntity
 
         for(field in Reflect.fields(state))
         {
-            if(Reflect.hasField(this, field) && Reflect.field(this, field) != Reflect.field(state, field))
+            if(Reflect.hasField(this, field))
             {
-                Reflect.setField(this, field, Reflect.field(state, field));
+                var f = Reflect.field(state, field);
+                if(f is Array)
+                    f = Utils.Clone(f);
+
+                Reflect.setField(this, field, f);
                 changes.push(field);
             }
         }

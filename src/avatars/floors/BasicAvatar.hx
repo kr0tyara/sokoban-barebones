@@ -5,7 +5,7 @@ import h2d.Graphics;
 import h2d.Anim;
 import h2d.Tile;
 import h2d.Bitmap;
-import entities.floors.FloorEntity;
+import entities.FloorEntity;
 import entities.floors.Hole;
 
 class BasicAvatar extends FloorAvatar
