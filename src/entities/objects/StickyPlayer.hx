@@ -16,7 +16,7 @@ class StickyPlayer extends Player
         var neighbours = GetNeighbourObjects();
         for(n in neighbours)
             if(!linked.contains(n) && !(n is Player))
-                linked.push(n);
+                linked = linked.concat(n.GetPushGroup());
     }
 
     public override function GetPushGroup():Array<ObjectEntity>
