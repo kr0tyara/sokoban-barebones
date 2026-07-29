@@ -8,8 +8,9 @@ A really simplistic boilerplate for your Sokoban puzzle based on the Heaps.io en
 
 ## Features
 - Basic Sokoban game loop (move the boxes into green cells!)
-- Connected blocks support
 - Multi-agent movement support
+- Connected blocks support
+- Dynamic object creation/destruction support
 - Mobile controls support (via swipes)
 - Undo / Redo functionality; Restart can be undone as well!
 - Save / Load progress

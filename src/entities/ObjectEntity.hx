@@ -28,7 +28,7 @@ class ObjectEntity extends BaseEntity
     {
         return [this];
     }
-    public function CanPush(dirX:Int, dirY:Int):Bool
+    public function CanPush(dirX:Int, dirY:Int, isPlayerMove:Bool):Bool
     {
         return true;
     }

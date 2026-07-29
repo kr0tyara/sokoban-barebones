@@ -551,6 +551,49 @@
 							}
 						]
 					}
+				},
+				{
+					"id": "level07",
+					"width": 5,
+					"height": 5,
+					"className": "",
+					"customArguments": [],
+					"tileProps": [],
+					"layers": [],
+					"floor": "AAICAgABAQEBAQEBAQEBAQEBAQEAAgICAA==",
+					"objects": [
+						{
+							"x": 2,
+							"y": 2,
+							"object": "Player",
+							"tag": "",
+							"customArguments": []
+						},
+						{
+							"x": 4,
+							"y": 2,
+							"object": "BlockMaker",
+							"tag": "",
+							"customArguments": []
+						}
+					],
+					"props": {
+						"tileSize": 100,
+						"layers": [
+							{
+								"l": "floor",
+								"p": {
+									"alpha": 1
+								}
+							},
+							{
+								"l": "objects",
+								"p": {
+									"alpha": 1
+								}
+							}
+						]
+					}
 				}
 			],
 			"separators": [],
@@ -733,6 +776,17 @@
 						"file": "tileset.png",
 						"size": 100,
 						"x": 7,
+						"y": 0
+					}
+				},
+				{
+					"id": "BlockMaker",
+					"className": "BlockMaker",
+					"customArguments": [],
+					"tile": {
+						"file": "tileset.png",
+						"size": 100,
+						"x": 9,
 						"y": 0
 					}
 				}

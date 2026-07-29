@@ -4,7 +4,8 @@ import entities.BaseEntity;
 
 typedef HistoryState = {
     entity:BaseEntity,
-    state:Dynamic 
+    state:Dynamic,
+    ?spawned:Bool
 }
 
 class History
@@ -27,6 +28,8 @@ class History
     {
         return undone.length;
     }
+
+    private var pendingDestroyed:Array<BaseEntity> = [];
 
     public function new()
     {
@@ -63,60 +66,86 @@ class History
         return null;
     }
 
+    
+    public function NotifyDestroyed(entity:BaseEntity)
+    {
+        pendingDestroyed.push(entity);
+    }
+
+    private function Backfill(entity:BaseEntity, oldStates:Array<HistoryState>)
+    {
+        if(currentState >= 0 && !ContainsEntity(states[currentState], entity))
+        {
+            var state = LastStateOf(entity);
+            if(state != null)
+                oldStates.push({entity: entity, state: Reflect.copy(state.state)});
+        }
+    }
+
     public function MakeState(forceAll:Bool = false)
     {
         var newStates = new Array<HistoryState>();
-        var oldStates = new Array<HistoryState>(); // clone old states that will be updated in the new one
+        var oldStates = new Array<HistoryState>();
+
         for(entity in grid.allEntities)
         {
             if(entity.dirty || forceAll)
             {
-                // remember the previous state before updating
-                if(currentState >= 0 && !ContainsEntity(states[currentState], entity))
-                {
-                    var state = LastStateOf(entity);
-                    if(state != null)
-                        oldStates.push({entity: entity, state: Reflect.copy(state.state)});
-                }
+                Backfill(entity, oldStates);
 
-                newStates.push({entity: entity, state: entity.MakeState()});
+                var isNew = LastStateOf(entity) == null;
+                newStates.push({entity: entity, state: entity.MakeState(), spawned: isNew});
                 entity.dirty = false;
             }
         }
 
-        if(oldStates.length > 0)
+        for(entity in pendingDestroyed)
         {
-            states[currentState] = states[currentState].concat(oldStates);
+            Backfill(entity, oldStates);
+            newStates.push({entity: entity, state: null});
         }
-        
+        pendingDestroyed = [];
+
+        if(oldStates.length > 0)
+            states[currentState] = states[currentState].concat(oldStates);
+
         if(newStates.length > 0)
         {
             states.push(newStates);
             currentState++;
-
             undone = new Array<Array<HistoryState>>();
         }
 
         Game.ui.Refresh();
     }
 
-    public function SetState(state:Int)
-    {
-        if(state < 0 || state >= states.length - 1)
-            return;
-
-        currentState = state;
-        states = states.slice(0, currentState + 1);
-
-        ApplyChanges();
-    }
-
     private function ApplyChanges()
     {
         for(state in states[currentState])
-            state.entity.ApplyState(state.state);
+            if(state.state != null)
+                state.entity.ApplyState(state.state);
 
         Game.ui.Refresh();
+    }
+
+    private function SyncExistence(frame:Array<HistoryState>, entering:Bool)
+    {
+        for(record in frame)
+        {
+            if(record.spawned == true)
+                SetAlive(record.entity, entering);
+            else if(record.state == null)
+                SetAlive(record.entity, !entering);
+        }
+    }
+
+    private function SetAlive(entity:BaseEntity, alive:Bool)
+    {
+        var isAlive = grid.allEntities.contains(entity);
+        if(alive && !isAlive)
+            grid.Revive(entity);
+        else if(!alive && isAlive)
+            grid.Destroy(entity, false);
     }
 
     public function Undo():Bool
@@ -128,26 +157,48 @@ class History
         var lastState = states.pop();
         undone.push(lastState);
 
+        SyncExistence(lastState, false);
         ApplyChanges();
-        
+
         return true;
     }
-    
+
     public function Redo():Bool
     {
         if(undone.length == 0)
             return false;
 
         currentState += 1;
-        states.push(undone.pop());
+        var frame = undone.pop();
+        states.push(frame);
 
+        SyncExistence(frame, true);
         ApplyChanges();
-        
+
         return true;
+    }
+
+    public function SetState(state:Int)
+    {
+        if(state < 0 || state >= states.length + undone.length)
+            return;
+
+        while(currentState > state) Undo();
+        while(currentState < state) Redo();
     }
 
     public function Restart()
     {
+        var initial = states[0].map(s -> s.entity);
+
+        for(entity in grid.allEntities.copy())
+            if(!initial.contains(entity))
+                grid.Destroy(entity);
+
+        for(record in states[0])
+            if(!grid.allEntities.contains(record.entity))
+                grid.Revive(record.entity);
+
         for(state in states[0])
             state.entity.ApplyState(state.state);
 

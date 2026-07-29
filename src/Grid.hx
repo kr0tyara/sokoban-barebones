@@ -174,7 +174,7 @@ class Grid
         var toMove = new Array<ObjectEntity>();
         var primaryGroup = object.GetPushGroup();
 
-        if(!DiscoverPush(object, dirX, dirY, toMove))
+        if(!DiscoverPush(object, dirX, dirY, toMove, isPlayerMove))
             return false;
 
         var ordered = SortByDirection(toMove, dirX, dirY);
@@ -187,7 +187,7 @@ class Grid
         return true;
     }
 
-    private function DiscoverPush(entity:ObjectEntity, dirX:Int, dirY:Int, toMove:Array<ObjectEntity>):Bool
+    private function DiscoverPush(entity:ObjectEntity, dirX:Int, dirY:Int, toMove:Array<ObjectEntity>, isPlayerMove:Bool):Bool
     {
         if(toMove.contains(entity))
             return true;
@@ -199,7 +199,7 @@ class Grid
             if(member.x + dirX < 0 || member.x + dirX >= width || member.y + dirY < 0 || member.y + dirY >= height)
                 return false;
 
-            if(!member.CanPush(dirX, dirY))
+            if(!member.CanPush(dirX, dirY, isPlayerMove))
                 return false;
 
             var floor = GetFloor(member.x + dirX, member.y + dirY);
@@ -218,28 +218,45 @@ class Grid
             if(occupant == null || group.contains(occupant) || toMove.contains(occupant))
                 continue;
 
-            if(!DiscoverPush(occupant, dirX, dirY, toMove))
+            if(!DiscoverPush(occupant, dirX, dirY, toMove, isPlayerMove))
                 return false;
         }
 
         return true;
     }
-
-    public function Destroy(x:Int, y:Int)
+    
+    public function Destroy(entity:BaseEntity, notify:Bool = true)
     {
-        if(x < 0 || x >= width || y < 0 || y >= height)
-        {
-            throw new Exception('Destroy out of bounds: {$x, $y}');
-            return;
-        }
+        if(notify)
+            Game.history.NotifyDestroyed(entity);
 
-        var object = GetObject(x, y);
-        if(object != null)
+        entity.OnDestroy();
+        allEntities.remove(entity);
+
+        if(entity is ObjectEntity)
         {
-            object.OnDestroy();
-            objects.remove(object);
-            allEntities.remove(object);
+            objects.remove(cast entity);
+            if(entity is Player)
+                players.remove(cast entity);
         }
+        else if(entity is FloorEntity)
+            floors.remove(cast entity);
+    }
+
+    public function Revive(entity:BaseEntity)
+    {
+        allEntities.push(entity);
+
+        if(entity is ObjectEntity)
+        {
+            objects.push(cast entity);
+            if(entity is Player)
+                players.push(cast entity);
+        }
+        else if(entity is FloorEntity)
+            floors.push(cast entity);
+
+        entity.OnCreate();
     }
 
     public function Move(object:ObjectEntity, dirX:Int, dirY:Int, isPlayerMove:Bool):Bool
