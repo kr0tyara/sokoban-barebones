@@ -16,6 +16,7 @@ class Main extends hxd.App
     private var saveManager:SaveManager;
     private var audioManager:AudioManager;
     private var inputManager:InputManager;
+    private var actionQueue:ActionQueue;
     private var game:Game;
 
     public static var sheet:SpriteSheet;
@@ -65,6 +66,7 @@ class Main extends hxd.App
         saveManager = new SaveManager();
         audioManager = new AudioManager();
         inputManager = new InputManager();
+        actionQueue = new ActionQueue();
 
         engine.backgroundColor = 0x787878;
         s2d.defaultSmooth = true;
@@ -88,6 +90,8 @@ class Main extends hxd.App
 
         inputManager.update(dt);
         game.update(dt);
+
+        actionQueue.update(dt);
     }
 
     public static function main()

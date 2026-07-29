@@ -29,13 +29,16 @@ class Microban extends Level
     public override function OnComplete()
     {
         var player = Level.grid.GetObjectByTag('player');
-        Level.avatar.Focus({x: player.x, y: player.y, w: 1, h: 1}, true, .5,
+        Level.avatar.Focus({x: player.x, y: player.y, w: 1, h: 1}, true, 0, .5);
+
+        ActionQueue.inst.WaitUntil(() -> !Level.avatar.cameraTransition,
             () -> {
                 Actuate.timer(.25).onComplete(() -> {
                     player.avatar.visible = false;
                     AudioManager.inst.Play(Sfx.Pop);
                 });   
-            });
+            }
+        );
 
         super.Complete(1.5);
     }

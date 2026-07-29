@@ -1,7 +1,7 @@
 package entities.objects;
 
 import avatars.BaseAvatar;
-import avatars.objects.ObjectAvatar;
+import avatars.ObjectAvatar;
 
 @:build(macros.HistoryMaker.load())
 class ObjectEntity extends BaseEntity

@@ -4,6 +4,7 @@ import entities.objects.ObjectEntity;
 import entities.objects.Player;
 import haxe.Exception;
 import entities.BaseEntity;
+import avatars.*;
 
 class Grid
 {
@@ -301,6 +302,19 @@ class Grid
         CheckLevelCompletion();
     }
 
+    private var completionQueued:Bool = false;
+    public function AnyPlayerMoving():Bool
+    {
+        for(player in players)
+        {
+            var avatar = cast(player.avatar, ObjectAvatar);
+            if(avatar != null && avatar.isMoving)
+                return true;
+        }
+
+        return false;
+    }
+
     public function CheckLevelCompletion()
     {
         var won = true;
@@ -321,8 +335,11 @@ class Grid
             }
         }
 
-        if(won)
-            Game.level.OnComplete();
+        if(won && !completionQueued)
+        {
+            completionQueued = true;
+            ActionQueue.inst.WaitUntil(() -> !AnyPlayerMoving(), () -> Game.level.OnComplete());
+        }
     }
 
     public function GetObjects(x:Int, y:Int):Array<ObjectEntity>

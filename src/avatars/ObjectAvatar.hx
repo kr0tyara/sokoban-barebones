@@ -1,4 +1,4 @@
-package avatars.objects;
+package avatars;
 
 import motion.Actuate;
 import motion.easing.Linear;
@@ -8,10 +8,10 @@ import entities.objects.ObjectEntity;
 
 class ObjectAvatar extends BaseAvatar
 {
-    public static inline var animationSpeed:Float = 35;
-
     private var object:ObjectEntity;
     private var targetPosition:Vector;
+
+    public var isMoving(default, null):Bool = false;
 
     public function new(prototype:ObjectEntity)
     {
@@ -40,6 +40,12 @@ class ObjectAvatar extends BaseAvatar
         this.y = targetPosition.y;
 
         Actuate.stop(AnimateMove);
+        FinishMove();
+    }
+
+    private function FinishMove()
+    {
+        isMoving = false;
     }
 
     public override function SetInitialPosition(x:Int, y:Int)
@@ -53,7 +59,8 @@ class ObjectAvatar extends BaseAvatar
         SnapPosition();
         targetPosition = new Vector(x * LevelAvatar.PixelsPerTile,  y * LevelAvatar.PixelsPerTile);
 
-        Actuate.update(AnimateMove, .075, [this.x, this.y], [targetPosition.x, targetPosition.y]).ease(Linear.easeNone);
+        isMoving = true;
+        Actuate.update(AnimateMove, .075, [this.x, this.y], [targetPosition.x, targetPosition.y]).ease(Linear.easeNone).onComplete(FinishMove);
     }
 
     public function MoveFail(dirX:Int, dirY:Int)
@@ -63,7 +70,8 @@ class ObjectAvatar extends BaseAvatar
         this.x += dirX * LevelAvatar.PixelsPerTile / 10;
         this.y += dirY * LevelAvatar.PixelsPerTile / 10;
 
-        Actuate.update(AnimateMove, .075, [this.x, this.y], [targetPosition.x, targetPosition.y]).ease(Linear.easeNone);
+        isMoving = true;
+        Actuate.update(AnimateMove, .075, [this.x, this.y], [targetPosition.x, targetPosition.y]).ease(Linear.easeNone).onComplete(FinishMove);
     }
 
     private function AnimateMove(x:Float, y:Float)

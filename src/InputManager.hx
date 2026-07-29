@@ -249,15 +249,18 @@ class InputManager
             isClick = false;
         }
         
-        var i = queue.length - 1;
-        while(i >= 0)
+        if(!isBlocked)
         {
-            queue[i].time += dt;
+            var i = queue.length - 1;
+            while(i >= 0)
+            {
+                queue[i].time += dt;
 
-            if(queue[i].time > maxLifetime)
-                queue.remove(queue[i]);
+                if(queue[i].time > maxLifetime)
+                    queue.remove(queue[i]);
 
-            i--;
+                i--;
+            }
         }
 
         if(isBlocked)

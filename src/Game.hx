@@ -108,12 +108,7 @@ class Game extends h2d.Object
         if(showTransition)
             transition.Start(delay);
         else
-        {
-            Actuate.timer(delay).onComplete(() ->
-            {
-                SetLevel(currentLevel);
-            });
-        }
+            ActionQueue.inst.Wait(delay, () -> SetLevel(currentLevel));
     }
 
     public function OnTransitionHalfway()

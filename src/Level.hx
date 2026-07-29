@@ -156,11 +156,7 @@ class Level extends h2d.Object
 
     public function OnComplete()
     {
-        Actuate.timer(.15).onComplete(() ->
-        {
-            AudioManager.inst.Play(Sfx.Unlock);
-        });
-
+        AudioManager.inst.Play(Sfx.Unlock);
         Complete();
     }
 

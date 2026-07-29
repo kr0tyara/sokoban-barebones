@@ -21,10 +21,7 @@ class BlackAndWhite extends Level
     {
         Level.avatar.background.SetTile(hxd.Res.water.toTile(), true, .15, 2);
 
-        Actuate.timer(.15).onComplete(() -> {
-            AudioManager.inst.Play(Sfx.Unlock);
-        });
-
+        AudioManager.inst.Play(Sfx.Unlock);
         super.Complete(1.15);
     }
 }

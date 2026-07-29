@@ -33,7 +33,7 @@ class LevelAvatar extends Object
     private var grid:Grid;
 
     private var focus:Focus;
-    private var cameraTransition:Bool = false;
+    public var cameraTransition:Bool = false;
 
     public function new(id:Int, grid:Grid)
     {
@@ -103,7 +103,7 @@ class LevelAvatar extends Object
         };
     }
 
-    public function Focus(focus:Focus, transition:Bool = false, transitionTime:Float = 1, transitionCallback:()->Void = null)
+    public function Focus(focus:Focus, transition:Bool = false, transitionDelay:Float = 0, transitionTime:Float = 1)
     {
         var oldFocus = null;
         if(this.focus != null)
@@ -127,10 +127,7 @@ class LevelAvatar extends Object
                 [this.focus.x * PixelsPerTile, this.focus.y * PixelsPerTile, this.focus.w * PixelsPerTile, this.focus.h * PixelsPerTile]
             ).ease(motion.easing.Quad.easeInOut).onComplete(() -> {
                 cameraTransition = false;
-
-                if(transitionCallback != null)
-                    transitionCallback();
-            });
+            }).delay(transitionDelay);
         }
         else
             OnResize();

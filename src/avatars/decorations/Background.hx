@@ -46,7 +46,7 @@ class Background extends Object
         }
     }
 
-    public function SetTile(tile:Tile, transition:Bool = false, transitionDelay:Float = 0, transitionTime:Float = 1, transitionCallback:()->Void = null)
+    public function SetTile(tile:Tile, transition:Bool = false, transitionDelay:Float = 0, transitionTime:Float = 1)
     {
         this.tile = tile;
 
@@ -62,9 +62,6 @@ class Background extends Object
 
                 tileGroup.alpha = 1;
                 Rebuild();
-
-                if(transitionCallback != null)
-                    transitionCallback();
             }).delay(transitionDelay);
         }
         else

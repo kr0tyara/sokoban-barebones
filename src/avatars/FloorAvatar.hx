@@ -1,4 +1,4 @@
-package avatars.floors;
+package avatars;
 
 import h2d.Graphics;
 import entities.floors.FloorEntity;
