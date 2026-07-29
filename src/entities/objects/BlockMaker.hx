@@ -9,7 +9,7 @@ class BlockMaker extends ObjectEntity
         super(kind);
     }
 
-    public override function OnTick(initial:Bool)
+    public override function OnPreTick(initial:Bool)
     {
         if(initial)
             return;

@@ -11,7 +11,7 @@ class StickyPlayer extends Player
         super(kind, true);
     }
 
-    public override function OnTick(initial:Bool)
+    public override function OnPostTick(initial:Bool)
     {
         var neighbours = GetNeighbourObjects();
         for(n in neighbours)

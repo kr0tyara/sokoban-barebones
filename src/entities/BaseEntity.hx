@@ -40,7 +40,15 @@ class BaseEntity
             avatar.OnDestroy();
     }
 
+    public function OnPreTick(initial:Bool)
+    {
+        
+    }
     public function OnTick(initial:Bool)
+    {
+        
+    }
+    public function OnPostTick(initial:Bool)
     {
         
     }

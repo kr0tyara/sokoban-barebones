@@ -313,7 +313,13 @@ class Grid
     public function OnMovementEnd(initial:Bool)
     {
         for(entity in allEntities)
+            entity.OnPreTick(initial);
+
+        for(entity in allEntities)
             entity.OnTick(initial);
+
+        for(entity in allEntities)
+            entity.OnPostTick(initial);
         
         Game.history.MakeState();
         CheckLevelCompletion();
