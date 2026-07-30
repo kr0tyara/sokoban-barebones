@@ -77,7 +77,7 @@ class AudioManager
         if(def.overrideExisting == null)
             def.overrideExisting = true;
 
-        sounds.set(def.name, def);
+        sounds[def.name] = def;
     }
 
     public function Mute(mute:Bool, bgm:Bool, manual:Bool = true)
@@ -119,7 +119,7 @@ class AudioManager
         clip.play(def.loop, def.volume, null, group);
 
         if(def.overrideExisting)
-            active.set(name, clip);
+            active[name] = clip;
     }
 
     public function Stop(name:Sfx)

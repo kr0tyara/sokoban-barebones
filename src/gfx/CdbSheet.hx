@@ -23,7 +23,7 @@ class CdbSheet
             if(tileSheets.exists(tile))
                 continue;
 
-            tileSheets.set(tile, hxd.Res.load(tile).toTile());
+            tileSheets[tile] = hxd.Res.load(tile).toTile();
         }
 
         for(o in Data.objects.all)

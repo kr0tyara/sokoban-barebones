@@ -5,3 +5,10 @@ enum Dir
     Left;
     Right;
 }
+enum ExtendDir 
+{
+    UpLeft;
+    UpRight;
+    DownLeft;
+    DownRight;
+}

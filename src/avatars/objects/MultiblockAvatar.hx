@@ -24,25 +24,27 @@ class MultiblockAvatar extends ObjectAvatar
 
     public function Redraw()
     {
-        var dirs = Neigh();
+        var map = (neigh) -> neigh != null && neigh is Multiblock && multiblock.linked.contains(cast neigh);
+
+        var neighbours = [for(k => v in object.GetNeighbourObjects()) k => map(v)];
+        var diagonals = [for(k => v in object.GetDiagonalNeighbourObjects()) k => map(v)];
 
         gfx.clear();
-
         gfx.beginFill([0xff6a00, 0x0094ff, 0xffd800][multiblock.id - 1]);
-        gfx.drawRoundedRectCorners(0, 0, LevelAvatar.PixelsPerTile, LevelAvatar.PixelsPerTile, 25, dirs);
+
+        var cornerOffset = LevelAvatar.PixelsPerTile / 9;
+        
+        gfx.drawRoundedRectCorners(
+            !neighbours[Dir.Left] ? cornerOffset : 0,
+            !neighbours[Dir.Up] ? cornerOffset : 0,
+            !neighbours[Dir.Right] && !neighbours[Dir.Left] ? LevelAvatar.PixelsPerTile - cornerOffset * 2
+                : !neighbours[Dir.Right] || !neighbours[Dir.Left] ? LevelAvatar.PixelsPerTile - cornerOffset : LevelAvatar.PixelsPerTile,
+
+            !neighbours[Dir.Up] && !neighbours[Dir.Down] ? LevelAvatar.PixelsPerTile - cornerOffset * 2
+                : !neighbours[Dir.Up] || !neighbours[Dir.Down] ? LevelAvatar.PixelsPerTile - cornerOffset : LevelAvatar.PixelsPerTile,
+            
+            25, neighbours, diagonals
+        );
         gfx.endFill();
-    }
-
-    public function Neigh()
-    {
-        var grid = Level.grid;
-
-        var neighbours = object.GetNeighbourObjects();
-
-        var dirs = new Map<Dir, Bool>();
-        for(i => neigh in neighbours)
-            dirs[i] = neigh != null && neigh is Multiblock && multiblock.linked.contains(cast neigh);
-
-        return dirs;
     }
 }

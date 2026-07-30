@@ -1,5 +1,6 @@
 package entities;
 
+import Dir.ExtendDir;
 import entities.FloorEntity;
 import entities.ObjectEntity;
 import avatars.BaseAvatar;
@@ -117,11 +118,27 @@ class BaseEntity
             var neighbour = Level.grid.GetObject(position.x, position.y);
 
             if(neighbour != null)
-                neighbours.set(position.dir, neighbour);
+                neighbours[position.dir] = neighbour;
         }
 
         return neighbours;
     }
+    public function GetDiagonalNeighbourObjects():Map<ExtendDir, ObjectEntity>
+    {
+        var positions = [{x: x - 1, y: y - 1, dir: ExtendDir.UpLeft}, {x: x + 1, y: y - 1, dir: ExtendDir.UpRight}, {x: x - 1, y: y + 1, dir: ExtendDir.DownLeft}, {x: x + 1, y: y + 1, dir: ExtendDir.DownRight}];
+        var neighbours = new Map<ExtendDir, ObjectEntity>();
+        
+        for(position in positions)
+        {
+            var neighbour = Level.grid.GetObject(position.x, position.y);
+
+            if(neighbour != null)
+                neighbours[position.dir] = neighbour;
+        }
+
+        return neighbours;
+    }
+
     public function GetNeighbourFloors():Map<Dir, FloorEntity>
     {
         var positions = [{x: x - 1, y: y, dir: Dir.Left}, {x: x + 1, y: y, dir: Dir.Right}, {x: x, y: y + 1, dir: Dir.Down}, {x: x, y: y - 1, dir: Dir.Up}];
@@ -132,7 +149,22 @@ class BaseEntity
             var neighbour = Level.grid.GetFloor(position.x, position.y);
 
             if(neighbour != null)
-                neighbours.set(position.dir, neighbour);
+                neighbours[position.dir] = neighbour;
+        }
+
+        return neighbours;
+    }
+    public function GetDiagonalNeighbourFloors():Map<ExtendDir, FloorEntity>
+    {
+        var positions = [{x: x - 1, y: y - 1, dir: ExtendDir.UpLeft}, {x: x + 1, y: y - 1, dir: ExtendDir.UpRight}, {x: x - 1, y: y + 1, dir: ExtendDir.DownLeft}, {x: x + 1, y: y + 1, dir: ExtendDir.DownRight}];
+        var neighbours = new Map<ExtendDir, FloorEntity>();
+        
+        for(position in positions)
+        {
+            var neighbour = Level.grid.GetFloor(position.x, position.y);
+
+            if(neighbour != null)
+                neighbours[position.dir] = neighbour;
         }
 
         return neighbours;
