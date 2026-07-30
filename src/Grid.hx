@@ -10,8 +10,6 @@ class Grid
 {
     public var allEntities:Array<BaseEntity>;
     
-    public var players:Array<Player>;
-
     public var floors:Array<FloorEntity>;
     public var objects:Array<ObjectEntity>;
 
@@ -43,15 +41,9 @@ class Grid
     {
         allEntities = new Array<BaseEntity>();
 
-        players = new Array<Player>();
-
         var objects = levelData.objects;
         for(obj in objects)
-        {            
-            var object = SpawnObjectTile(obj.objectId, obj.x, obj.y, obj.tag, obj.customArguments);
-            if(object is Player)
-                players.push(cast(object, Player));
-        }
+            SpawnObjectTile(obj.objectId, obj.x, obj.y, obj.tag, obj.customArguments);
 
         var floors = levelData.floor.decode(Data.floor.all);
         for(i in 0...floors.length)
@@ -105,6 +97,7 @@ class Grid
 
         var object = Type.createInstance(objectClass, args);
         object.tag = tag;
+
         return AddObject(object, x, y);
     }
     public function AddObject(object:ObjectEntity, x:Int, y:Int)
@@ -234,11 +227,8 @@ class Grid
         allEntities.remove(entity);
 
         if(entity is ObjectEntity)
-        {
             objects.remove(cast entity);
-            if(entity is Player)
-                players.remove(cast entity);
-        }
+
         else if(entity is FloorEntity)
             floors.remove(cast entity);
     }
@@ -248,11 +238,8 @@ class Grid
         allEntities.push(entity);
 
         if(entity is ObjectEntity)
-        {
             objects.push(cast entity);
-            if(entity is Player)
-                players.push(cast entity);
-        }
+
         else if(entity is FloorEntity)
             floors.push(cast entity);
 
@@ -328,6 +315,7 @@ class Grid
     private var completionQueued:Bool = false;
     public function AnyPlayerMoving():Bool
     {
+        var players = objects.filter(a -> a is Player);
         for(player in players)
         {
             var avatar = cast(player.avatar, ObjectAvatar);

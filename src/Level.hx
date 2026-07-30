@@ -1,3 +1,4 @@
+import entities.objects.Player;
 import avatars.LevelAvatar;
 import InputManager.InputKey;
 import AudioManager.Sfx;
@@ -103,7 +104,7 @@ class Level extends h2d.Object
 
             var failed = new Array<ObjectEntity>();
 
-            var sortedPlayers = grid.SortByDirection(grid.players.map(a -> cast(a, ObjectEntity)), dirX, dirY);
+            var sortedPlayers = grid.SortByDirection(grid.objects.filter(a -> a is Player).map(a -> cast(a, ObjectEntity)), dirX, dirY);
             for(player in sortedPlayers)
             {
                 if(movedThisTick.contains(player))
