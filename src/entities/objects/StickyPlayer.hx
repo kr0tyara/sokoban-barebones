@@ -3,9 +3,6 @@ package entities.objects;
 @:build(macros.HistoryMaker.load())
 class StickyPlayer extends Player
 {
-    @:history
-    public var linked:Array<ObjectEntity> = [];
-
     public function new(kind:Data.ObjectsKind)
     {
         super(kind, true);
@@ -14,14 +11,9 @@ class StickyPlayer extends Player
     public override function OnPostTick(initial:Bool)
     {
         var neighbours = GetNeighbourObjects();
+        
         for(n in neighbours)
             if(!linked.contains(n) && !(n is Player))
-                linked = linked.concat(n.GetPushGroup());
-    }
-
-    public override function GetPushGroup():Array<ObjectEntity>
-    {
-        var t:Array<ObjectEntity> = [this];
-        return t.concat(linked);
+                Attach(n);
     }
 }

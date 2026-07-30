@@ -2,10 +2,10 @@ package entities.objects;
 
 import avatars.objects.MultiblockAvatar;
 
+@:build(macros.HistoryMaker.load())
 class Multiblock extends Block
 {
     public var id:Int;
-    public var linked:Array<Multiblock> = [];
 
     public function new(kind:Data.ObjectsKind, id:Int)
     {
@@ -17,7 +17,7 @@ class Multiblock extends Block
     public override function OnTick(initial:Bool)
     {
         if(initial)
-            linked = Level.grid.objects.filter(a -> a is Multiblock && cast(a, Multiblock).id == id).map(a -> cast(a, Multiblock));
+            linked = Level.grid.objects.filter(a -> a is Multiblock && cast(a, Multiblock).id == id);
     }
     
     public override function GetPushGroup():Array<ObjectEntity>

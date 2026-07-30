@@ -11,6 +11,9 @@ class ObjectEntity extends BaseEntity
 
     @:history
     public var invisible:Bool = false;
+    
+    @:history
+    public var linked:Array<ObjectEntity> = [];
 
     public function new(kind:Data.ObjectsKind)
     {
@@ -24,9 +27,19 @@ class ObjectEntity extends BaseEntity
         avatarClass = ObjectAvatar;
     }
 
+    public function Attach(other:ObjectEntity, recur:Bool = false):Void
+    {
+        var pushGroup = other.GetPushGroup().filter(a -> a != this && !linked.contains(a));
+        linked = linked.concat(pushGroup);
+        
+        if(!recur)
+            for(l in pushGroup)
+                l.Attach(this, true);
+    }
+
     public function GetPushGroup():Array<ObjectEntity>
     {
-        return [this];
+        return [this].concat(linked);
     }
     public function CanPush(dirX:Int, dirY:Int, isPlayerMove:Bool):Bool
     {
