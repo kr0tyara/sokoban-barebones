@@ -93,7 +93,8 @@ class History
             {
                 Backfill(entity, oldStates);
 
-                var isNew = LastStateOf(entity) == null;
+                var lastRecord = LastStateOf(entity);
+                var isNew = lastRecord == null || lastRecord.state == null;
                 newStates.push({entity: entity, state: entity.MakeState(), spawned: isNew});
                 entity.dirty = false;
             }

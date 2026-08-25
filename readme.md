@@ -20,14 +20,17 @@ A really simplistic boilerplate for your Sokoban puzzle based on the Heaps.io en
 - Simple UI
 
 ## Showcase
+![how hungry...](media/pony.gif)
+- [how hungry...](https://kr0tyara.itch.io/how-hungry) [[Source code](https://github.com/kr0tyara/horas)]
+
 ![Drop da Myc](media/myc.gif)
-- [Drop da Myc](https://github.com/kr0tyara/ld59)
+- [Drop da Myc](https://kr0tyara.itch.io/drop-da-myc) [[Source code](https://github.com/kr0tyara/ld59)]
 
 ![Pet da Rat](media/pet.gif)
-- [Pet da Rat](https://github.com/kr0tyara/pet-da-rat)
+- [Pet da Rat](https://kr0tyara.itch.io/pet-da-rat) [[Source code](https://github.com/kr0tyara/pet-da-rat)]
 
 ![Bay ACCELERATE](media/bay.gif)
-- [Bay ACCELERATE](https://github.com/kr0tyara/bay-accelerate)
+- [Bay ACCELERATE](https://kr0tyara.itch.io/bay-accelerate) [[Source code](https://github.com/kr0tyara/bay-accelerate)]
 ## Controls
 - WASD / Arrows - Movement
 - Z / Right click - Undo 
