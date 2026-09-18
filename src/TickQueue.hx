@@ -36,8 +36,6 @@ class TickQueue
 
     public function Tick(initial:Bool)
     {
-        trace(queue);
-
         for(a in queue)
             a.PreTick(initial);
         
