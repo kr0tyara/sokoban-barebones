@@ -75,7 +75,7 @@ class Level extends h2d.Object
                 Game.history.Restart();
                 return;
 
-            case InputKey.Z:
+            case InputKey.Z, InputKey.DoubleTap:
                 if(Game.history.Undo())
                     AudioManager.inst.Play(Sfx.Click);
                 return;

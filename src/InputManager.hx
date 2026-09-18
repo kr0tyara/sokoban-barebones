@@ -10,6 +10,7 @@ enum InputKey
     Left;
     Right;
     Enter;
+    EnterOnly;
     Escape;
     X;
     Z;
@@ -17,6 +18,7 @@ enum InputKey
     R;
     B;
     N;
+    DoubleTap;
 }
 
 class Input
@@ -32,13 +34,15 @@ class Input
     public var originalRepeatInterval:Float = 0;
 
     public var rightPress:Bool = false;
+    public var wheelPress:Bool = false;
 
-    public function new(inputKey:InputKey, aliases:Array<Int>, acceleratesOnHold:Bool = false, rightPress:Bool = false)
+    public function new(inputKey:InputKey, aliases:Array<Int>, acceleratesOnHold:Bool = false, rightPress:Bool = false, wheelPress:Bool = false)
     {
         this.inputKey = inputKey;
         this.aliases = aliases;
         this.acceleratesOnHold = acceleratesOnHold;
         this.rightPress = rightPress;
+        this.wheelPress = wheelPress;
 
         lastPress = 0;
         hold = false;
@@ -51,7 +55,9 @@ class Input
             if(Key.isDown(alias))
                 return true;
 
-            if(rightPress && InputManager.inst.isRightPress)
+            if(rightPress && InputManager.inst.mousePressed == 1)
+                return true;
+            if(wheelPress && InputManager.inst.mousePressed == 2)
                 return true;
         }
 
@@ -89,7 +95,7 @@ class InputManager
 
     private var startPos:Vector = new Vector();
     private var inputPos:Vector = new Vector();
-    private var isSwiping:Bool = false;
+    public var isSwiping:Bool = false;
     private var wasSwiping:Bool = false;
     private var isClick:Bool = false;
     private var swipeThreshold:Float = 10;
@@ -97,7 +103,15 @@ class InputManager
     private var isBlocked:Bool = false;
     private var maxLifetime:Float = .1;
 
-    public var isRightPress:Bool = false;
+    public var mousePressed:Int = -1;
+    public var isLongPress:Bool = false;
+    private var mousePressTime:Float = 0;
+    private var longPressThreshold:Float = .3;
+
+    private var lastClickPos:Vector = new Vector();
+    private var timeSinceLastClick:Float = 6767;
+    private var doubleTapThreshold:Float = .3;
+    private var doubleTapDistance:Float = 30;
 
     public function new()
     {
@@ -116,7 +130,7 @@ class InputManager
         inputs.push(new Input(InputKey.X, [Key.X, Key.SHIFT]));
 
         inputs.push(new Input(InputKey.Z, [Key.Z], true, true));
-        inputs.push(new Input(InputKey.Y, [Key.Y], true));
+        inputs.push(new Input(InputKey.Y, [Key.Y], true, false, true));
         inputs.push(new Input(InputKey.R, [Key.R]));
 
         inputs.push(new Input(InputKey.B, [Key.B], true));
@@ -128,12 +142,6 @@ class InputManager
         queue = [];
 
         hxd.Window.getInstance().addEventTarget(OnEvent);
-        OnResize();
-    }
-
-    public function OnResize()
-    {
-        swipeThreshold = 1920 / Math.max(Main.inst.s2d.width, Main.inst.s2d.height) * 10;
     }
 
     public function Block()
@@ -153,9 +161,11 @@ class InputManager
         switch(e.kind)
         {
             case EventKind.EFocusLost, EventKind.EReleaseOutside:
-                isRightPress = false;
+                mousePressed = -1;
+                isLongPress = false;
                 isSwiping = false;
                 isClick = false;
+                timeSinceLastClick = 6767;
                 queue = [];
 
                 for(input in inputs)
@@ -169,11 +179,11 @@ class InputManager
                 if(focused)
                     return;
 
-                if(e.button == 1)
-                {
-                    isRightPress = true;
-                }
-                else
+                mousePressed = e.button;
+                mousePressTime = 0;
+                isLongPress = false;
+
+                if(e.button == 0)
                 {
                     startPos.x = inputPos.x = e.relX;
                     startPos.y = inputPos.y = e.relY;
@@ -184,29 +194,24 @@ class InputManager
                 if(focused)
                     return;
 
-                if(e.button == 1)
-                {
-                }
-                else if(isSwiping)
+                if(isSwiping && e.button == 0)
                 {
                     inputPos.x = e.relX;
                     inputPos.y = e.relY;
                 }
 
             case EventKind.ERelease:
+                mousePressed = -1;
+                isLongPress = false;
+
                 if(focused)
                 {
-                    isRightPress = false;
                     isClick = false;
                     isSwiping = false;
                     return;
                 }
 
-                if(e.button == 1)
-                {
-                    isRightPress = false;
-                }
-                else
+                if(e.button == 0)
                 {
                     if(wasSwiping)
                         wasSwiping = false;
@@ -224,6 +229,15 @@ class InputManager
     public function update(dt:Float)
     {
         HandleInput(dt);
+
+        timeSinceLastClick += dt;
+
+        if(mousePressed != -1)
+        {
+            mousePressTime += dt;
+            if(mousePressTime >= longPressThreshold)
+                isLongPress = true;
+        }
 
         if(isSwiping)
         {
@@ -245,7 +259,23 @@ class InputManager
         }
         else if(!wasSwiping && isClick)
         {
-            queue.push({key: InputKey.Enter, time: 0.0});
+            var dx = startPos.x - lastClickPos.x;
+            var dy = startPos.y - lastClickPos.y;
+            var distance = Math.sqrt(dx * dx + dy * dy);
+
+            if(timeSinceLastClick <= doubleTapThreshold && distance <= doubleTapDistance)
+            {
+                queue.push({key: InputKey.DoubleTap, time: 0.0});
+                timeSinceLastClick = 6767;
+            }
+            else
+            {
+                queue.push({key: InputKey.Enter, time: 0.0});
+                timeSinceLastClick = 0;
+                lastClickPos.x = startPos.x;
+                lastClickPos.y = startPos.y;
+            }
+
             isClick = false;
         }
         
