@@ -331,6 +331,17 @@ class Grid
             object = Utils.Find(objects, NeedsToDie);
         }
 
+        objects = GetAllObjects();
+        for(object in objects)
+        {
+            var floor = GetFloor(object.x, object.y);
+            if(floor is entities.floors.Mover)
+            {
+                var mover = cast(floor, entities.floors.Mover);
+                Push(object, mover.direction.x, mover.direction.y, false);
+            }
+        }
+
         for(entity in activeEntities)
             entity.OnPostTick(initial);
         

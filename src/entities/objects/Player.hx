@@ -14,9 +14,4 @@ class Player extends ObjectEntity
 
         avatarClass = PlayerAvatar;
     }
-
-    public override function CanPush(dirX:Int, dirY:Int, isPlayerMove:Bool):Bool
-    {
-        return isPlayerMove;
-    }
 }

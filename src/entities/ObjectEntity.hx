@@ -29,6 +29,7 @@ class ObjectEntity extends BaseEntity
 
     public function Attach(other:ObjectEntity, recur:Bool = false):Void
     {
+        this.dirty = true;
         var pushGroup = other.GetPushGroup().filter(a -> a != this && !linked.contains(a));
         linked = linked.concat(pushGroup);
         
@@ -38,6 +39,7 @@ class ObjectEntity extends BaseEntity
     }
     public function Detach(other:ObjectEntity)
     {
+        this.dirty = true;
         linked.remove(other);
     }
 

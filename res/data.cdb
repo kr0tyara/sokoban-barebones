@@ -651,6 +651,49 @@
 							}
 						]
 					}
+				},
+				{
+					"id": "level09",
+					"width": 5,
+					"height": 4,
+					"className": "",
+					"customArguments": [],
+					"tileProps": [],
+					"layers": [],
+					"floor": "BQYBAQEFAAEBAQUAAQUBAgABBwQ=",
+					"objects": [
+						{
+							"x": 2,
+							"y": 1,
+							"object": "Player",
+							"tag": "",
+							"customArguments": []
+						},
+						{
+							"x": 3,
+							"y": 1,
+							"object": "Block",
+							"tag": "",
+							"customArguments": []
+						}
+					],
+					"props": {
+						"tileSize": 100,
+						"layers": [
+							{
+								"l": "floor",
+								"p": {
+									"alpha": 1
+								}
+							},
+							{
+								"l": "objects",
+								"p": {
+									"alpha": 1
+								}
+							}
+						]
+					}
 				}
 			],
 			"separators": [],
@@ -919,6 +962,66 @@
 					},
 					"className": "Fragile",
 					"customArguments": []
+				},
+				{
+					"id": "MoverU",
+					"className": "Mover",
+					"customArguments": [
+						{
+							"argument": 0
+						}
+					],
+					"tile": {
+						"file": "floor.png",
+						"size": 100,
+						"x": 1,
+						"y": 1
+					}
+				},
+				{
+					"id": "MoverD",
+					"className": "Mover",
+					"customArguments": [
+						{
+							"argument": 1
+						}
+					],
+					"tile": {
+						"file": "floor.png",
+						"size": 100,
+						"x": 3,
+						"y": 1
+					}
+				},
+				{
+					"id": "MoverL",
+					"className": "Mover",
+					"customArguments": [
+						{
+							"argument": 2
+						}
+					],
+					"tile": {
+						"file": "floor.png",
+						"size": 100,
+						"x": 0,
+						"y": 1
+					}
+				},
+				{
+					"id": "MoverR",
+					"className": "Mover",
+					"customArguments": [
+						{
+							"argument": 3
+						}
+					],
+					"tile": {
+						"file": "floor.png",
+						"size": 100,
+						"x": 2,
+						"y": 1
+					}
 				}
 			],
 			"separators": [],
