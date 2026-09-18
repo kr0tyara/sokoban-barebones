@@ -22,6 +22,7 @@ class BaseEntity
     public var avatar:BaseAvatar;
     public var avatarClass:Class<BaseAvatar>;
 
+    public var tag:String = '';
     public var historyFields:Array<String> = [];
 
     public function new()
@@ -35,9 +36,9 @@ class BaseEntity
         if(avatarClass != null && Level.avatar != null)
             Level.avatar.AddAvatar(avatarClass, this, false);
     }
-    public function OnDestroy()
+    public function OnDestroy(keepAvatar:Bool = false)
     {
-        if(avatar != null)
+        if(!keepAvatar && avatar != null)
             avatar.OnDestroy();
     }
 

@@ -14,6 +14,6 @@ class StickyPlayer extends Player
         
         for(n in neighbours)
             if(!linked.contains(n) && !(n is Player))
-                Attach(n);
+                n.Attach(this);
     }
 }

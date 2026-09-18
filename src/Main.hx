@@ -1,3 +1,4 @@
+import h2d.filter.Filter;
 import gfx.CdbSheet;
 import hs.SpriteSheet;
 import macros.ResTools;
@@ -70,6 +71,7 @@ class Main extends hxd.App
 
         engine.backgroundColor = 0x787878;
         s2d.defaultSmooth = true;
+        Filter.defaultUseScreenResolution = true;
         
         game = new Game();
         s2d.addChild(game);

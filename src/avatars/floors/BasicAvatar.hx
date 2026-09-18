@@ -6,7 +6,6 @@ import h2d.Anim;
 import h2d.Tile;
 import h2d.Bitmap;
 import entities.FloorEntity;
-import entities.floors.Hole;
 
 class BasicAvatar extends FloorAvatar
 {
@@ -31,7 +30,7 @@ class BasicAvatar extends FloorAvatar
 
         var dirs = new Map<Dir, Bool>();
         for(i => neigh in neighbours)
-            dirs[i] = neigh != null && !(neigh is Hole);
+            dirs[i] = neigh != null;
 
         return dirs;
     }

@@ -7,7 +7,6 @@ import avatars.ObjectAvatar;
 class ObjectEntity extends BaseEntity
 {
     public var kind:Data.ObjectsKind;
-    public var tag:String = '';
 
     @:history
     public var invisible:Bool = false;
@@ -36,6 +35,10 @@ class ObjectEntity extends BaseEntity
             for(l in pushGroup)
                 l.Attach(this, true);
     }
+    public function Detach(other:ObjectEntity)
+    {
+        linked.remove(other);
+    }
 
     public function GetPushGroup():Array<ObjectEntity>
     {
@@ -58,5 +61,14 @@ class ObjectEntity extends BaseEntity
     {
         if(avatar != null)
             cast(avatar, ObjectAvatar).MoveFail(dirX, dirY);
+    }
+
+    public override function OnDestroy(keepAvatar:Bool = false)
+    {
+        super.OnDestroy(keepAvatar);
+
+        var group = GetPushGroup();
+        for(i in group)
+            i.Detach(this);
     }
 }

@@ -29,6 +29,7 @@ class LevelSelect extends Object
         addChild(bg);
 
         flow = new Flow(this);
+        flow.isInline = false;
         flow.layout = FlowLayout.Horizontal;
         flow.horizontalAlign = flow.verticalAlign = FlowAlign.Middle;
         flow.multiline = true;
@@ -43,7 +44,7 @@ class LevelSelect extends Object
             flow.addChild(button);
         }
 
-        backButton = new Button(100, 100, Main.sheet.Close.frames[0]);
+        backButton = new Button(125, 125, Main.sheet.Close.frames[0]);
         backButton.y = 25;
         backButton.trueClick = (e:Event) -> Game.inst.ToggleLevelSelect(false);
         backButton.ignoreInputBlock = true;
@@ -59,15 +60,19 @@ class LevelSelect extends Object
 
     public function OnResize()
     {
-        b.width  = Main.inst.s2d.width;
-        b.height = Main.inst.s2d.height;
+        this.scaleX = Game.ui.scaleX;
+        this.scaleY = Game.ui.scaleY;
+        
+        b.width  = Main.inst.s2d.width / this.scaleX;
+        b.height = Main.inst.s2d.height / this.scaleY;
 
-        bg.width  = Main.inst.s2d.width;
-        bg.height = Main.inst.s2d.height;
+        bg.width  = Main.inst.s2d.width / this.scaleX;
+        bg.height = Main.inst.s2d.height / this.scaleY;
 
-        flow.maxWidth  = Main.inst.s2d.width;
-        flow.maxHeight = Main.inst.s2d.height;
+        flow.maxWidth  = Std.int(Main.inst.s2d.width / this.scaleX - 100);
+        flow.maxHeight = Std.int(Main.inst.s2d.height / this.scaleY);
+        flow.needReflow = true;
 
-        backButton.x = Main.inst.s2d.width  - backButton.width - 25;
+        backButton.x = Main.inst.s2d.width / this.scaleX - backButton.width - 25;
     }
 }

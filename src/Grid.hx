@@ -8,6 +8,8 @@ import entities.ObjectEntity;
 
 class Grid
 {
+    private static var stayWithinBounds:Bool = false;
+
     public var allEntities:Array<BaseEntity>;
     
     public var floors:Array<FloorEntity>;
@@ -43,7 +45,7 @@ class Grid
 
         var objects = levelData.objects;
         for(obj in objects)
-            SpawnObjectTile(obj.objectId, obj.x, obj.y, obj.tag, obj.customArguments);
+            SpawnObjectTile(obj.objectId, obj.x, obj.y, obj.tag, obj.customArguments.map(a -> a.argument));
 
         var floors = levelData.floor.decode(Data.floor.all);
         for(i in 0...floors.length)
@@ -75,7 +77,7 @@ class Grid
     // Custom arguments defined in the Data.objects go first, Data.Levels_objects go next.
     //  For example, entities.objects.Player has an optional argument altSprite.
     //  level02 that contains two Players with altSprite that is defined in two ways: as a separate object PlayerAltSprite and a Player with a customArgument.
-    public function SpawnObjectTile(kind:Data.ObjectsKind, x:Int, y:Int, tag:String = '', customArguments:ArrayRead<Data.Levels_objects_customArguments> = null)
+    public function SpawnObjectTile(kind:Data.ObjectsKind, x:Int, y:Int, tag:String = '', customArguments:Array<Dynamic> = null)
     {
         if(kind == Data.ObjectsKind.Void)
             return null;
@@ -93,7 +95,7 @@ class Grid
         if(object.customArguments.length > 0)
             args = args.concat(object.customArguments.map(a -> a.argument));
         if(customArguments != null)
-            args = args.concat(customArguments.map(a -> a.argument));
+            args = args.concat(customArguments);
 
         var object = Type.createInstance(objectClass, args);
         object.tag = tag;
@@ -102,7 +104,7 @@ class Grid
     }
     public function AddObject(object:ObjectEntity, x:Int, y:Int)
     {
-        if(x < 0 || x >= width || y < 0 || y >= height)
+        if(stayWithinBounds && (x < 0 || x >= width || y < 0 || y >= height))
         {
             throw new Exception('AddObject $object out of bounds: {$x, $y}');
             return null;
@@ -118,8 +120,11 @@ class Grid
         return object;
     }
 
-    public function SpawnFloorTile(kind:Data.FloorKind, x:Int, y:Int)
+    public function SpawnFloorTile(kind:Data.FloorKind, x:Int, y:Int, tag:String = '', customArguments:Array<Dynamic> = null)
     {
+        if(kind == Data.FloorKind.Hole)
+            return null;
+
         var floor = Data.floor.get(kind);
         var floorClass = Type.resolveClass('entities.floors.${floor.className}');
 
@@ -132,13 +137,17 @@ class Grid
         var args:Array<Dynamic> = [kind];
         if(floor.customArguments.length > 0)
             args = args.concat(floor.customArguments.map(a -> a.argument));
+        if(customArguments != null)
+            args = args.concat(customArguments);
 
         var floor = Type.createInstance(floorClass, args);
+        floor.tag = tag;
+
         return AddFloor(floor, x, y);
     }
     public function AddFloor(floor:FloorEntity, x:Int, y:Int)
     {
-        if(x < 0 || x >= width || y < 0 || y >= height)
+        if(stayWithinBounds && (x < 0 || x >= width || y < 0 || y >= height))
         {
             throw new Exception('AddFloor $floor out of bounds: {$x, $y}');
             return null;
@@ -189,7 +198,7 @@ class Grid
 
         for(member in group)
         {
-            if(member.x + dirX < 0 || member.x + dirX >= width || member.y + dirY < 0 || member.y + dirY >= height)
+            if(stayWithinBounds && (member.x + dirX < 0 || member.x + dirX >= width || member.y + dirY < 0 || member.y + dirY >= height))
                 return false;
 
             if(!member.CanPush(dirX, dirY, isPlayerMove))
@@ -212,7 +221,12 @@ class Grid
                 continue;
 
             if(!DiscoverPush(occupant, dirX, dirY, toMove, isPlayerMove))
+            {
+                for(m in group)
+                    toMove.remove(m);
+                
                 return false;
+            }
         }
 
         return true;
@@ -254,7 +268,7 @@ class Grid
             return false;
         }
         
-        if(object.x + dirX < 0 || object.x + dirX >= width || object.y + dirY < 0 || object.y + dirY >= height)
+        if(stayWithinBounds && (object.x + dirX < 0 || object.x + dirX >= width || object.y + dirY < 0 || object.y + dirY >= height))
         {
             throw new Exception('Move out of bounds: {${object.x} + $dirX, ${object.y} + $dirY');
             return false;
@@ -355,7 +369,7 @@ class Grid
 
     public function GetObjects(x:Int, y:Int):Array<ObjectEntity>
     {
-        if(x < 0 || x >= width || y < 0 || y >= height)
+        if(stayWithinBounds && (x < 0 || x >= width || y < 0 || y >= height))
             return [];
 
         return objects.filter(a -> a.x == x && a.y == y && !a.invisible);
@@ -384,7 +398,7 @@ class Grid
 
     public function GetFloor(x:Int, y:Int):FloorEntity
     {
-        if(x < 0 || x >= width || y < 0 || y >= height)
+        if(stayWithinBounds && (x < 0 || x >= width || y < 0 || y >= height))
             return null;
 
         return floors.filter(a -> a.x == x && a.y == y)[0];

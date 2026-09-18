@@ -527,9 +527,23 @@
 							"customArguments": []
 						},
 						{
+							"x": 3,
+							"y": 4,
+							"object": "Multiblock1",
+							"tag": "",
+							"customArguments": []
+						},
+						{
 							"x": 4,
 							"y": 4,
-							"object": "Block",
+							"object": "Multiblock1",
+							"tag": "",
+							"customArguments": []
+						},
+						{
+							"x": 3,
+							"y": 5,
+							"object": "Multiblock1",
 							"tag": "",
 							"customArguments": []
 						}

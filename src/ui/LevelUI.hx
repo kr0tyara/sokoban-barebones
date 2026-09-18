@@ -1,5 +1,6 @@
 package ui;
 
+import h2d.col.Point;
 import h2d.filter.Outline;
 import h2d.Interactive;
 import h2d.Text;
@@ -34,56 +35,58 @@ class LevelUI extends Object
         this.y = Main.inst.s2d.height - 125;
         
         flow = new Flow();
+        flow.isInline = false;
         flow.x = 25;
         flow.layout = FlowLayout.Horizontal;
         flow.verticalAlign = FlowAlign.Top;
         flow.horizontalSpacing = 10;
         addChild(flow);
 
-        restart = new Button(100, 100, Main.sheet.Restart.frames[0], 'R');
+        restart = new Button(125, 125, Main.sheet.Restart.frames[0], 'R');
         flow.addChild(restart);
         restart.trueClick = (e:Event) -> Game.history.Restart();
         
-        undo = new Button(100, 100, Main.sheet.Undo.frames[0], 'Z');
+        undo = new Button(125, 125, Main.sheet.Undo.frames[0], 'Z');
         flow.addChild(undo);
         undo.trueClick = (e:Event) -> Game.history.Undo();
 
-        redo = new Button(100, 100, Main.sheet.Redo.frames[0], 'Y');
+        redo = new Button(125, 125, Main.sheet.Redo.frames[0], 'Y');
         flow.addChild(redo);
         redo.trueClick = (e:Event) -> Game.history.Redo();
 
         #if debug
-            back = new Button(100, 100, Main.sheet.Skip.frames[1], 'B');
+            back = new Button(125, 125, Main.sheet.Skip.frames[1], 'B');
             flow.addChild(back);
             back.trueClick = (e:Event) -> Game.inst.PrevLevel(0, false);
 
-            var t = new Interactive(200, 100);
+            var t = new Interactive(200, 125);
             t.cancelEvents = true;
 
             status = new Text(Main.fontBig);
             status.smooth = true;
-            status.text = '0/34';
+            status.text = '0/0';
             status.textAlign = Align.Center;
             status.x = t.width / 2;
-            status.y = -20;
+            status.y = -10;
             status.filter = new Outline(2.5);
 
             t.addChild(status);
 
             flow.addChild(t);
 
-            next2 = new Button(100, 100, Main.sheet.Skip.frames[0], 'N');
+            next2 = new Button(125, 125, Main.sheet.Skip.frames[0], 'N');
             flow.addChild(next2);
             next2.trueClick = (e:Event) -> Game.inst.NextLevel(0, false);
         #end
         
         flow2 = new Flow();
-        flow2.x = Main.inst.s2d.width - 125;
+        flow2.isInline = false;
+        flow2.x = Main.inst.s2d.width - 150;
         flow2.layout = FlowLayout.Vertical;
         flow2.verticalSpacing = 10;
         addChild(flow2);
 
-        next = new Button(100, 100, Main.sheet.Skip.frames[0], 'skip?');
+        next = new Button(125, 125, Main.sheet.Skip.frames[0], 'skip?');
         next.label.visible = false;
         flow2.addChild(next);
         next.trueClick = (e:Event) -> {
@@ -97,7 +100,7 @@ class LevelUI extends Object
             }
         }
         
-        bgm = new Button(100, 100, Main.sheet.Music.frames[0], 'off');
+        bgm = new Button(125, 125, Main.sheet.Music.frames[0], 'off');
         bgm.label.visible = AudioManager.inst.bgmMuted;
         flow2.addChild(bgm);
 
@@ -106,7 +109,7 @@ class LevelUI extends Object
             bgm.label.visible = AudioManager.inst.bgmMuted;
         }
 
-        sfx = new Button(100, 100, Main.sheet.Sfx.frames[0], 'off');
+        sfx = new Button(125, 125, Main.sheet.Sfx.frames[0], 'off');
         sfx.label.visible = AudioManager.inst.sfxMuted;
         flow2.addChild(sfx);
         sfx.trueClick = (e:Event) -> {
@@ -114,16 +117,16 @@ class LevelUI extends Object
             sfx.label.visible = AudioManager.inst.sfxMuted;
         }
 
-        settings = new Button(100, 100, Main.sheet.Settings.frames[0]);
+        settings = new Button(125, 125, Main.sheet.Settings.frames[0]);
         flow2.addChild(settings);
         settings.trueClick = (e:Event) -> {
             Settings(!bgm.visible);
 
-            flow2.y = -(flow2.innerHeight - 100);
+            flow2.y = -(flow2.innerHeight - 125);
         }
 
-        menu = new Button(100, 100, Main.sheet.Levels.frames[0]);
-        flow2.addChild(menu);
+        menu = new Button(125, 125, Main.sheet.Levels.frames[0]);
+        addChild(menu);
         menu.trueClick = (e:Event) -> {
             Game.inst.ToggleLevelSelect(true);
         }
@@ -139,7 +142,7 @@ class LevelUI extends Object
         sfx.visible = show;
         next.label.visible = false;
 
-        flow2.y = -(flow2.innerHeight - 100);
+        flow2.y = -(flow2.innerHeight - 125);
     }
 
     public function Refresh()
@@ -161,10 +164,16 @@ class LevelUI extends Object
     {
         var scale = Utils.Clamp(Math.min(Main.inst.s2d.width, Main.inst.s2d.height) / 920, 0.5, 1);
 
-        flow2.x = Main.inst.s2d.width / scale - 125;
-        flow2.y = -(flow2.innerHeight - 100);
+        flow.y = -(flow.innerHeight - 125);
+        flow2.y = -(flow2.innerHeight - 125);
+
+        flow2.x = Main.inst.s2d.width / scale - 150;
 
         this.scaleX = this.scaleY = scale;
-        this.y = Main.inst.s2d.height - 125 * scale;
+        this.y = Main.inst.s2d.height - 150 * scale;
+
+        var zero = globalToLocal(new Point(0, 0));
+        menu.x = zero.x + 25;
+        menu.y = zero.y + 25;
     }
 }
