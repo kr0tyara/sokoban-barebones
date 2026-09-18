@@ -179,4 +179,38 @@ class Utils
         
         return copy;
     }
+
+    public static function IsMobile()
+    {
+        #if js
+        var reg = new EReg('(Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini)', 'i');
+        return reg.match(js.Browser.navigator.userAgent);
+        #end
+
+        return false;
+    }
+
+    public static function Find<T>(array:Array<T>, condition:(a:T)->Bool)
+    {
+        for(a in array)
+        {
+            if(condition(a))
+                return a;
+        }
+
+        return null;
+    }
+
+    public static function GetLevelId(kind:Data.LevelsKind, isForVisuals:Bool = false)
+    {
+        var levels = Data.levels.all;
+        for(i in 0...levels.length)
+        {
+            var room = levels[i];
+            if(room.id == kind)
+                return i;
+        }
+
+        return -1;
+    }
 }

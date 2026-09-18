@@ -16,6 +16,8 @@ class BaseEntity
     public var x:Int = 0;
     @:history
     public var y:Int = 0;
+    @:history
+    public var active:Bool = true;
 
     public var dirty:Bool = true;
 
@@ -169,5 +171,18 @@ class BaseEntity
         }
 
         return neighbours;
+    }
+
+    public function Activate()
+    {
+        this.dirty = true;
+        this.active = true;
+        UpdateAvatar();
+    }
+    public function Deactivate()
+    {
+        this.dirty = true;
+        this.active = false;
+        UpdateAvatar();
     }
 }

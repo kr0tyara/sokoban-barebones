@@ -104,7 +104,7 @@ class Level extends h2d.Object
 
             var failed = new Array<ObjectEntity>();
 
-            var sortedPlayers = grid.SortByDirection(grid.objects.filter(a -> a is Player).map(a -> cast(a, ObjectEntity)), dirX, dirY);
+            var sortedPlayers = grid.SortByDirection(grid.GetPlayers().map(a -> cast(a, ObjectEntity)), dirX, dirY);
             for(player in sortedPlayers)
             {
                 if(movedThisTick.contains(player))
@@ -134,10 +134,9 @@ class Level extends h2d.Object
             }
 
             if(madeAnything)
-            {
                 AudioManager.inst.Play(Sfx.Move);
-                OnMovementEnd(false);
-            }
+
+            OnMovementEnd(false);
         }
     }
 

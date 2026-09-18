@@ -8,12 +8,13 @@ import entities.ObjectEntity;
 
 class Grid
 {
-    private static var stayWithinBounds:Bool = false;
+    public var stayWithinBounds:Bool = false;
+    public var gravity:Bool = false;
 
     public var allEntities:Array<BaseEntity>;
     
-    public var floors:Array<FloorEntity>;
-    public var objects:Array<ObjectEntity>;
+    private var floors:Array<FloorEntity>;
+    private var objects:Array<ObjectEntity>;
 
     public var width:Int;
     public var height:Int;
@@ -205,7 +206,7 @@ class Grid
                 return false;
 
             var floor = GetFloor(member.x + dirX, member.y + dirY);
-            if(floor == null || !floor.CanStepOn(member))
+            if((!gravity && floor == null) || (floor != null && !floor.CanStepOn(member)))
                 return false;
         }
 
@@ -279,13 +280,13 @@ class Grid
 
         var floor = GetFloor(toX, toY);
         
-        if(floor == null)
+        if(!gravity && floor == null)
         {
             trace('WARNING: can\'t move to [$toX, $toY]: no floor!');
             return false;
         }
 
-        if(!floor.CanStepOn(object))
+        if(floor != null && !floor.CanStepOn(object))
             return false;
         
         if(GetObject(toX, toY) != null)
@@ -302,7 +303,8 @@ class Grid
 
         object.OnMove(dirX, dirY);
 
-        floor.StashStepOn(object);
+        if(floor != null)
+            floor.StashStepOn(object);
 
         var oldFloor = GetFloor(oldX, oldY);
         if(oldFloor != null)
@@ -313,24 +315,37 @@ class Grid
 
     public function OnMovementEnd(initial:Bool)
     {
-        for(entity in allEntities)
+        var activeEntities = allEntities.filter(a -> a.active);
+
+        for(entity in activeEntities)
             entity.OnPreTick(initial);
 
-        for(entity in allEntities)
+        for(entity in activeEntities)
             entity.OnTick(initial);
 
-        for(entity in allEntities)
+        var objects = GetAllObjects();
+        var object = Utils.Find(objects, NeedsToDie);
+        while(object != null)
+        {
+            object.Deactivate();
+            object = Utils.Find(objects, NeedsToDie);
+        }
+
+        for(entity in activeEntities)
             entity.OnPostTick(initial);
         
         Game.history.MakeState();
         CheckLevelCompletion();
     }
+    public function NeedsToDie(a:ObjectEntity)
+    {
+        return !a.invisible && a.active && GetFloor(a.x, a.y) == null && a.GetPushGroup().filter(a -> GetFloor(a.x, a.y) != null).length == 0;
+    }
 
     private var completionQueued:Bool = false;
     public function AnyPlayerMoving():Bool
     {
-        var players = objects.filter(a -> a is Player);
-        for(player in players)
+        for(player in GetPlayers())
         {
             var avatar = cast(player.avatar, ObjectAvatar);
             if(avatar != null && avatar.isMoving)
@@ -367,12 +382,21 @@ class Grid
         }
     }
 
+    public function GetPlayers()
+    {
+        return GetAllObjects().filter(a -> a is Player).map(a -> cast(a, Player));
+    }
+
+    public function GetAllObjects(onlyActive:Bool = true)
+    {
+        return objects.filter(a -> onlyActive ? a.active : true);
+    }
     public function GetObjects(x:Int, y:Int):Array<ObjectEntity>
     {
         if(stayWithinBounds && (x < 0 || x >= width || y < 0 || y >= height))
             return [];
 
-        return objects.filter(a -> a.x == x && a.y == y && !a.invisible);
+        return objects.filter(a -> a.active && a.x == x && a.y == y && !a.invisible);
     }
     public function GetObject(x:Int, y:Int):ObjectEntity
     {
@@ -396,11 +420,23 @@ class Grid
         return objects[0];
     }
 
+    public function GetAllFloors(onlyActive:Bool = true)
+    {
+        return floors.filter(a -> onlyActive ? a.active : true);
+    }
     public function GetFloor(x:Int, y:Int):FloorEntity
     {
         if(stayWithinBounds && (x < 0 || x >= width || y < 0 || y >= height))
             return null;
 
-        return floors.filter(a -> a.x == x && a.y == y)[0];
+        return GetAllFloors().filter(a -> a.x == x && a.y == y)[0];
+    }
+    public function GetFloorByTag(tag:String):FloorEntity
+    {
+        var floor = floors.filter(a -> a.tag == tag);
+        if(floor.length == 0)
+            return null;
+        
+        return floor[0];
     }
 }

@@ -34,6 +34,13 @@ class ObjectAvatar extends BaseAvatar
         Update();
     }
 
+    public override function Update()
+    {
+        super.Update();
+
+        this.visible = object.active;
+    }
+
     private function SnapPosition()
     {
         this.x = targetPosition.x;
@@ -48,16 +55,19 @@ class ObjectAvatar extends BaseAvatar
         isMoving = false;
     }
 
+    private function SetTargetPosition(x:Int, y:Int)
+    {
+        targetPosition = new Vector(x * LevelAvatar.PixelsPerTile, y * LevelAvatar.PixelsPerTile);
+    }
     public override function SetInitialPosition(x:Int, y:Int)
     {
         super.SetInitialPosition(x, y);
-        targetPosition = new Vector(x * LevelAvatar.PixelsPerTile,  y * LevelAvatar.PixelsPerTile);
+        SetTargetPosition(x, y);
     }
-
     public override function SetPosition(x:Int, y:Int)
     {
         SnapPosition();
-        targetPosition = new Vector(x * LevelAvatar.PixelsPerTile,  y * LevelAvatar.PixelsPerTile);
+        SetTargetPosition(x, y);
 
         isMoving = true;
         Actuate.update(AnimateMove, .075, [this.x, this.y], [targetPosition.x, targetPosition.y]).ease(Linear.easeNone).onComplete(FinishMove);

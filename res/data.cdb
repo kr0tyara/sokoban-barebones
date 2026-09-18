@@ -608,6 +608,49 @@
 							}
 						]
 					}
+				},
+				{
+					"id": "level08",
+					"width": 5,
+					"height": 4,
+					"className": "Mortal",
+					"customArguments": [],
+					"tileProps": [],
+					"layers": [],
+					"floor": "AQEBAQABAQAAAQEAAAIAAQEAAAA=",
+					"objects": [
+						{
+							"x": 1,
+							"y": 1,
+							"object": "Block",
+							"tag": "",
+							"customArguments": []
+						},
+						{
+							"x": 1,
+							"y": 3,
+							"object": "StickyPlayer",
+							"tag": "",
+							"customArguments": []
+						}
+					],
+					"props": {
+						"tileSize": 100,
+						"layers": [
+							{
+								"l": "floor",
+								"p": {
+									"alpha": 1
+								}
+							},
+							{
+								"l": "objects",
+								"p": {
+									"alpha": 1
+								}
+							}
+						]
+					}
 				}
 			],
 			"separators": [],

@@ -1,5 +1,6 @@
 package entities;
 
+import AudioManager.Sfx;
 import avatars.BaseAvatar;
 import avatars.ObjectAvatar;
 
@@ -70,5 +71,12 @@ class ObjectEntity extends BaseEntity
         var group = GetPushGroup();
         for(i in group)
             i.Detach(this);
+    }
+
+    public override function Deactivate()
+    {
+        super.Deactivate();
+
+        AudioManager.inst.Play(Sfx.Pop);
     }
 }

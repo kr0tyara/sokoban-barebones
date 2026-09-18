@@ -17,7 +17,7 @@ class Multiblock extends Block
     public override function OnTick(initial:Bool)
     {
         if(initial)
-            linked = Level.grid.objects.filter(a -> a is Multiblock && cast(a, Multiblock).id == id);
+            linked = Level.grid.GetAllObjects().filter(a -> a is Multiblock && cast(a, Multiblock).id == id);
     }
     
     public override function GetPushGroup():Array<ObjectEntity>
