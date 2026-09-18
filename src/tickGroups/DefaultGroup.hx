@@ -9,6 +9,8 @@ class DefaultGroup extends TickGroup
 
     public override function Tick(initial:Bool)
     {
+        super.Tick(initial);
+
         var objects = Level.grid.GetAllObjects();
         var object = Utils.Find(objects, Level.grid.NeedsToDie);
         while(object != null)

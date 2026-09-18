@@ -9,6 +9,7 @@ class MoverGroup extends TickGroup
 
     public override function Tick(initial:Bool)
     {
+        super.Tick(initial);
         if(initial)
             return;
 
