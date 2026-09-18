@@ -27,6 +27,8 @@ class BaseEntity
     public var tag:String = '';
     public var historyFields:Array<String> = [];
 
+    public var followingTickGroups:Array<Class<TickGroup>> = [tickGroups.DefaultGroup];
+
     public function new()
     {
     }

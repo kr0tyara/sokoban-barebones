@@ -18,8 +18,9 @@ class Grid
 
     public var width:Int;
     public var height:Int;
-
     private var levelData:Data.Levels;
+
+    private var tickQueue:TickQueue;
     
     public function new(levelData:Data.Levels)
     {
@@ -30,6 +31,8 @@ class Grid
 
         objects = new Array();
         floors  = new Array();
+
+        tickQueue = new TickQueue();
     }
 
     public function Init()
@@ -117,6 +120,9 @@ class Grid
         objects.push(object);
         allEntities.push(object);
 
+        for(group in object.followingTickGroups)
+            tickQueue.Register(group);
+
         object.OnCreate();
         return object;
     }
@@ -159,6 +165,9 @@ class Grid
 
         floors.push(floor);
         allEntities.push(floor);
+
+        for(group in floor.followingTickGroups)
+            tickQueue.Register(group);
 
         floor.OnCreate();
         return floor;
@@ -315,35 +324,7 @@ class Grid
 
     public function OnMovementEnd(initial:Bool)
     {
-        var activeEntities = allEntities.filter(a -> a.active);
-
-        for(entity in activeEntities)
-            entity.OnPreTick(initial);
-
-        for(entity in activeEntities)
-            entity.OnTick(initial);
-
-        var objects = GetAllObjects();
-        var object = Utils.Find(objects, NeedsToDie);
-        while(object != null)
-        {
-            object.Deactivate();
-            object = Utils.Find(objects, NeedsToDie);
-        }
-
-        objects = GetAllObjects();
-        for(object in objects)
-        {
-            var floor = GetFloor(object.x, object.y);
-            if(floor is entities.floors.Mover)
-            {
-                var mover = cast(floor, entities.floors.Mover);
-                Push(object, mover.direction.x, mover.direction.y, false);
-            }
-        }
-
-        for(entity in activeEntities)
-            entity.OnPostTick(initial);
+        tickQueue.Tick(initial);
         
         Game.history.MakeState();
         CheckLevelCompletion();
@@ -396,6 +377,11 @@ class Grid
     public function GetPlayers()
     {
         return GetAllObjects().filter(a -> a is Player).map(a -> cast(a, Player));
+    }
+
+    public function GetAllEntities(onlyActive:Bool = true)
+    {
+        return allEntities.filter(a -> onlyActive ? a.active : true);
     }
 
     public function GetAllObjects(onlyActive:Bool = true)

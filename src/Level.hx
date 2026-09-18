@@ -12,7 +12,6 @@ class Level extends h2d.Object
     private var data:Data.Levels;
 
     public static var grid:Grid;
-
     public static var avatar:LevelAvatar;
 
     public function new(kind:Data.LevelsKind)
