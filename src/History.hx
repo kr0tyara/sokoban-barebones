@@ -77,7 +77,7 @@ class History
         if(currentState >= 0 && !ContainsEntity(states[currentState], entity))
         {
             var state = LastStateOf(entity);
-            if(state != null)
+            if(state != null && state.state != null)
                 oldStates.push({entity: entity, state: Reflect.copy(state.state)});
         }
     }
@@ -103,7 +103,10 @@ class History
         for(entity in pendingDestroyed)
         {
             Backfill(entity, oldStates);
-            newStates.push({entity: entity, state: null});
+
+            var lastRecord = LastStateOf(entity);
+            var isNew = lastRecord == null || lastRecord.state == null;
+            newStates.push({entity: entity, state: null, spawned: isNew});
         }
         pendingDestroyed = [];
 
@@ -133,7 +136,9 @@ class History
     {
         for(record in frame)
         {
-            if(record.spawned == true)
+            if(record.spawned == true && record.state == null)
+                SetAlive(record.entity, false);
+            else if(record.spawned == true)
                 SetAlive(record.entity, entering);
             else if(record.state == null)
                 SetAlive(record.entity, !entering);
